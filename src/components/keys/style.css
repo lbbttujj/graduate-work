@@ -1,0 +1,8 @@
+.keyNoteText{
+    color: white;
+    font-size: 13px;
+    display: none;
+}
+.keyNote:hover~.keyNoteText {
+    display: block;
+}
