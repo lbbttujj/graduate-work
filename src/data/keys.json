@@ -5,53 +5,148 @@
         "visible":"block"
     },
     {
-        "note":"C#",
+        "note":"C#2",
         "colorkey":"black"
     },
     {
-        "note":"D",
+        "note":"D2",
         "colorkey":"white"
 
     },
     {
-        "note":"D#",
+        "note":"D#2",
         "colorkey":"black"
     },
     {
-        "note":"E",
+        "note":"E2",
         "colorkey":"white"
     },
     {
-        "note":"F",
+        "note":"F2",
         "colorkey":"white"
     },
     {
-        "note":"F#",
+        "note":"F#2",
         "colorkey":"black"
     },
     {
-        "note":"G",
+        "note":"G2",
         "colorkey":"white"
     },
     {
-        "note":"G#",
+        "note":"G#2",
         "colorkey":"black"
     },
     {
-        "note":"A",
+        "note":"A2",
         "colorkey":"white"
     },
     {
-        "note":"A#",
+        "note":"A#2",
         "colorkey":"black"
     },
     {
-        "note":"B",
+        "note":"B2",
         "colorkey":"white"
     },
     {
-        "note":"C1",
+        "note":"C3",
         "colorkey":"white",
         "visible":"block"
+    },
+    {
+        "note":"C#3",
+        "colorkey":"black"
+    },
+    {
+        "note":"D3",
+        "colorkey":"white"
+
+    },
+    {
+        "note":"D#3",
+        "colorkey":"black"
+    },
+    {
+        "note":"E3",
+        "colorkey":"white"
+    },
+    {
+        "note":"F3",
+        "colorkey":"white"
+    },
+    {
+        "note":"F#3",
+        "colorkey":"black"
+    },
+    {
+        "note":"G3",
+        "colorkey":"white"
+    },
+    {
+        "note":"G#3",
+        "colorkey":"black"
+    },
+    {
+        "note":"A3",
+        "colorkey":"white"
+    },
+    {
+        "note":"A#3",
+        "colorkey":"black"
+    },
+    {
+        "note":"B3",
+        "colorkey":"white"
+    },
+    {
+        "note":"C4",
+        "colorkey":"white",
+        "visible":"block"
+    },
+    {
+        "note":"C#4",
+        "colorkey":"black"
+    },
+    {
+        "note":"D4",
+        "colorkey":"white"
+
+    },
+    {
+        "note":"D#4",
+        "colorkey":"black"
+    },
+    {
+        "note":"E4",
+        "colorkey":"white"
+    },
+    {
+        "note":"F4",
+        "colorkey":"white"
+    },
+    {
+        "note":"F#4",
+        "colorkey":"black"
+    },
+    {
+        "note":"G4",
+        "colorkey":"white"
+    },
+    {
+        "note":"G#4",
+        "colorkey":"black"
+    },
+    {
+        "note":"A4",
+        "colorkey":"white"
+    },
+    {
+        "note":"A#4",
+        "colorkey":"black"
+    },
+    {
+        "note":"B5",
+        "colorkey":"white"
     }
 ]
