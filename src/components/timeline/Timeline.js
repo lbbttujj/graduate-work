@@ -3,7 +3,7 @@ import dataKey from '../../data/keys.json'
 import * as Tone from 'tone'
 import './style.css'
 export default class Timeline extends Component{
-    constructor(){
+    constructor(props){
         super()
         this.state={
             data:dataKey
@@ -13,6 +13,7 @@ export default class Timeline extends Component{
         function createTimline(data){
             const items =[]
             for(let i=0; i<36; i++){
+               
                 items.push(createItems(data[i].note))
             }
             
@@ -37,7 +38,6 @@ export default class Timeline extends Component{
 
     function playNote(items){
         let note = items.currentTarget.dataset.note;
-        debugger
         const synth = new Tone.Synth().toDestination();
         synth.triggerAttackRelease(note, "8n");
 

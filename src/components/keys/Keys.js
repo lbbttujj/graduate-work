@@ -3,7 +3,7 @@ import dataKey from '../../data/keys.json'
 import * as Tone from 'tone'
 import './style.css'
 export default class Keys extends Component{
-    constructor(){
+    constructor(props){
         super()
         this.state={
             countKeys:64,
@@ -27,7 +27,9 @@ export default class Keys extends Component{
     pressKeyDown = (oEvent)=>{
         oEvent.currentTarget.style.backgroundColor="#0437F2"
         const synth = new Tone.Synth().toDestination();
-        synth.triggerAttackRelease(oEvent.currentTarget.dataset.note, "8n");
+        let note = oEvent.currentTarget.dataset.note
+        synth.triggerAttackRelease(note, "8n");
+        this.props.changeNote(note)
     }
 
     pressKey=(oEvent)=>{
