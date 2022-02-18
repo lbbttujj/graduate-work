@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import dataKey from '../../data/keys.json'
+// import ButtonTimeLine from "../buttonsTimeLine/ButtonTimeLine";
 import * as Tone from 'tone'
 import './style.css'
 export default class Timeline extends Component{
@@ -13,7 +14,6 @@ export default class Timeline extends Component{
         function createTimline(data){
             const items =[]
             for(let i=0; i<36; i++){
-               
                 items.push(createItems(data[i].note))
             }
             
@@ -21,8 +21,9 @@ export default class Timeline extends Component{
                 items
             )
         }
+
         function createItems(note){
-         
+             
            return(
                <div 
                key={note} 
@@ -58,9 +59,12 @@ export default class Timeline extends Component{
     }
         return(
             <>
+            {/* <div className='TimelineButtons'> */}
+                {/* <ButtonTimeLine/> */}
+            {/* </div> */}
             <div className="Timelineblocks">
                 {
-                createTimline(this.state.data)
+                    createTimline(this.state.data)
                 }
             </div>
             </>
