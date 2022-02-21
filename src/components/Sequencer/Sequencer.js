@@ -10,15 +10,17 @@ export default class Sequencer extends Component{
         this.state = {
             currentNote:'',
             play:false,
-            stop:false
+            stop:false,
+            bpm:100
         }
         this.changeNote = this.changeNote.bind(this)
         this.changePlay=this.changePlay.bind(this)
         this.stopMusic=this.stopMusic.bind(this)
+        this.changeBpm=this.changeBpm.bind(this)
     }
 
-    componentDidUpdate(){
-        // debugger
+    changeBpm=()=>{
+        this.setState({bpm:document.getElementById('bpm').value})
     }
 
     changePlay=()=>{
@@ -28,6 +30,7 @@ export default class Sequencer extends Component{
     
     }
     stopMusic=()=>{
+        this.setState({play:false})
         this.setState({stop:true})
     }
     
@@ -44,15 +47,21 @@ export default class Sequencer extends Component{
                 <ButtonTimeLine
                 changePlay = {this.changePlay}
                 stopMusic={this.stopMusic}
+                changeBpm={this.changeBpm}
+                valueBpm={this.state.bpm}
                 />
                 </div>
                 <Keys
                 changeNote = {this.changeNote}
                 />
-                <Timeline/>
+                <Timeline
+                 play = {this.state.play}
+                 valueBpm={this.state.bpm}
+                />
                 <PlayLine
                 play = {this.state.play}
                 stop = {this.state.stop}
+                bpm = {this.state.bpm}
                 />
             </div>
             </>

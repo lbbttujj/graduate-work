@@ -3,18 +3,20 @@ import './style.css'
 export default class ButtonTimeLine extends Component{
 	constructor(props){
 		super()
-		// this.state={
+		this.state={
 
-		// }
-		// this.playMusic=this.playMusic.bind(this)
+		}
 	}
 
 	playMusic = ()=>{
 		this.props.changePlay()
 	}
 	stopMusic = ()=>{
-		this.props.changePlay()
+		// this.props.changePlay()
 		this.props.stopMusic()
+	}
+	changeBpm = ()=>{
+		this.props.changeBpm()
 	}
 
 	clearTimeline = ()=>{
@@ -35,6 +37,7 @@ export default class ButtonTimeLine extends Component{
 				<div className='playButton'>
 					<button onClick={this.playMusic}>play</button>
 					<button onClick={this.stopMusic}>stop</button>
+					<input id='bpm' type="number" min="60" max='300' onChange={this.changeBpm} value={this.props.valueBpm} /> 
 					<button onClick={this.clearTimeline}>clear timeline</button>
 				</div>
 			</div>

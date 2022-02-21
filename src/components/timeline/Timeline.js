@@ -7,27 +7,73 @@ export default class Timeline extends Component{
     constructor(props){
         super()
         this.state={
-            data:dataKey
+            data:dataKey,
+            stopPlay:true,
+            synth:new Tone.PolySynth(Tone.Synth).toDestination()
+        }
+        this.playMusic=this.playMusic.bind(this)
+        // this.playNote=this.playNote.bind(this)
+    }
+
+    componentDidUpdate(){
+        if((this.props.play)){
+            this.playMusic()
         }
     }
+
+    playMusic=()=>{
+            var items = document.getElementsByClassName('Timelineblocks__items')
+            const synth =this.state.synth
+            //тоже можно изменять
+            const release = '8t'
+
+            for(let i=0; i<36; i++){
+                if(items[i].childNodes[0].classList.contains('active')){
+                   console.log(items[i].dataset.note)
+                   synth.triggerAttackRelease(items[i].dataset.note, release);
+                }
+            }
+            let step = 0
+            let stepInterval = setInterval(() => {
+             step++
+                for(let i=0; i<36; i++){
+                    if(items[i].childNodes[step].classList.contains('active')){
+                       console.log(items[i].dataset.note)
+                       synth.triggerAttackRelease(items[i].dataset.note, release);
+                    }
+                }
+                if(step==23){
+                    clearInterval(stepInterval)
+                }
+            }, 1/this.props.valueBpm*50000);
+              //500
+    }
+
+    //  playNote = (items)=>{
+    //     let note = items.currentTarget.dataset.note;
+    //     const synth = this.state.synth
+    //     synth.triggerAttackRelease(note, "8t");
+    // }
+
+
     render(){
         function createTimline(data){
             const items =[]
             for(let i=0; i<36; i++){
                 items.push(createItems(data[i].note))
             }
-            
+
             return(
                 items
             )
         }
 
         function createItems(note){
-             
            return(
                <div 
                key={note} 
-               onClick={(items)=>{playNote(items)}}
+               //Не рабоатет но в целом к лучшему, пока не придумал как не пергружать память адекватно
+               onClick={(items)=>{this.playNote(items)}}
                data-note = {note}
                className="Timelineblocks__items">
                    {
@@ -37,12 +83,12 @@ export default class Timeline extends Component{
            )   
     }
 
-    function playNote(items){
-        let note = items.currentTarget.dataset.note;
-        const synth = new Tone.Synth().toDestination();
-        synth.triggerAttackRelease(note, "8n");
-
-    }
+    // function playNote(items){
+    //     let note = items.currentTarget.dataset.note;
+    //     const synth = this.state.synth
+    //     const now = Tone.now()
+    //     synth.triggerAttackRelease(note, "8t");
+    // }
 
     function highlightCell(el){
         el.target.classList.contains('active') ? 
@@ -59,9 +105,6 @@ export default class Timeline extends Component{
     }
         return(
             <>
-            {/* <div className='TimelineButtons'> */}
-                {/* <ButtonTimeLine/> */}
-            {/* </div> */}
             <div className="Timelineblocks">
                 {
                     createTimline(this.state.data)
@@ -71,3 +114,14 @@ export default class Timeline extends Component{
         )
     }
 }
+
+
+
+
+
+
+
+
+
+
+

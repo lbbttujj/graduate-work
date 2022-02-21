@@ -1,81 +1,80 @@
-import React,{Component} from "react";
-import { Draw } from "tone";
-import { TickSignal } from "tone/build/esm/core/clock/TickSignal";
-import  './style.css'
-export default class PlayLine extends Component{
-    constructor(props){
+import React, {Component} from "react";
+import {Draw} from "tone";
+import {TickSignal} from "tone/build/esm/core/clock/TickSignal";
+import './style.css'
+export default class PlayLine extends Component {
+    constructor(props) {
         super()
-        this.state={
-            timePassed:0,
-            stopPlay:true,
-            beforeStop:0,
-            stopPlay2:true
+        this.state = {
+            timePassed: 0,
+            isPaused: true,
+            beforeStop: 0,
+            alreadyStop: false
         }
-        this.moveLine=this.moveLine.bind(this)
+        this.moveLine = this.moveLine.bind(this)
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         //заменить стоплэй на паузу
-        if((this.props.play && this.state.stopPlay)){
+        if ((this.props.play && this.state.isPaused)) {
             this.moveLine()
-
         }
     }
 
-    componentDidMount(){ 
-         
-    }
+    moveLine = () => {
+        this.setState({
+            isPaused: false,
+            alreadyStop: false
+        })
 
-    componentWillUnmount(){
-        
-    }
-
-
-    moveLine=()=>{
-        this.setState({stopPlay:false})
-       
         let start = Date.now()
-        let timer = setInterval(function() {
+
+        let timer = setInterval(function () {
             console.log(timer);
-            if(!this.props.play){
+            if (!this.props.play) {
+
                 clearInterval(timer)
-                this.setState({stopPlay:true})
                 this.setState({
+                    isPaused: true,
                     //100 хардкод исправить 
-                    beforeStop:Number(document.getElementsByClassName('line')[0].style.left.split('').slice(0,-2).join(''))-100
+                    beforeStop: Number(document.getElementsByClassName('line')[0].style.left.split('').slice(0, -2).join('')) - 100,
+                    timePassed: 0
                 })
-                this.setState({timePassed:0})
-                debugger
-                if(this.props.stop){
-                    debugger
+
+                if (this.props.stop) {
                     this.setState({
-                    beforeStop:0
+                        beforeStop: 0
                     })
                 }
-            }else{
-                this.setState({    
-                    timePassed: Date.now()-start   
+            } else {
+                this.setState({
+                    timePassed: Date.now() - start
                 })
-               
-            }
-            
 
-         
-        }.bind(this), 20) 
+            }
+
+        }.bind(this), 20)
     }
 
-    render(){
+    render() {
 
-     
-        
+        if (this.props.stop && !this.state.alreadyStop) {
+            this.setState({
+                beforeStop: 0,
+                alreadyStop: true
+            })
+        }
 
-        return(
-            //15 связано со скоростью 
+        return (
             <>
-            
-            <div style={{left:100 + this.state.beforeStop + this.state.timePassed / 15 + 'px'}} className="line">
+            <div style = {
+                {
+                    left: 100 + this.state.beforeStop + this.state.timePassed * this.props.bpm /1000 + 'px'
+                }
+            }
+            className = "line" >
 
-            </div>
+            </div> 
             </>
         )
     }
