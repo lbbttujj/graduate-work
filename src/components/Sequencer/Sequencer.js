@@ -11,7 +11,7 @@ export default class Sequencer extends Component{
             currentNote:'',
             play:false,
             stop:false,
-            bpm:100
+            bpm:120
         }
         this.changeNote = this.changeNote.bind(this)
         this.changePlay=this.changePlay.bind(this)
@@ -56,6 +56,7 @@ export default class Sequencer extends Component{
                 />
                 <Timeline
                  play = {this.state.play}
+                 stop = {this.state.stop}
                  valueBpm={this.state.bpm}
                 />
                 <PlayLine

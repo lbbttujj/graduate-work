@@ -20,6 +20,7 @@ export default class ButtonTimeLine extends Component{
 	}
 
 	clearTimeline = ()=>{
+		this.stopMusic();
 		var s  = document.getElementsByClassName('Timelineblocks__cells')
 		for(let i =0; i<s.length; i++){
 			if(s[i].classList.contains('active'))

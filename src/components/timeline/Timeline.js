@@ -9,6 +9,8 @@ export default class Timeline extends Component{
         this.state={
             data:dataKey,
             stopPlay:true,
+            stepMemory:0,
+            alreadyStop: false,
             synth:new Tone.PolySynth(Tone.Synth).toDestination()
         }
         this.playMusic=this.playMusic.bind(this)
@@ -22,30 +24,46 @@ export default class Timeline extends Component{
     }
 
     playMusic=()=>{
+
+          
             var items = document.getElementsByClassName('Timelineblocks__items')
             const synth =this.state.synth
             //тоже можно изменять
             const release = '8t'
-
-            for(let i=0; i<36; i++){
-                if(items[i].childNodes[0].classList.contains('active')){
-                   console.log(items[i].dataset.note)
-                   synth.triggerAttackRelease(items[i].dataset.note, release);
+            if(this.state.stepMemory==0){
+                for(let i=0; i<36; i++){
+                    if(items[i].childNodes[0].classList.contains('active')){
+                        synth.triggerAttackRelease(items[i].dataset.note, release);
+                    }
                 }
             }
-            let step = 0
+            let step = this.state.stepMemory
             let stepInterval = setInterval(() => {
              step++
                 for(let i=0; i<36; i++){
+                    if(!this.props.play){
+                        this.setState({
+                            stepMemory:step,
+                            alreadyStop: false,
+                           
+                        })
+                        clearInterval(stepInterval)
+
+                        
+                        if(this.props.stop){
+                            this.setState({stepMemory:0})
+                        }
+                        return
+                    }
+                    
                     if(items[i].childNodes[step].classList.contains('active')){
-                       console.log(items[i].dataset.note)
                        synth.triggerAttackRelease(items[i].dataset.note, release);
                     }
                 }
                 if(step==23){
                     clearInterval(stepInterval)
                 }
-            }, 1/this.props.valueBpm*50000);
+            }, 1/this.props.valueBpm*60000);
               //500
     }
 
@@ -57,6 +75,15 @@ export default class Timeline extends Component{
 
 
     render(){
+
+
+        if (this.props.stop && !this.state.alreadyStop) {
+            this.setState({
+                stepMemory: 0,
+                alreadyStop: true
+            })
+        }
+
         function createTimline(data){
             const items =[]
             for(let i=0; i<36; i++){

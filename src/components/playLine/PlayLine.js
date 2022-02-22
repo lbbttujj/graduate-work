@@ -34,12 +34,16 @@ export default class PlayLine extends Component {
             if (!this.props.play) {
 
                 clearInterval(timer)
+                let beforeStop = Number(document.getElementsByClassName('line')[0].style.left.split('').slice(0, -2).join('')) - 100 
+                beforeStop = Math.ceil(beforeStop / 52)*52;
+                
                 this.setState({
                     isPaused: true,
                     //100 хардкод исправить 
-                    beforeStop: Number(document.getElementsByClassName('line')[0].style.left.split('').slice(0, -2).join('')) - 100,
+                    beforeStop:beforeStop,
                     timePassed: 0
                 })
+                
 
                 if (this.props.stop) {
                     this.setState({
@@ -69,7 +73,8 @@ export default class PlayLine extends Component {
             <>
             <div style = {
                 {
-                    left: 100 + this.state.beforeStop + this.state.timePassed * this.props.bpm /1000 + 'px'
+                    //надо ориентироваться на значение ширина у клетки 52 = ширина вместе с бортом
+                    left: 100 + this.state.beforeStop + this.state.timePassed * this.props.bpm /1153 + 'px'
                 }
             }
             className = "line" >
