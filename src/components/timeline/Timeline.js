@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import dataKey from '../../data/keys.json'
-// import ButtonTimeLine from "../buttonsTimeLine/ButtonTimeLine";
 import * as Tone from 'tone'
 import './style.css'
 export default class Timeline extends Component{
@@ -14,7 +13,6 @@ export default class Timeline extends Component{
             synth:new Tone.PolySynth(Tone.Synth).toDestination()
         }
         this.playMusic=this.playMusic.bind(this)
-        // this.playNote=this.playNote.bind(this)
     }
 
     componentDidUpdate(){
@@ -23,9 +21,7 @@ export default class Timeline extends Component{
         }
     }
 
-    playMusic=()=>{
-
-          
+    playMusic=()=>{ 
             var items = document.getElementsByClassName('Timelineblocks__items')
             const synth =this.state.synth
             //тоже можно изменять
@@ -67,6 +63,7 @@ export default class Timeline extends Component{
               //500
     }
 
+
     //  playNote = (items)=>{
     //     let note = items.currentTarget.dataset.note;
     //     const synth = this.state.synth
@@ -76,7 +73,7 @@ export default class Timeline extends Component{
 
     render(){
 
-
+        let cellsCount = this.props.countCells
         if (this.props.stop && !this.state.alreadyStop) {
             this.setState({
                 stepMemory: 0,
@@ -90,9 +87,7 @@ export default class Timeline extends Component{
                 items.push(createItems(data[i].note))
             }
 
-            return(
-                items
-            )
+            return items
         }
 
         function createItems(note){
@@ -103,9 +98,7 @@ export default class Timeline extends Component{
                onClick={(items)=>{this.playNote(items)}}
                data-note = {note}
                className="Timelineblocks__items">
-                   {
-                       createCells()
-                   }
+                   {createCells(cellsCount)}
                </div>
            )   
     }
@@ -123,19 +116,17 @@ export default class Timeline extends Component{
         el.target.classList.add('active')
     }
 
-        function createCells(){
+        function createCells(cells){
             const aCells =[]
-            for(let i=0; i<22; i++){
+            for(let i=0; i<cells; i++){
                 aCells.push(<div onClick={(el)=>{highlightCell(el)}} className="Timelineblocks__cells"/>)
             }
            return(aCells)   
     }
         return(
-            <>
+            <> 
             <div className="Timelineblocks">
-                {
-                    createTimline(this.state.data)
-                }
+                {createTimline(this.state.data)}
             </div>
             </>
         )

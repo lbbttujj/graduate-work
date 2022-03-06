@@ -3,3 +3,19 @@
     right: 2em;
     top:50px
 }
+.mainStageSequencer{
+    position: absolute;
+    top:300px;
+    width: 100%;
+    overflow-x: scroll;
+    height: 400px;
+
+}
+.mainStageSequencer::-webkit-scrollbar {
+    /* width: 0; */
+    width: 7px;
+    background-color: #f9f9fd;
+  }
+.mainStageSequencer::-webkit-scrollbar-thumb {
+    background-color: #223c50;
+}
