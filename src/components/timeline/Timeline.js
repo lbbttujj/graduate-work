@@ -126,6 +126,7 @@ export default class Timeline extends Component{
         return(
             <> 
             <div className="Timelineblocks"  style={{width: '92%'}}>
+
                 {createTimline(this.state.data)}
             </div>
             </>

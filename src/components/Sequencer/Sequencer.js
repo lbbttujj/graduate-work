@@ -41,6 +41,7 @@ export default class Sequencer extends Component{
                     widthTimeLine.style.width=currentPercent-17+'%'
                 }
             }
+
         }
     }  
 
