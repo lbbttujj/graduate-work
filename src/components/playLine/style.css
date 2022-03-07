@@ -1,6 +1,6 @@
 .line{
-    position: absolute;
-    top: 0;
+    position: relative;
+    bottom: 1584px;
     left: 100px;
     width: 10px;
     height: 800px;

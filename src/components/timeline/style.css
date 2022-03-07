@@ -1,6 +1,9 @@
 .Timelineblocks{
-    position: absolute;
-    top:0;
+    /* position: absolute;
+    top:0; */
+    position: relative;
+   
+    bottom: 792px;
     left: 100px;
 }
 

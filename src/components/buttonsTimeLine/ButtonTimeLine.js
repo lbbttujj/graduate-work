@@ -21,19 +21,33 @@ export default class ButtonTimeLine extends Component{
 
 	clearTimeline = ()=>{
 		this.stopMusic();
-		var s  = document.getElementsByClassName('Timelineblocks__cells')
-		for(let i =0; i<s.length; i++){
-			if(s[i].classList.contains('active'))
+		var allItems  = document.getElementsByClassName('Timelineblocks__cells')
+		for(let i =0; i<allItems.length; i++){
+			if(allItems[i].classList.contains('active'))
 			   {
-					s[i].classList.remove('active')
+				allItems[i].classList.remove('active')
 			   }
 		}
+	}
+
+	changeCountCells = (oEvent)=>{
+		if(oEvent.target.textContent==='+'){	
+			this.props.changeCountCells(true)
+		}else{
+			this.props.changeCountCells(false)
+
+		}
+	
 	}
 
 
 	render(){
 		return(
 			<>
+			<div className="cellsCount">
+            <button  onClick={this.changeCountCells}>+</button>    
+            <button  onClick={this.changeCountCells}>-</button>    
+            </div>
 			<div className='TopButtons'>
 				<div className='playButton'>
 					<button onClick={this.playMusic}>play</button>

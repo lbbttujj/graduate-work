@@ -11,13 +11,38 @@ export default class Sequencer extends Component{
             currentNote:'',
             play:false,
             stop:false,
-            bpm:120
+            bpm:120,
+            cellsCount:24
         }
         this.changeNote = this.changeNote.bind(this)
         this.changePlay=this.changePlay.bind(this)
         this.stopMusic=this.stopMusic.bind(this)
         this.changeBpm=this.changeBpm.bind(this)
+        this.changeCountCells=this.changeCountCells.bind(this)
     }
+
+    changeCountCells=(bMoreCells)=>{
+
+        let widthTimeLine = document.getElementsByClassName('Timelineblocks')[0]
+        let currentPercent = Number(widthTimeLine.style.width.match(/\d+(?=%)/)[0])
+        if(bMoreCells){
+            if(this.state.cellsCount<40){
+                this.setState({cellsCount:this.state.cellsCount+4})
+                
+                if(this.state.cellsCount>=24){
+                    //надо сделать точнее в относительных единицах
+                widthTimeLine.style.width=currentPercent+17+'%'
+                }
+            }
+        }else{
+            if(this.state.cellsCount>4){
+                this.setState({cellsCount:this.state.cellsCount-4})
+                if(this.state.cellsCount>24){
+                    widthTimeLine.style.width=currentPercent-17+'%'
+                }
+            }
+        }
+    }  
 
     changeBpm=()=>{
         this.setState({bpm:document.getElementById('bpm').value})
@@ -27,44 +52,47 @@ export default class Sequencer extends Component{
         this.state.play ? 
         this.setState({play:false}):
         this.setState({play:true,stop:false})
-    
     }
+
     stopMusic=()=>{
-        this.setState({play:false})
-        this.setState({stop:true})
+        this.setState({play:false,stop:true})
+        // this.setState({stop:true})
     }
     
 
     changeNote(note){
             this.setState({currentNote:note})
     }
-    render(){
-        
+
+
+    render(){    
         return(
             <>
             <div className="mainStageSequencer">
-                <div className='TimelineButtons'>
-                <ButtonTimeLine
-                changePlay = {this.changePlay}
-                stopMusic={this.stopMusic}
-                changeBpm={this.changeBpm}
-                valueBpm={this.state.bpm}
-                />
-                </div>
                 <Keys
-                changeNote = {this.changeNote}
+                    changeNote = {this.changeNote}
                 />
                 <Timeline
-                 play = {this.state.play}
-                 stop = {this.state.stop}
-                 valueBpm={this.state.bpm}
+                     play = {this.state.play}
+                     stop = {this.state.stop}
+                     valueBpm={this.state.bpm}
+                    countCells={this.state.cellsCount}
                 />
                 <PlayLine
-                play = {this.state.play}
-                stop = {this.state.stop}
-                bpm = {this.state.bpm}
+                    play = {this.state.play}
+                    stop = {this.state.stop}
+                    bpm = {this.state.bpm}
                 />
             </div>
+                        <div className="SettingButtons">    
+                <ButtonTimeLine
+                    changePlay = {this.changePlay}
+                    stopMusic={this.stopMusic}
+                    changeBpm={this.changeBpm}
+                    valueBpm={this.state.bpm}
+                    changeCountCells={this.changeCountCells}
+                />
+            </div> 
             </>
         )
     }

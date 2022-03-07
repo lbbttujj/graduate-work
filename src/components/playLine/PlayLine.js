@@ -15,7 +15,6 @@ export default class PlayLine extends Component {
     }
 
     componentDidUpdate() {
-        //заменить стоплэй на паузу
         if ((this.props.play && this.state.isPaused)) {
             this.moveLine()
         }
@@ -30,7 +29,6 @@ export default class PlayLine extends Component {
         let start = Date.now()
 
         let timer = setInterval(function () {
-            console.log(timer);
             if (!this.props.play) {
 
                 clearInterval(timer)
