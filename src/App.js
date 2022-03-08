@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import Sequencer from './components/Sequencer/Sequencer';
+import AudioStudio from '../src/components/auidioStudio/AudioStudio'
 import './App.css';
 
 export default class App extends Component{
@@ -11,7 +11,7 @@ export default class App extends Component{
     
     return(
       <>
-     <Sequencer/>
+      <AudioStudio/>
       </>
     )
   }
