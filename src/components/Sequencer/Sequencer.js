@@ -5,7 +5,7 @@ import PlayLine from "../playLine/PlayLine";
 import ButtonTimeLine from "../buttonsTimeLine/ButtonTimeLine";
 import './style.css'
 export default class Sequencer extends Component{
-    constructor(){
+    constructor(props){
         super()
         this.state = {
             currentNote:'',
@@ -69,21 +69,23 @@ export default class Sequencer extends Component{
     render(){    
         return(
             <>
+            <div style={{display:`${this.props.viewSeqencer? 'none':'block'}`}} className="sequencer">
+
             <div className="mainStageSequencer">
                 <Keys
                     changeNote = {this.changeNote}
-                />
+                    />
                 <Timeline
                      play = {this.state.play}
                      stop = {this.state.stop}
                      valueBpm={this.state.bpm}
-                    countCells={this.state.cellsCount}
-                />
+                     countCells={this.state.cellsCount}
+                     />
                 <PlayLine
                     play = {this.state.play}
                     stop = {this.state.stop}
                     bpm = {this.state.bpm}
-                />
+                    />
             </div>
                         <div className="SettingButtons">    
                 <ButtonTimeLine
@@ -92,9 +94,10 @@ export default class Sequencer extends Component{
                     changeBpm={this.changeBpm}
                     valueBpm={this.state.bpm}
                     changeCountCells={this.changeCountCells}
-                />
+                    />
             </div> 
             
+                    </div>
             </>
         )
     }

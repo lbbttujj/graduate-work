@@ -1,0 +1,16 @@
+.track{
+    float: right;
+    width: 90%;/*50%*/
+    height: 280px; /*150px*/
+    background-color: white;
+    margin: 2em;
+    display: flex;
+    /* flex-wrap: wrap; */
+    /* overflow:hidden ; */
+}
+.subTrack{
+    margin: 3% 5px;
+    width: 10%;
+    height: 70%;
+    background-color:purple
+}

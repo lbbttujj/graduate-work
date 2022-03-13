@@ -1,7 +1,10 @@
 import React, {Component} from "react";
 import Sequencer from "../Sequencer/Sequencer";
+import Track from "../track/Track";
 import ButtonTimeLine from "../buttonsTimeLine/ButtonTimeLine";
+import AlertDialogSlide from "../dialog/Dialog";
 import './style.css'
+
 
 export default class AudioStudio extends Component {
     constructor(props){
@@ -11,13 +14,30 @@ export default class AudioStudio extends Component {
             play:false,
             stop:false,
             bpm:120,
-            cellsCount:24 //в секвеносор
+            cellsCount:24, //в секвеносор
+            viewSeqencer:true,
+            openDialog:false
         }
         // this.changeNote = this.changeNote.bind(this)
         // this.changePlay=this.changePlay.bind(this)
         // this.stopMusic=this.stopMusic.bind(this)
         // this.changeBpm=this.changeBpm.bind(this)
         // this.changeCountCells=this.changeCountCells.bind(this)
+    }
+
+    handleClickOpen = ()=>{
+        this.setState({openDialog:true})
+    }
+
+    handleClose = ()=>{
+        this.setState({openDialog:false})
+    }
+
+   
+
+    changeViewSeqencer=()=>{
+        // this.setState({viewSeqencer:!this.state.viewSeqencer})
+        this.handleClickOpen()
     }
 
     changeCountCells=(bMoreCells)=>{
@@ -68,10 +88,21 @@ export default class AudioStudio extends Component {
                     stopMusic={this.stopMusic}
                     changeBpm={this.changeBpm}
                     valueBpm={this.state.bpm}
-                    changeCountCells={this.changeCountCells}
+                    changeCountCells={this.changeCountCells} // убрать
                 />
-            {/* <Sequencer/> */}
+                <Track
+                changeViewSeqencer={this.changeViewSeqencer}/>
+                {/* <Track/>
+                <Track/> */}
+                <AlertDialogSlide
+                openDialog = {this.state.openDialog}
+                handleClickOpen = {this.handleClickOpen}
+                handleClose = {this.handleClose}
+                />
+                {/* <Sequencer
+                viewSeqencer={this.state.viewSeqencer}/> */}
             </>
+
         )
     }
 }
