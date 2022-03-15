@@ -1,5 +1,5 @@
 .sequencer{
-
+height: 25em;
 }
 .SettingButtons{
     position: absolute;
@@ -29,10 +29,5 @@
     background-color: #223c50;
 }
 /* @media (max-width: 1599.95px){ */
-.css-uc5atq-MuiPaper-root-MuiDialog-paper.MuiDialog-paperScrollBody {
-    height: 70%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-}
+
 /* } */

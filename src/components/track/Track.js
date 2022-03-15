@@ -9,9 +9,15 @@ export default class Track extends Component{
     }
 
     addSubTrack = (oEvent)=>{
-        debugger
         let div = document.createElement('div');
         div.className='subTrack'
+        div.addEventListener('contextmenu',(e)=>{
+            e.preventDefault()
+            alert('done')
+            // выпадающее меню с возможностью удаления прогирывания
+            
+        })
+     
         if(oEvent.target.className =='track'){
             oEvent.target.append(div)
         }

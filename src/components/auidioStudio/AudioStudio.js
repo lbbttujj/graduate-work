@@ -3,6 +3,7 @@ import Sequencer from "../Sequencer/Sequencer";
 import Track from "../track/Track";
 import ButtonTimeLine from "../buttonsTimeLine/ButtonTimeLine";
 import AlertDialogSlide from "../dialog/Dialog";
+import Fab from '@mui/material/Fab';
 import './style.css'
 
 
@@ -83,24 +84,22 @@ export default class AudioStudio extends Component {
     render(){
         return(
             <>
-        <ButtonTimeLine
-                    changePlay = {this.changePlay}
-                    stopMusic={this.stopMusic}
-                    changeBpm={this.changeBpm}
-                    valueBpm={this.state.bpm}
-                    changeCountCells={this.changeCountCells} // убрать
-                />
-                <Track
+            <div style={{height:'100px'}} className="HeadButtons">
+                <button>play</button>    
+            </div>
+
+            <Track
                 changeViewSeqencer={this.changeViewSeqencer}/>
-                {/* <Track/>
-                <Track/> */}
-                <AlertDialogSlide
+                  <Fab className='addTrackButton' color="primary" aria-label="add">
+                    +
+                     </Fab>
+                {/* <Track
+             changeViewSeqencer={this.changeViewSeqencer}/> */}
+            <AlertDialogSlide
                 openDialog = {this.state.openDialog}
                 handleClickOpen = {this.handleClickOpen}
-                handleClose = {this.handleClose}
-                />
-                {/* <Sequencer
-                viewSeqencer={this.state.viewSeqencer}/> */}
+                handleClose = {this.handleClose}/>
+           
             </>
 
         )

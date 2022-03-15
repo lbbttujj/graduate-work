@@ -1,5 +1,8 @@
+.KeyBoard{
+    position: absolute;
+}
 .keyNoteText{
-    color: white;
+    color: black;
     font-size: 13px;
     display: none;
 }

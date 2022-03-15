@@ -9,9 +9,18 @@ export default class PlayLine extends Component {
             timePassed: 0,
             isPaused: true,
             beforeStop: 0,
-            alreadyStop: false
+            alreadyStop: false,
+            cellsClientWidth:0
         }
         this.moveLine = this.moveLine.bind(this)
+    }
+
+    componentDidMount(){
+        let cellsClientWidth = document.getElementsByClassName('Timelineblocks__cells')[0].clientWidth
+
+        this.setState({
+            cellsClientWidth:cellsClientWidth+2
+        })
     }
 
     componentDidUpdate() {
@@ -33,7 +42,7 @@ export default class PlayLine extends Component {
 
                 clearInterval(timer)
                 let beforeStop = Number(document.getElementsByClassName('line')[0].style.left.split('').slice(0, -2).join('')) - 100 
-                beforeStop = Math.ceil(beforeStop / 52)*52;
+                beforeStop = Math.ceil(beforeStop / this.state.cellsClientWidth)*this.state.cellsClientWidth;
                 
                 this.setState({
                     isPaused: true,
@@ -59,7 +68,7 @@ export default class PlayLine extends Component {
     }
 
     render() {
-
+        
         if (this.props.stop && !this.state.alreadyStop) {
             this.setState({
                 beforeStop: 0,
@@ -71,8 +80,7 @@ export default class PlayLine extends Component {
             <>
             <div style = {
                 {
-                    //надо ориентироваться на значение ширина у клетки 52 = ширина вместе с бортом
-                    left: 100 + this.state.beforeStop + this.state.timePassed * this.props.bpm /1153 + 'px'
+                    left: 100 + this.state.beforeStop + this.state.timePassed/60000*this.state.cellsClientWidth*this.props.bpm + 'px'
                 }
             }
             className = "line" >

@@ -41,11 +41,9 @@ export default class Timeline extends Component{
                         this.setState({
                             stepMemory:step,
                             alreadyStop: false,
-                           
                         })
                         clearInterval(stepInterval)
 
-                        
                         if(this.props.stop){
                             this.setState({stepMemory:0})
                         }
@@ -56,7 +54,7 @@ export default class Timeline extends Component{
                        synth.triggerAttackRelease(items[i].dataset.note, release);
                     }
                 }
-                if(step==23){
+                if(step==this.props.cellsCount){ 
                     clearInterval(stepInterval)
                 }
             }, 1/this.props.valueBpm*60000);

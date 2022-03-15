@@ -69,7 +69,7 @@ export default class Sequencer extends Component{
     render(){    
         return(
             <>
-            <div style={{display:`${this.props.viewSeqencer? 'none':'block'}`}} className="sequencer">
+            <div className="sequencer">
 
             <div className="mainStageSequencer">
                 <Keys
@@ -80,6 +80,7 @@ export default class Sequencer extends Component{
                      stop = {this.state.stop}
                      valueBpm={this.state.bpm}
                      countCells={this.state.cellsCount}
+                     cellsCount ={this.state.cellsCount}
                      />
                 <PlayLine
                     play = {this.state.play}
@@ -87,7 +88,7 @@ export default class Sequencer extends Component{
                     bpm = {this.state.bpm}
                     />
             </div>
-                        <div className="SettingButtons">    
+            <div className="SettingButtons">    
                 <ButtonTimeLine
                     changePlay = {this.changePlay}
                     stopMusic={this.stopMusic}
@@ -97,7 +98,7 @@ export default class Sequencer extends Component{
                     />
             </div> 
             
-                    </div>
+            </div>
             </>
         )
     }
