@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {Draw} from "tone";
 import {TickSignal} from "tone/build/esm/core/clock/TickSignal";
+// import { useSelector } from "react-redux"
+
 import './style.css'
 export default class PlayLine extends Component {
     constructor(props) {

@@ -3,6 +3,7 @@ import Keys from "../keys/Keys";
 import Timeline from "../timeline/Timeline";
 import PlayLine from "../playLine/PlayLine";
 import ButtonTimeLine from "../buttonsTimeLine/ButtonTimeLine";
+
 import './style.css'
 export default class Sequencer extends Component{
     constructor(props){
@@ -92,8 +93,8 @@ export default class Sequencer extends Component{
                 <ButtonTimeLine
                     changePlay = {this.changePlay}
                     stopMusic={this.stopMusic}
-                    changeBpm={this.changeBpm}
-                    valueBpm={this.state.bpm}
+                    // changeBpm={this.changeBpm}
+                    // valueBpm={this.state.bpm}
                     changeCountCells={this.changeCountCells}
                     />
             </div> 

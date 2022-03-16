@@ -7,6 +7,8 @@ import Fab from '@mui/material/Fab';
 import './style.css'
 
 
+
+
 export default class AudioStudio extends Component {
     constructor(props){
         super()
@@ -14,7 +16,7 @@ export default class AudioStudio extends Component {
             currentNote:'',
             play:false,
             stop:false,
-            bpm:120,
+            bpm:120, //bpm общий из стора
             cellsCount:24, //в секвеносор
             viewSeqencer:true,
             openDialog:false
@@ -89,17 +91,16 @@ export default class AudioStudio extends Component {
             </div>
 
             <Track
-                changeViewSeqencer={this.changeViewSeqencer}/>
-                  <Fab className='addTrackButton' color="primary" aria-label="add">
-                    +
-                     </Fab>
-                {/* <Track
-             changeViewSeqencer={this.changeViewSeqencer}/> */}
+                changeViewSeqencer={this.changeViewSeqencer}
+            />
+            <Fab className='addTrackButton' color="primary" aria-label="add">
+                +
+            </Fab>
+
             <AlertDialogSlide
                 openDialog = {this.state.openDialog}
                 handleClickOpen = {this.handleClickOpen}
                 handleClose = {this.handleClose}/>
-           
             </>
 
         )

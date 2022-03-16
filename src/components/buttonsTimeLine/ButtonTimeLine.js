@@ -1,26 +1,32 @@
 import React,{Component} from "react"
+import {changeBpm} from '../../store/sequencerSlice'
+import {useDispatch} from 'react-redux'
+import { useSelector } from "react-redux"
 import './style.css'
-export default class ButtonTimeLine extends Component{
-	constructor(props){
-		super()
-		this.state={
 
-		}
+ const ButtonTimeLine = ({
+	 changePlay,
+	 stopMusic,
+	//  changeBpm,
+	 changeCountCells,
+	//  valueBpm
+	})=>{
+	const bpm = useSelector(state=>state.sequencer.bpm)
+	const dispatch = useDispatch()
+
+	const playMusic = ()=>{
+		 changePlay()
+	}
+	const stopMusicFunc = ()=>{
+		//  changePlay()
+		 stopMusic()
+	}
+	const changeBpmFunc = ()=>{
+		 changeBpm()
 	}
 
-	playMusic = ()=>{
-		this.props.changePlay()
-	}
-	stopMusic = ()=>{
-		// this.props.changePlay()
-		this.props.stopMusic()
-	}
-	changeBpm = ()=>{
-		this.props.changeBpm()
-	}
-
-	clearTimeline = ()=>{
-		this.stopMusic();
+	const clearTimeline = ()=>{
+		stopMusicFunc();
 		var allItems  = document.getElementsByClassName('Timelineblocks__cells')
 		for(let i =0; i<allItems.length; i++){
 			if(allItems[i].classList.contains('active'))
@@ -30,33 +36,35 @@ export default class ButtonTimeLine extends Component{
 		}
 	}
 
-	changeCountCells = (oEvent)=>{
+	const changeCountCellsFunc = (oEvent)=>{
 		if(oEvent.target.textContent==='+'){	
-			this.props.changeCountCells(true)
+			 changeCountCells(true)
 		}else{
-			this.props.changeCountCells(false)
+			 changeCountCells(false)
 
 		}
 	
 	}
 
 
-	render(){
+	
 		return(
 			<>
 			<div className="cellsCount">
-            <button  onClick={this.changeCountCells}>+</button>    
-            <button  onClick={this.changeCountCells}>-</button>    
+            <button  onClick={changeCountCellsFunc}>+</button>    
+            <button  onClick={changeCountCellsFunc}>-</button>    
             </div>
 			<div className='TopButtons'>
 				<div className='playButton'>
-					<button onClick={this.playMusic}>play</button>
-					<button onClick={this.stopMusic}>stop</button>
-					<input id='bpm' type="number" min="60" max='300' onChange={this.changeBpm} value={this.props.valueBpm} /> 
-					<button onClick={this.clearTimeline}>clear timeline</button>
+					<button onClick={playMusic}>play</button>
+					<button onClick={stopMusicFunc}>stop</button>
+					<input id='bpm' type="number" min="60" max='300' onChange={()=>dispatch(changeBpm())} value={bpm} /> 
+					<button onClick={clearTimeline}>clear timeline</button>
 				</div>
 			</div>
 			</>
 		)
-	}
+	
 }
+
+export default ButtonTimeLine 
