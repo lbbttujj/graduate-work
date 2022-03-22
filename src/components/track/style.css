@@ -1,9 +1,10 @@
 .track{
     float: right;
-    width: 90%;/*50%*/
-    height: 280px; /*150px*/
+    width: 50%;/*90%*/
+    height: 150px; /*280px*/
     background-color: white;
     margin: 2em;
+    margin-right: 20rem;
     display: flex;
     /* flex-wrap: wrap; */
     /* overflow:hidden ; */

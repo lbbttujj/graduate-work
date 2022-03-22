@@ -3,18 +3,29 @@ import {createSlice} from '@reduxjs/toolkit'
 const sequencerSlice = createSlice({
     name: 'sequencer',
     initialState:{
-        currentNote:'',
-        play:false,
-        stop:false,
         bpm:120,
-        cellsCount:24
+        trackMemory:[]
     },
     reducers:{
         changeBpm(state,action){
-            state.bpm = document.getElementById('bpm').value
+            state.bpm = action.payload.target.value
+        },
+        changeTrackMemory(state,action){
+            if(action.payload.add){
+                let index = state.trackMemory.findIndex((el)=>el.information===action.payload.data.information)
+                if(index>-1){
+                    state.trackMemory[index]=action.payload.data
+
+                }else{
+                    state.trackMemory.push(action.payload.data)
+                }
+            }else{
+                /// удалить 
+            }
         }
+
     }
 })
 
-export const {changeBpm} = sequencerSlice.actions
+export const {changeBpm,changeTrackMemory} = sequencerSlice.actions
 export default sequencerSlice.reducer

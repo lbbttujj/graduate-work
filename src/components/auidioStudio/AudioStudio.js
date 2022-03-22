@@ -1,4 +1,6 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { changeBpm } from "../../store/sequencerSlice";
 import Sequencer from "../Sequencer/Sequencer";
 import Track from "../track/Track";
 import ButtonTimeLine from "../buttonsTimeLine/ButtonTimeLine";
@@ -7,102 +9,72 @@ import Fab from '@mui/material/Fab';
 import './style.css'
 
 
+ const AudioStudio = ()=>  {
+    const [openDialog,SetOpenDialog ] = useState(false)
+    const [currentSubTrack, setCurrentSubTrack] = useState(null)
+    
+    const bpm = useSelector(state=>state.sequencer.bpm)
+    const dispatch = useDispatch()
 
+    const handleClickOpen = ()=>{
+        SetOpenDialog(true)
+    }
 
-export default class AudioStudio extends Component {
-    constructor(props){
-        super()
-        this.state = {
-            currentNote:'',
-            play:false,
-            stop:false,
-            bpm:120, //bpm общий из стора
-            cellsCount:24, //в секвеносор
-            viewSeqencer:true,
-            openDialog:false
+    const handleClose = ()=>{
+        SetOpenDialog(false)
+    }
+
+    const changeViewSeqencer=()=>{
+        handleClickOpen()
+    }
+
+    const getCurrentSubTrack = (oValue)=>{
+        setCurrentSubTrack(oValue)
+    }
+
+    const playAllTracks = ()=>{
+        for(let el of document.getElementsByClassName('track')){
+            el.childNodes[0].childNodes[0].play()
         }
-        // this.changeNote = this.changeNote.bind(this)
-        // this.changePlay=this.changePlay.bind(this)
-        // this.stopMusic=this.stopMusic.bind(this)
-        // this.changeBpm=this.changeBpm.bind(this)
-        // this.changeCountCells=this.changeCountCells.bind(this)
     }
 
-    handleClickOpen = ()=>{
-        this.setState({openDialog:true})
-    }
-
-    handleClose = ()=>{
-        this.setState({openDialog:false})
-    }
-
-   
-
-    changeViewSeqencer=()=>{
-        // this.setState({viewSeqencer:!this.state.viewSeqencer})
-        this.handleClickOpen()
-    }
-
-    changeCountCells=(bMoreCells)=>{
-
-        let widthTimeLine = document.getElementsByClassName('Timelineblocks')[0] //current
-        let currentPercent = Number(widthTimeLine.style.width.match(/\d+(?=%)/)[0])
-        if(bMoreCells){
-            if(this.state.cellsCount<40){
-                this.setState({cellsCount:this.state.cellsCount+4})
-                
-                if(this.state.cellsCount>=24){
-                    //надо сделать точнее в относительных единицах
-                widthTimeLine.style.width=currentPercent+17+'%'
-                }
-            }
-        }else{
-            if(this.state.cellsCount>4){
-                this.setState({cellsCount:this.state.cellsCount-4})
-                if(this.state.cellsCount>24){
-                    widthTimeLine.style.width=currentPercent-17+'%'
-                }
-            }
-
-        }
-    }  
-
-    changeBpm=()=>{
-        this.setState({bpm:document.getElementById('bpm').value})
-    }
-
-    //отсавить здесь
-    changePlay=()=>{
-        this.state.play ? 
-        this.setState({play:false}):
-        this.setState({play:true,stop:false})
-    }
-
-    stopMusic=()=>{
-        this.setState({play:false,stop:true})
-        // this.setState({stop:true})
-    }
-
-    render(){
+  
+    
         return(
             <>
             <div style={{height:'100px'}} className="HeadButtons">
-                <button>play</button>    
+                <button onClick={playAllTracks}>play</button>    
+                <span>slider</span>
+                <input id='bpm' type="number" min="60" max='300' onChange={(value)=>dispatch(changeBpm(value))} value={bpm} /> 
+                <audio  id="audioFile"></audio>
+                <audio  id="audioFile1"></audio>
             </div>
-
             <Track
-                changeViewSeqencer={this.changeViewSeqencer}
+                changeViewSeqencer={changeViewSeqencer}
+                getCurrentSubTrack = {getCurrentSubTrack}
+                nameTrack = {'Harmony'}
             />
-            <Fab className='addTrackButton' color="primary" aria-label="add">
-                +
-            </Fab>
+            <Track
+                changeViewSeqencer={changeViewSeqencer}
+                getCurrentSubTrack={getCurrentSubTrack}
+                nameTrack = {'Melody'}
+            />
+            {/* <Fab className='addTrackButton' color="primary" aria-label="add">
+                + 
+            </Fab>  */}
+            
+            
 
             <AlertDialogSlide
-                openDialog = {this.state.openDialog}
-                handleClickOpen = {this.handleClickOpen}
-                handleClose = {this.handleClose}/>
+                openDialog = {openDialog}
+                handleClickOpen = {handleClickOpen}
+                handleClose = {handleClose}
+                currentSubTrack = {currentSubTrack}
+                />
             </>
 
         )
-    }
+    
 }
+
+export default AudioStudio

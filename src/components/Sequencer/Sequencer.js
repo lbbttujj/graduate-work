@@ -1,44 +1,39 @@
-import React, {Component } from "react";
+import React, {useState } from "react";
+import { useSelector } from "react-redux";
 import Keys from "../keys/Keys";
 import Timeline from "../timeline/Timeline";
 import PlayLine from "../playLine/PlayLine";
 import ButtonTimeLine from "../buttonsTimeLine/ButtonTimeLine";
 
 import './style.css'
-export default class Sequencer extends Component{
-    constructor(props){
-        super()
-        this.state = {
-            currentNote:'',
-            play:false,
-            stop:false,
-            bpm:120,
-            cellsCount:24
-        }
-        this.changeNote = this.changeNote.bind(this)
-        this.changePlay=this.changePlay.bind(this)
-        this.stopMusic=this.stopMusic.bind(this)
-        this.changeBpm=this.changeBpm.bind(this)
-        this.changeCountCells=this.changeCountCells.bind(this)
-    }
+ const Sequencer = ({setBlobRecordURL})=>{
 
-    changeCountCells=(bMoreCells)=>{
+    const [currentNote,setCurrentNote] = useState('')
+    const [play,setPlay] = useState(false)
+    const [stop,setStop] = useState(false)
+    const [cellsCount,setCellsCount  ] = useState(24)
+
+
+    const bpm = useSelector(state=>state.sequencer.bpm)    
+
+
+    const changeCountCells=(bMoreCells)=>{
 
         let widthTimeLine = document.getElementsByClassName('Timelineblocks')[0]
         let currentPercent = Number(widthTimeLine.style.width.match(/\d+(?=%)/)[0])
         if(bMoreCells){
-            if(this.state.cellsCount<40){
-                this.setState({cellsCount:this.state.cellsCount+4})
+            if(cellsCount<40){
+                setCellsCount(cellsCount+4)
                 
-                if(this.state.cellsCount>=24){
+                if(cellsCount>=24){
                     //надо сделать точнее в относительных единицах
                 widthTimeLine.style.width=currentPercent+17+'%'
                 }
             }
         }else{
-            if(this.state.cellsCount>4){
-                this.setState({cellsCount:this.state.cellsCount-4})
-                if(this.state.cellsCount>24){
+            if(cellsCount>4){
+                setCellsCount (cellsCount-4)
+                if(cellsCount>24){
                     widthTimeLine.style.width=currentPercent-17+'%'
                 }
             }
@@ -46,61 +41,67 @@ export default class Sequencer extends Component{
         }
     }  
 
-    changeBpm=()=>{
-        this.setState({bpm:document.getElementById('bpm').value})
+
+    const changePlay=()=>{
+        if(play){
+            setPlay(false)
+        } else{
+            setPlay(true)
+            setStop(false)
+        }
     }
 
-    changePlay=()=>{
-        this.state.play ? 
-        this.setState({play:false}):
-        this.setState({play:true,stop:false})
+    const stopMusic=()=>{
+        setPlay(false)
+        setStop(true)
     }
 
-    stopMusic=()=>{
-        this.setState({play:false,stop:true})
-        // this.setState({stop:true})
-    }
-    
-
-    changeNote(note){
-            this.setState({currentNote:note})
+    const changeNote = (note)=>{
+            setCurrentNote(note)
     }
 
+    const getBlobRecordURL = (blobValue)=>{
+        debugger
+        setBlobRecordURL(blobValue)
+    }
 
-    render(){    
+  
         return(
             <>
             <div className="sequencer">
 
             <div className="mainStageSequencer">
                 <Keys
-                    changeNote = {this.changeNote}
+                    changeNote = {changeNote}
                     />
                 <Timeline
-                     play = {this.state.play}
-                     stop = {this.state.stop}
-                     valueBpm={this.state.bpm}
-                     countCells={this.state.cellsCount}
-                     cellsCount ={this.state.cellsCount}
+                     play = {play}
+                     stop = {stop}
+                     valueBpm={bpm}
+                     countCells={cellsCount}
+                     cellsCount ={cellsCount}
+                     getBlobRecordURL={getBlobRecordURL}
                      />
                 <PlayLine
-                    play = {this.state.play}
-                    stop = {this.state.stop}
-                    bpm = {this.state.bpm}
+                    play = {play}
+                    stop = {stop}
+                    bpm = {bpm}
+                    cellsCount ={cellsCount}
+                    stopMusic={stopMusic}
                     />
             </div>
             <div className="SettingButtons">    
                 <ButtonTimeLine
-                    changePlay = {this.changePlay}
-                    stopMusic={this.stopMusic}
-                    // changeBpm={this.changeBpm}
-                    // valueBpm={this.state.bpm}
-                    changeCountCells={this.changeCountCells}
+                    changePlay = {changePlay}
+                    stopMusic={stopMusic}
+                    // valueBpm={state.bpm}
+                    changeCountCells={changeCountCells}
                     />
             </div> 
             
             </div>
             </>
         )
-    }
+    
 }
+export default Sequencer

@@ -1,58 +1,42 @@
 import React,{Component} from "react";
 import dataKey from '../../data/keys.json'
 import * as Tone from 'tone'
+import { useState } from "react";
 import './style.css'
-export default class Keys extends Component{
-    constructor(props){
-        super()
-        this.state={
-            countKeys:64,
-            data:dataKey,
-            FirstViewOctave:'3',
-            SecondViewOctave:'2',
-            isMouseDown: false,
-            counter:0
-        }
-        this.pressKey=this.pressKey.bind(this)
-        this.pressKeyUp=this.pressKeyUp.bind(this)
-        this.pressKeyDown=this.pressKeyDown.bind(this)
-        // this.checkPressDown = this.checkPressDown.bind(this);
-    }
+const Keys = ({changeNote})=>{
 
-    pressKeyUp = (oEvent)=>{
+
+    const [countKeys,setcountKeys] = useState(64)
+    const [data,setData] = useState(dataKey)
+    const [isMouseDown,setIsMouseDown] = useState(false)
+    const [counter,setCounter] = useState(0)
+  
+
+    const pressKeyUp = (oEvent)=>{
         var color = oEvent.target.dataset.color
         oEvent.currentTarget.style.backgroundColor = color;
     }
 
-    pressKeyDown = (oEvent)=>{
+    const pressKeyDown = (oEvent)=>{
         oEvent.currentTarget.style.backgroundColor="#0437F2"
         const synth = new Tone.Synth().toDestination();
         let note = oEvent.currentTarget.dataset.note
         synth.triggerAttackRelease(note, "8n");
-        this.props.changeNote(note)
+        changeNote(note)
     }
 
-    pressKey=(oEvent)=>{
+    const pressKey=(oEvent)=>{
     }
 
-    checkPressDown=(oEvent)=>{
+    const checkPressDown=(oEvent)=>{
         debugger
     }
     
-    render(){
+   
 
        //Криво надо понять почему вызывается два раза и счетчик это несерьезно
-        if(this.state.counter==0){
-            // document.addEventListener('keydown', (oEvent)=>{
-            //     if(oEvent.key=='x'){
-            //         this.setState({FirstViewOctave: +this.state.FirstViewOctave+0.5})
-            //         this.setState({SecondViewOctave: +this.state.SecondViewOctave+0.5})
-            //     }
-            //     if(oEvent.key=='z'){
-            //         this.setState({FirstViewOctave: +this.state.FirstViewOctave-0.5})
-            //         this.setState({SecondViewOctave: +this.state.SecondViewOctave-0.5})                }
-            // })
-            this.setState({counter:1})
+        if(counter==0){
+            setCounter(1)
         }
         ///////
 
@@ -61,17 +45,15 @@ export default class Keys extends Component{
             <>
             <div className="KeyBoard">
                 {
-                    this.state.data.map((el)=>{
+                    data.map((el)=>{
                         
-                        // if(el.note.split('').pop() ==this.state.FirstViewOctave || el.note.split('').pop() ==this.state.SecondViewOctave  ){
-
                             return(
                           <div style={{height:'20px',display:'flex', border:'1px solid transparent', alignItems:'center'}}>
                              <div className="keyNote" 
-                             onMouseDown={this.pressKeyDown}
-                              onMouseUp={this.pressKeyUp} 
-                              onClick={this.pressKey} 
-                              onMouseLeave={this.pressKeyUp}
+                             onMouseDown={pressKeyDown}
+                              onMouseUp={pressKeyUp} 
+                              onClick={pressKey} 
+                              onMouseLeave={pressKeyUp}
                               data-color = {el.colorkey}
                               data-note = {el.note}
                               style={{height:'20px',width:'80px', backgroundColor:el.colorkey, border:'1px solid black'}}/>
@@ -80,11 +62,12 @@ export default class Keys extends Component{
                             
                             
                             )
-                        // }
+                    
                     })
                 }
             </div>
             </>
         )
     }
-}
+
+    export default Keys

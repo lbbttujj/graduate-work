@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import dataKey from '../../data/keys.json'
 import * as Tone from 'tone'
 import './style.css'
+import { debug } from "tone";
 export default class Timeline extends Component{
     constructor(props){
         super()
@@ -10,7 +11,8 @@ export default class Timeline extends Component{
             stopPlay:true,
             stepMemory:0,
             alreadyStop: false,
-            synth:new Tone.PolySynth(Tone.Synth).toDestination()
+            synth:new Tone.PolySynth(Tone.Synth).toDestination(),
+            
         }
         this.playMusic=this.playMusic.bind(this)
     }
@@ -24,8 +26,16 @@ export default class Timeline extends Component{
     playMusic=()=>{ 
             var items = document.getElementsByClassName('Timelineblocks__items')
             const synth =this.state.synth
+            const recorder = new Tone.Recorder();
+            synth.connect(recorder)
+            const audioFile = document.getElementById('audioFile');
+            const audioFile1 = document.getElementById('audioFile1');
+
+
+            recorder.start();
+
             //тоже можно изменять
-            const release = '8t'
+            const release = '0.2s'
             if(this.state.stepMemory==0){
                 for(let i=0; i<36; i++){
                     if(items[i].childNodes[0].classList.contains('active')){
@@ -34,9 +44,13 @@ export default class Timeline extends Component{
                 }
             }
             let step = this.state.stepMemory
-            let stepInterval = setInterval(() => {
+            let stepInterval = setInterval( async () => {
+                
              step++
+          
                 for(let i=0; i<36; i++){
+                    
+
                     if(!this.props.play){
                         this.setState({
                             stepMemory:step,
@@ -49,15 +63,25 @@ export default class Timeline extends Component{
                         }
                         return
                     }
-                    
+                    if(step == this.props.countCells){
+                        clearInterval(stepInterval)
+                        const recording = await recorder.stop()
+                        const url = URL.createObjectURL(recording);
+                        this.props.getBlobRecordURL(url)
+                        audioFile.src = url
+                        audioFile1.src = url
+                        return
+                    }
                     if(items[i].childNodes[step].classList.contains('active')){
                        synth.triggerAttackRelease(items[i].dataset.note, release);
                     }
+                   
                 }
-                if(step==this.props.cellsCount){ 
-                    clearInterval(stepInterval)
-                }
+            
             }, 1/this.props.valueBpm*60000);
+
+
+         
               //500
     }
 
@@ -72,6 +96,7 @@ export default class Timeline extends Component{
     render(){
 
         let cellsCount = this.props.countCells
+        console.log('cellsCount ',cellsCount );
         if (this.props.stop && !this.state.alreadyStop) {
             this.setState({
                 stepMemory: 0,
@@ -93,7 +118,7 @@ export default class Timeline extends Component{
                <div 
                key={note} 
                //Не рабоатет но в целом к лучшему, пока не придумал как не пергружать память адекватно
-               onClick={(items)=>{this.playNote(items)}}
+            //    onClick={(items)=>{this.playNote(items)}}
                data-note = {note}
                className="Timelineblocks__items">
                    {createCells(cellsCount)}
@@ -124,7 +149,6 @@ export default class Timeline extends Component{
         return(
             <> 
             <div className="Timelineblocks"  style={{width: '92%'}}>
-
                 {createTimline(this.state.data)}
             </div>
             </>

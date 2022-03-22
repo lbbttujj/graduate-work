@@ -1,5 +1,6 @@
-import React,{Component} from "react"
+import React from "react"
 import {changeBpm} from '../../store/sequencerSlice'
+import { changePlay } from "../../store/sequencerSlice"
 import {useDispatch} from 'react-redux'
 import { useSelector } from "react-redux"
 import './style.css'
@@ -21,9 +22,7 @@ import './style.css'
 		//  changePlay()
 		 stopMusic()
 	}
-	const changeBpmFunc = ()=>{
-		 changeBpm()
-	}
+	
 
 	const clearTimeline = ()=>{
 		stopMusicFunc();
@@ -58,8 +57,8 @@ import './style.css'
 				<div className='playButton'>
 					<button onClick={playMusic}>play</button>
 					<button onClick={stopMusicFunc}>stop</button>
-					<input id='bpm' type="number" min="60" max='300' onChange={()=>dispatch(changeBpm())} value={bpm} /> 
-					<button onClick={clearTimeline}>clear timeline</button>
+					<span>slider длина ноты по звуку и внешне</span>
+ 					<button onClick={clearTimeline}>clear timeline</button>
 				</div>
 			</div>
 			</>
@@ -68,3 +67,7 @@ import './style.css'
 }
 
 export default ButtonTimeLine 
+
+
+
+

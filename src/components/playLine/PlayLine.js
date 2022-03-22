@@ -32,15 +32,45 @@ export default class PlayLine extends Component {
     }
 
     moveLine = () => {
+        let endScreenPX = this.props.cellsCount*this.state.cellsClientWidth
         this.setState({
             isPaused: false,
             alreadyStop: false
         })
 
+    
+
         let start = Date.now()
 
         let timer = setInterval(function () {
+            
+            // if(document.getElementsByClassName('line')[0].style.left >= 100+endScreenPX+'px'){
+            //     clearInterval(timer)
+            //     this.setState({
+            //         isPaused: true,
+            //          beforeStop:0,
+            //         timePassed: 0
+            //     })
+            // }
+
+                 if(document.getElementsByClassName('line')[0].style.left >= 100+endScreenPX+'px'){
+                 
+                clearInterval(timer)
+                
+                this.setState({
+                    isPaused: true,
+                    beforeStop: 0,
+                    timePassed: 0
+                })
+                this.props.stopMusic()
+
+                return
+            }
+
+
+
             if (!this.props.play) {
+
 
                 clearInterval(timer)
                 let beforeStop = Number(document.getElementsByClassName('line')[0].style.left.split('').slice(0, -2).join('')) - 100 

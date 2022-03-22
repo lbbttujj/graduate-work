@@ -2,35 +2,50 @@ import React, {Component} from "react";
 import './style.css'
 
 
-export default class Track extends Component{
-    constructor(props){
-        super()
-        
-    }
+ const Track = ({changeViewSeqencer,getCurrentSubTrack,nameTrack})=> {
+   
 
-    addSubTrack = (oEvent)=>{
-        let div = document.createElement('div');
-        div.className='subTrack'
-        div.addEventListener('contextmenu',(e)=>{
+    const addSubTrack = (oEvent)=>{
+        let subTrack = document.createElement('div');
+        subTrack.className='subTrack'
+        subTrack.addEventListener('contextmenu',(e)=>{
             e.preventDefault()
             alert('done')
             // выпадающее меню с возможностью удаления прогирывания
             
         })
-     
+        let audio = document.createElement('audio')
+        subTrack.appendChild(audio)
+        let subTrackNumber
+
         if(oEvent.target.className =='track'){
-            oEvent.target.append(div)
+            oEvent.target.append(subTrack)
+            subTrackNumber =  oEvent.target.childNodes.length-1
+        }else{
+            const arrr = []
+                for(let el of oEvent.target.parentElement.childNodes){
+                    arrr.push(el)
+                }
+         subTrackNumber= arrr.findIndex((el)=>el===oEvent.target)
         }
-        this.props.changeViewSeqencer()
+
+        let CurrentSubTrack = nameTrack + '/' + subTrackNumber
+
+        subTrack.setAttribute("data-name", CurrentSubTrack)  
+
+        
+        getCurrentSubTrack(CurrentSubTrack)
+        changeViewSeqencer()
     }
 
-    render(){
+    
         return(
             <>
-            <div onClick={this.addSubTrack} className="track">
+            <div onClick={addSubTrack} className="track">
 
             </div>
             </>
         )
     }
-}
+
+export default Track
