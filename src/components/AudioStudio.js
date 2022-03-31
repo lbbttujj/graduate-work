@@ -1,18 +1,14 @@
-import React, {Component, useState} from "react";
+import React, {useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeBpm } from "../../store/sequencerSlice";
-import Sequencer from "../Sequencer/Sequencer";
-import Track from "../track/Track";
-import ButtonTimeLine from "../buttonsTimeLine/ButtonTimeLine";
-import AlertDialogSlide from "../dialog/Dialog";
-import Fab from '@mui/material/Fab';
-import './style.css'
+import { changeBpm } from "../store/sequencerSlice";
+import Track from "./Track";
+import AlertDialogSlide from "./Dialog";
+import './AudioStudio.css'
 
 
- const AudioStudio = ()=>  {
+ const AudioStudio = ()=>{
     const [openDialog,SetOpenDialog ] = useState(false)
     const [currentSubTrack, setCurrentSubTrack] = useState(null)
-    
     const bpm = useSelector(state=>state.sequencer.bpm)
     const dispatch = useDispatch()
 
@@ -36,6 +32,7 @@ import './style.css'
         for(let el of document.getElementsByClassName('track')){
             el.childNodes[0].childNodes[0].play()
         }
+        // проигрыване без записей
     }
 
   
@@ -46,9 +43,8 @@ import './style.css'
                 <button onClick={playAllTracks}>play</button>    
                 <span>slider</span>
                 <input id='bpm' type="number" min="60" max='300' onChange={(value)=>dispatch(changeBpm(value))} value={bpm} /> 
-                <audio  id="audioFile"></audio>
-                <audio  id="audioFile1"></audio>
             </div>
+
             <Track
                 changeViewSeqencer={changeViewSeqencer}
                 getCurrentSubTrack = {getCurrentSubTrack}
@@ -59,9 +55,6 @@ import './style.css'
                 getCurrentSubTrack={getCurrentSubTrack}
                 nameTrack = {'Melody'}
             />
-            {/* <Fab className='addTrackButton' color="primary" aria-label="add">
-                + 
-            </Fab>  */}
             
             
 

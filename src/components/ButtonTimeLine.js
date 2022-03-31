@@ -1,19 +1,11 @@
 import React from "react"
-import {changeBpm} from '../../store/sequencerSlice'
-import { changePlay } from "../../store/sequencerSlice"
-import {useDispatch} from 'react-redux'
-import { useSelector } from "react-redux"
-import './style.css'
+import './ButtonTimeLine.css'
 
  const ButtonTimeLine = ({
 	 changePlay,
 	 stopMusic,
-	//  changeBpm,
 	 changeCountCells,
-	//  valueBpm
 	})=>{
-	const bpm = useSelector(state=>state.sequencer.bpm)
-	const dispatch = useDispatch()
 
 	const playMusic = ()=>{
 		 changePlay()

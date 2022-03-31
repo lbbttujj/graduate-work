@@ -1,17 +1,13 @@
 import React, {Component} from "react";
-import {Draw} from "tone";
-import {TickSignal} from "tone/build/esm/core/clock/TickSignal";
-// import { useSelector } from "react-redux"
 
-import './style.css'
+import './PlayLine.css'
 export default class PlayLine extends Component {
     constructor(props) {
         super()
         this.state = {
             timePassed: 0,
-            isPaused: true,
+            stateUpdate:true,
             beforeStop: 0,
-            alreadyStop: false,
             cellsClientWidth:0
         }
         this.moveLine = this.moveLine.bind(this)
@@ -25,64 +21,46 @@ export default class PlayLine extends Component {
         })
     }
 
+
     componentDidUpdate() {
-        if ((this.props.play && this.state.isPaused)) {
+        if ((this.props.play && this.state.stateUpdate)) {
             this.moveLine()
         }
     }
 
     moveLine = () => {
         let endScreenPX = this.props.cellsCount*this.state.cellsClientWidth
-        this.setState({
-            isPaused: false,
-            alreadyStop: false
-        })
-
-    
+        this.setState({stateUpdate:false})
 
         let start = Date.now()
-
         let timer = setInterval(function () {
-            
-            // if(document.getElementsByClassName('line')[0].style.left >= 100+endScreenPX+'px'){
-            //     clearInterval(timer)
-            //     this.setState({
-            //         isPaused: true,
-            //          beforeStop:0,
-            //         timePassed: 0
-            //     })
-            // }
-
-                 if(document.getElementsByClassName('line')[0].style.left >= 100+endScreenPX+'px'){
+        
+                 if(+document.getElementsByClassName('line')[0].style.left.split('').slice(0,7).join('') >= 100+endScreenPX){
                  
+                    debugger
                 clearInterval(timer)
                 
                 this.setState({
-                    isPaused: true,
                     beforeStop: 0,
-                    timePassed: 0
+                    timePassed: 0,
+                    stateUpdate:true
                 })
-                this.props.stopMusic()
-
                 return
             }
 
 
 
             if (!this.props.play) {
-
-
+                
                 clearInterval(timer)
                 let beforeStop = Number(document.getElementsByClassName('line')[0].style.left.split('').slice(0, -2).join('')) - 100 
                 beforeStop = Math.ceil(beforeStop / this.state.cellsClientWidth)*this.state.cellsClientWidth;
                 
                 this.setState({
-                    isPaused: true,
-                    //100 хардкод исправить 
                     beforeStop:beforeStop,
-                    timePassed: 0
+                    timePassed: 0,
+                    stateUpdate:true
                 })
-                
 
                 if (this.props.stop) {
                     this.setState({
@@ -93,20 +71,12 @@ export default class PlayLine extends Component {
                 this.setState({
                     timePassed: Date.now() - start
                 })
-
             }
 
         }.bind(this), 20)
     }
 
     render() {
-        
-        if (this.props.stop && !this.state.alreadyStop) {
-            this.setState({
-                beforeStop: 0,
-                alreadyStop: true
-            })
-        }
 
         return (
             <>

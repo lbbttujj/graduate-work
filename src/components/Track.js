@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import './style.css'
+import './Track.css'
 
 
  const Track = ({changeViewSeqencer,getCurrentSubTrack,nameTrack})=> {

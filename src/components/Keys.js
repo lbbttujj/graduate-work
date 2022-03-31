@@ -1,8 +1,8 @@
 import React,{Component} from "react";
-import dataKey from '../../data/keys.json'
+import dataKey from '../data/keys.json'
 import * as Tone from 'tone'
 import { useState } from "react";
-import './style.css'
+import './Keys.css'
 const Keys = ({changeNote})=>{
 
 
