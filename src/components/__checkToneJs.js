@@ -1,34 +1,51 @@
-import * as Tone from "tone";
-import React from 'react'
+// import * as Tone from "tone";
+// import React from 'react'
+// import { ToneWithContext } from "tone/build/esm/core/context/ToneWithContext";
 
-export default  function Cheeeck() {
-    const play = async () => {
-        await Tone.start()
-        const synth = new Tone.Synth().toDestination();
-        const synth2 = new Tone.Synth().toDestination();
-        // repeated event every 8th note
-        let count = 0
-        const notes = ['C','G','F','A','F','C']
-        Tone.Transport.scheduleRepeat((time) => {
-            if(count==2){
-                Tone.Transport.stop()
-            }
-            
-            // use the callback time to schedule events
-            let currentNote = notes[count]+'4'
-            synth.triggerAttackRelease(currentNote,'8n')
-            synth2.triggerAttackRelease(currentNote+3,'8n')
-            count++
-        }, 0.5);
+
+// const audioExample = require("./A2.mp3");
+
+
+// export default  function Cheeeck() {
+//     const synth = new Tone.PolySynth().toDestination();
+//     const play = async () => {
+
+//         await Tone.start()
+       
+//         // const synth2 = new Tone.Synth().toDestination();
+//         // repeated event every 8th note
+//         let count = 0
+//         const notes = ['C','G','F','A','F','C']
+
+//         const noteExample = 
+//         [
+//             ['G4', 'E4'],
+//             ['E4'],
+//             ['G#4', 'E4'],
+//             ['A#2', 'E3']
+//         ]
+       
+//         let i=0
+//         const timer = setInterval(() => {      
+//                     synth.triggerAttackRelease(noteExample[i],'8n')
+//                 i++
+//                 if(i>=noteExample.length){
+//                     clearInterval(timer)
+//                 }
+//         }, 500);
         
-        // transport must be started before it starts invoking events
-    }
-    Tone.Transport.start();
-    return(
-        <>
-        <h2>chheeeeck</h2>
-        <button onClick={play}>press me</button>
-        </>
-    )
+
+        
+        
+//         // transport must be started before it starts invoking events
+//     }
+    
+//     return(
+//         <>
+//         <h2>chheeeeck</h2>
+//         <audio src={audioExample} controls />;
+//         <button onClick={play}>press me</button>
+//         </>
+//     )
   
-  };
+//   };

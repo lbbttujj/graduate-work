@@ -6,7 +6,7 @@ import PlayLine from "./PlayLine";
 import ButtonTimeLine from "./ButtonTimeLine";
 import './Sequencer.css'
 
- const Sequencer = ({setBlobRecordURL})=>{
+ const Sequencer = ({setBlobRecordURL,synth})=>{
     const [currentNote,setCurrentNote] = useState('')
     const [play,setPlay] = useState(false)
     const [stop,setStop] = useState(false)
@@ -79,6 +79,7 @@ import './Sequencer.css'
                      cellsCount ={cellsCount}
                      getBlobRecordURL={getBlobRecordURL}
                      forcedStop = {stopMusic}
+                     synth = {synth}
                      />
                 <PlayLine
                     play = {play}

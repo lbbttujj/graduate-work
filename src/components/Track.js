@@ -1,9 +1,31 @@
-import React, {Component} from "react";
+import React from "react";
+import { useDispatch } from 'react-redux';
+import { setInstrument } from '../store/sequencerSlice';
+import {Bass, Guitar,Piano} from './Instruments';
+
 import './Track.css'
 
 
  const Track = ({changeViewSeqencer,getCurrentSubTrack,nameTrack})=> {
-   
+
+    const dispatch = useDispatch()
+    
+
+    const selectInstrument = (oEvent)=>{
+        console.log(nameTrack)
+        oEvent.stopPropagation()
+        switch (oEvent.target.textContent) {
+            case 'guitar':
+            dispatch(setInstrument({track:nameTrack,instrument:Guitar})) 
+                break;
+            case 'bass':
+            dispatch(setInstrument({track:nameTrack,instrument:Bass})) 
+            case 'piano':
+            dispatch(setInstrument({track:nameTrack,instrument:Piano})) 
+            default:
+                break;
+        }
+    }
 
     const addSubTrack = (oEvent)=>{
         let subTrack = document.createElement('div');
@@ -41,9 +63,13 @@ import './Track.css'
     
         return(
             <>
+            
             <div onClick={addSubTrack} className="track">
-
+                <button  className="select_instrument_Btn"  style={{left:'300px'}} onClick={selectInstrument}>guitar</button>
+                {/* <button className="select_instrument_Btn" style={{left:'250px'}} onClick={selectInstrument}>bass</button> */}
+                <button className="select_instrument_Btn" style={{left:'200px'}} onClick={selectInstrument}>piano</button>
             </div>
+           
             </>
         )
     }

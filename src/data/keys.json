@@ -148,5 +148,55 @@
         "note":"C2",
         "colorkey":"white",
         "visible":"block"
+    },
+    {
+        "note":"B1",
+        "colorkey":"white"
+    },
+    {
+        "note":"A#1",
+        "colorkey":"black"
+    },
+    {
+        "note":"A1",
+        "colorkey":"white"
+    },
+    {
+        "note":"G#1",
+        "colorkey":"black"
+    },
+    {
+        "note":"G1",
+        "colorkey":"white"
+    },
+    {
+        "note":"F#1",
+        "colorkey":"black"
+    },
+    {
+        "note":"F1",
+        "colorkey":"white"
+    },
+    {
+        "note":"E1",
+        "colorkey":"white"
+    },
+    {
+        "note":"D#1",
+        "colorkey":"black"
+    },
+    {
+        "note":"D1",
+        "colorkey":"white"
+
+    },
+    {
+        "note":"C#1",
+        "colorkey":"black"
+    },
+    {
+        "note":"C1",
+        "colorkey":"white",
+        "visible":"block"
     }
 ]

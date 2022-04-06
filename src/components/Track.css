@@ -15,3 +15,10 @@
     height: 70%;
     background-color:purple
 }
+.select_instrument_Btn{
+    width: 50px;
+    padding: 10px;
+    position: absolute;
+    left: 300px;
+}
+

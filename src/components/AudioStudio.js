@@ -1,15 +1,19 @@
 import React, {useState} from "react";
+import * as Tone from "tone";
 import { useSelector, useDispatch } from "react-redux";
 import { changeBpm } from "../store/sequencerSlice";
 import Track from "./Track";
 import AlertDialogSlide from "./Dialog";
+import { Piano } from "./Instruments";
 import './AudioStudio.css'
-
+import { playAllTracks } from "./utils/playAllTracks";
 
  const AudioStudio = ()=>{
     const [openDialog,SetOpenDialog ] = useState(false)
     const [currentSubTrack, setCurrentSubTrack] = useState(null)
     const bpm = useSelector(state=>state.sequencer.bpm)
+    const trackMemory = useSelector(state=>state.sequencer.trackMemory)
+    const instruments = useSelector(state=>state.sequencer.currentInstrument)
     const dispatch = useDispatch()
 
     const handleClickOpen = ()=>{
@@ -28,19 +32,17 @@ import './AudioStudio.css'
         setCurrentSubTrack(oValue)
     }
 
-    const playAllTracks = ()=>{
-        for(let el of document.getElementsByClassName('track')){
-            el.childNodes[0].childNodes[0].play()
-        }
-        // проигрыване без записей
+    
+    const playAllTracksOffline = ()=>{
+        playAllTracks(Tone,trackMemory,instruments,Piano)
     }
-
   
     
         return(
             <>
             <div style={{height:'100px'}} className="HeadButtons">
-                <button onClick={playAllTracks}>play</button>    
+                {/* <button onClick={playAllTracks}>play</button>     */}
+                <button onClick={playAllTracksOffline}>play2</button>    
                 <span>slider</span>
                 <input id='bpm' type="number" min="60" max='300' onChange={(value)=>dispatch(changeBpm(value))} value={bpm} /> 
             </div>
@@ -55,8 +57,6 @@ import './AudioStudio.css'
                 getCurrentSubTrack={getCurrentSubTrack}
                 nameTrack = {'Melody'}
             />
-            
-            
 
             <AlertDialogSlide
                 openDialog = {openDialog}

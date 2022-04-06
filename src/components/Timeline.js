@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import dataKey from '../data/keys.json'
 import * as Tone from 'tone'
 import './Timeline.css'
-import { debug } from "tone";
+
 export default class Timeline extends Component{
     constructor(props){
         super()
@@ -10,7 +10,6 @@ export default class Timeline extends Component{
             data:dataKey,
             stepMemory:0,
             forsedStop:false,
-            synth:new Tone.PolySynth(Tone.AMSynth).toDestination()
         }
         this.playMusic=this.playMusic.bind(this)
     }
@@ -20,21 +19,28 @@ export default class Timeline extends Component{
         if((this.props.play)){
             this.playMusic()
         }
+
+    }
+
+    componentDidMount(){
+     
     }
 
 
     playMusic=()=>{ 
         
         var dTimelineItems = document.getElementsByClassName('Timelineblocks__items')
-        const release = '0.2s' //тоже можно изменять
-        const synth =this.state.synth
+        const release = '8n' //тоже можно изменять
+        
+     
+        const synth = this.props.synth
         const recorder = new Tone.Recorder();
         synth.connect(recorder)
         recorder.start()
 
         if(this.state.stepMemory==0){
             
-            for(let i=0; i<36; i++){
+            for(let i=0; i<48; i++){
                 if(dTimelineItems[i].childNodes[0].classList.contains('active')){
                     synth.triggerAttackRelease(dTimelineItems[i].dataset.note, release);
                 }
@@ -44,7 +50,7 @@ export default class Timeline extends Component{
         let step = this.state.stepMemory
         let stepInterval = setInterval( async () => {
          step++
-            for(let i=0; i<36; i++){
+            for(let i=0; i<48; i++){
 
                 if(!this.props.play){
                     this.setState({
@@ -61,7 +67,6 @@ export default class Timeline extends Component{
                     this.props.forcedStop()
                     this.setState({
                         stepMemory:0,
-                        // forsedStop: true,
                     })
                     
                     clearInterval(stepInterval)
@@ -86,7 +91,7 @@ export default class Timeline extends Component{
 
         function createTimline(data){
             const items =[]
-            for(let i=0; i<36; i++){
+            for(let i=0; i<48; i++){
                 items.push(createItems(data[i].note))
             }
             return items

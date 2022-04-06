@@ -1,4 +1,10 @@
 import React from "react"
+import { useSelector} from "react-redux";
+import * as Tone from "tone";
+import { Piano } from "./Instruments";
+import { playAllTracks } from "./utils/playAllTracks";
+
+
 import './ButtonTimeLine.css'
 
  const ButtonTimeLine = ({
@@ -7,12 +13,21 @@ import './ButtonTimeLine.css'
 	 changeCountCells,
 	})=>{
 
+	const trackMemory = useSelector(state=>state.sequencer.trackMemory)
+	const instruments = useSelector(state=>state.sequencer.currentInstrument)
+
 	const playMusic = ()=>{
 		 changePlay()
 	}
 	const stopMusicFunc = ()=>{
 		//  changePlay()
 		 stopMusic()
+	}
+	const playAllMusic = ()=>{
+		playAllTracks(Tone,trackMemory,instruments,Piano)
+		setTimeout(() => {
+			playMusic()
+		}, 500);
 	}
 	
 
@@ -48,6 +63,7 @@ import './ButtonTimeLine.css'
 			<div className='TopButtons'>
 				<div className='playButton'>
 					<button onClick={playMusic}>play</button>
+					<button onClick={playAllMusic}>playAll</button>
 					<button onClick={stopMusicFunc}>stop</button>
 					<span>slider длина ноты по звуку и внешне</span>
  					<button onClick={clearTimeline}>clear timeline</button>

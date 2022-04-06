@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from 'react';
+import * as Tone from "tone";
 import { useSelector, useDispatch } from 'react-redux';
-import { changeTrackMemory } from '../store/sequencerSlice';
+import { changeTrackMemory,setInstrument } from '../store/sequencerSlice';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -8,6 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Sequencer from './Sequencer';
+import { Piano } from './Instruments';
 import './Dialog.css'
 
 
@@ -17,22 +19,39 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
  const AlertDialogSlide =({openDialog,handleClose,currentSubTrack})=> {
-
   const [blobRecordURL, setBlobRecordURL] = useState(null)
   const trackMemory = useSelector(state=>state.sequencer.trackMemory)
+  const instruments = useSelector(state=>state.sequencer.currentInstrument)
+  let currentInstrument 
+  
+  if(currentSubTrack){
+    currentInstrument = instruments[currentSubTrack.split('/')[0]]
+    if(!currentInstrument){
+      currentInstrument = Piano
+    }
+  }else{
+    currentInstrument = Piano
+  }
+  const synth = new Tone.Sampler({
+    urls: currentInstrument
+  }).toDestination()
 	const dispatch = useDispatch()
+
+
+
 
 
   useEffect(()=>{
     if(openDialog){
-      let trackFromMemory = trackMemory.find(el=>el.information===currentSubTrack)
+      let trackFromMemory = trackMemory[currentSubTrack]
+      
       if(trackFromMemory){
        let timeLineItems = document.getElementsByClassName('Timelineblocks__items')
        let trackMask = trackFromMemory.mask
 
        for(let i=0; i<trackMask.length; i++){
             for( let j=0; j<trackMask[0].length; j++){
-              if(trackMask[i][j]==1){
+              if(trackMask[i][j]!=0){
                   timeLineItems[i].childNodes[j].classList.add('active')
                 }
             }
@@ -44,10 +63,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
     const getBlobURLFromSeq = (blob)=>{
       setBlobRecordURL(blob)
-    }
-
-    const getBlobURLFromState =()=>{
-      return blobRecordURL
     }
 
 
@@ -62,31 +77,53 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   }
 
 
+
+
   const saveSubTrack = ()=>{
-    let smth = getBlobURLFromState()
     handleClose()
     const maskMassive = []
+    const aNotesInTrack = []
+
     let Items = document.getElementsByClassName('Timelineblocks')[0].childNodes
 
+    /* Матрица всех нот. Похоже на матрицу смежности*/
     for(let i=0; i<Items.length; i++){
         maskMassive.push([])
         for(let j=0; j<Items[i].childNodes.length; j++){
             if(Items[i].childNodes[j].classList.contains('active')){
-         //заполнить матрицу по нотам
-              maskMassive[i].push(1)
-           }else{
-              maskMassive[i].push(0)
-           }
+                 maskMassive[i].push(Items[i].dataset.note)
+              }else{
+                 maskMassive[i].push(0)
+              }
+          }
         }
-      }
+    
+    /* Заполняется массив массивов нот в столбце */
+        for(let i=0; i<maskMassive[0].length; i++){
+          let aNotesInOneBeat =[]
+          for(let j=0; j<maskMassive.length;j++){
+            if(maskMassive[j][i]!=0){
+              aNotesInOneBeat.push(maskMassive[j][i])
+            }
+          }
+          aNotesInTrack.push(aNotesInOneBeat)
+        }
+      
 
+    /* Создание объекта который отправляется в редакс слой секвеносора */
+    
     if(currentSubTrack){
         const objectMemorise = {
           information:currentSubTrack,
-          mask:maskMassive
+          mask:maskMassive,
+          notes:aNotesInTrack,
+          // synth:synth
           }
+
         dispatch(changeTrackMemory({add:true,data:objectMemorise})) 
 
+
+    /* Заполненине аудио в каждом субтреке работает если было проиграна запись */
         let dAllSubtracks = document.getElementsByClassName('subTrack')
         let aAllSubtracks = []
         for(let el of dAllSubtracks){
@@ -95,12 +132,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
          let subtrackToAddAudio = aAllSubtracks.find(el=>el.dataset.name == currentSubTrack)
          subtrackToAddAudio.childNodes[0].src=blobRecordURL 
     }
-      clearTimeline()
-      // добавить функции возвращающие диалог к дефолтному виду
+    
+    /* функции возвращающие диалог к дефолтному виду */
+    clearTimeline()
   }
-
-  
-
 
     return (
     <Dialog
@@ -116,7 +151,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
       <DialogContent dividers={false}>
         <Sequencer
           setBlobRecordURL={getBlobURLFromSeq} 
+          synth = {synth}
         />
+        {/* <div id='timeUderTimeLine'>
+
+        </div> */}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Закрыть</Button>

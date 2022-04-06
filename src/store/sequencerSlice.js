@@ -4,28 +4,34 @@ const sequencerSlice = createSlice({
     name: 'sequencer',
     initialState:{
         bpm:120,
-        trackMemory:[]
+        trackMemory:{},
+        currentInstrument:{},
     },
     reducers:{
         changeBpm(state,action){
             state.bpm = action.payload.target.value
         },
         changeTrackMemory(state,action){
+            
             if(action.payload.add){
-                let index = state.trackMemory.findIndex((el)=>el.information===action.payload.data.information)
-                if(index>-1){
-                    state.trackMemory[index]=action.payload.data
-
-                }else{
-                    state.trackMemory.push(action.payload.data)
-                }
+               let nameSubtrack = action.payload.data.information
+        
+                 if(state.trackMemory[nameSubtrack]){
+                    state.trackMemory[nameSubtrack] = action.payload.data
+                 }else{
+                    state.trackMemory[nameSubtrack] = action.payload.data
+                 }
+            
             }else{
                 /// удалить 
             }
+        },
+        setInstrument(state,action){
+            state.currentInstrument[action.payload.track] = action.payload.instrument
         }
 
     }
 })
 
-export const {changeBpm,changeTrackMemory} = sequencerSlice.actions
+export const {changeBpm,changeTrackMemory,setInstrument} = sequencerSlice.actions
 export default sequencerSlice.reducer
