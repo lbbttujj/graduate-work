@@ -17,9 +17,10 @@ import './Track.css'
         switch (oEvent.target.textContent) {
             case 'guitar':
             dispatch(setInstrument({track:nameTrack,instrument:Guitar})) 
-                break;
+            break
             case 'bass':
             dispatch(setInstrument({track:nameTrack,instrument:Bass})) 
+            break
             case 'piano':
             dispatch(setInstrument({track:nameTrack,instrument:Piano})) 
             default:
@@ -68,7 +69,7 @@ import './Track.css'
             
             <div onClick={selectSubTrack} className="track">
                 <button  className="select_instrument_Btn"  style={{left:'300px'}} onClick={selectInstrument}>guitar</button>
-                {/* <button className="select_instrument_Btn" style={{left:'250px'}} onClick={selectInstrument}>bass</button> */}
+                <button className="select_instrument_Btn" style={{left:'250px'}} onClick={selectInstrument}>bass</button>
                 <button className="select_instrument_Btn" style={{left:'200px'}} onClick={selectInstrument}>piano</button>
             </div>
            

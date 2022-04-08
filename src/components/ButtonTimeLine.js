@@ -30,8 +30,45 @@ import './ButtonTimeLine.css'
 	useEffect(()=>{
 		let oldSlideValue
 		if(trackMemory[currentNameSubTrack]){
-			 oldSlideValue = trackMemory[currentNameSubTrack].release
-			debugger
+			 switch (trackMemory[currentNameSubTrack].release) {
+				case 0.062:{
+					oldSlideValue = 2
+					break
+				}
+				case 0.125:{
+					oldSlideValue = 3
+					break
+				}
+				case 0.250:{
+					oldSlideValue = 4
+					break
+				}
+				case 0.500:{
+					oldSlideValue = 5
+					break
+				}
+				case 1:{
+					oldSlideValue = 6
+					break
+				}			
+				case 2:{
+					oldSlideValue = 7
+					break
+				}			
+				case 9:{
+					oldSlideValue = 8
+					break
+				}			
+				default:
+					break;
+				}
+				let newCellsWidth = 92*trackMemory[currentNameSubTrack].release*2+'%'
+				document.getElementsByClassName('Timelineblocks')[0].style.width = newCellsWidth
+				let elements = document.getElementsByClassName('Timelineblocks__cells')
+				for(let i =0; i<elements.length; i++){
+					elements[i].style.width=72*trackMemory[currentNameSubTrack].release*2+'%'
+				}
+			
 		}else{
 			switch (currentNoteSize) {
 				case 0.062:{
@@ -65,14 +102,17 @@ import './ButtonTimeLine.css'
 				default:
 					break;
 				}
-			}
-				setTargetValue(oldSlideValue)
 				let newCellsWidth = 92*currentNoteSize*2+'%'
 				document.getElementsByClassName('Timelineblocks')[0].style.width = newCellsWidth
 				let elements = document.getElementsByClassName('Timelineblocks__cells')
 				for(let i =0; i<elements.length; i++){
 					elements[i].style.width=72*currentNoteSize*2+'%'
 				}
+			}
+				setTargetValue(oldSlideValue)
+				dispatch(setNotesSize({value:oldSlideValue}))
+
+		
 			
 			},[currentNameSubTrack])
 			
