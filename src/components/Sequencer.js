@@ -14,7 +14,7 @@ import './Sequencer.css'
     const [stop,setStop] = useState(false)
     const [cellsCount,setCellsCount  ] = useState(16)
     const bpm = useSelector(state=>state.sequencer.bpm)   
-    const release = useSelector(state=>state.sequencer.currentNoteSize) 
+    const release = useSelector(state=>state.sequencer.currentSubTrack.currentNoteSize)
     const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack) 
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import * as Tone from "tone";
 import { useSelector, useDispatch } from 'react-redux';
-import { changeTrackMemory,setInstrument } from '../store/sequencerSlice';
+import { changeTrackMemory,setNotesSize } from '../store/sequencerSlice';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -25,6 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   const trackMemory = useSelector(state=>state.sequencer.trackMemory)
   const instruments = useSelector(state=>state.sequencer.currentInstrument)
   const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack.nameSubTrack)
+  let trackFromMemory = trackMemory[currentSubTrack]
   let currentInstrument 
   
   if(currentSubTrack){
@@ -40,13 +41,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   }).toDestination()
 	const dispatch = useDispatch()
 
+  if(trackFromMemory){
+    debugger
+  // dispatch(setNotesSize(trackFromMemory.release))
+  }
 
 
 
 
   useEffect(()=>{
     if(openDialog){
-      let trackFromMemory = trackMemory[currentSubTrack]
+      
       
       if(trackFromMemory){
        let timeLineItems = document.getElementsByClassName('Timelineblocks__items')

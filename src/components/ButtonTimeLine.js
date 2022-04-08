@@ -1,4 +1,4 @@
-import React ,{useState}from "react"
+import React ,{useEffect,useState,useRef}from "react"
 import { useSelector,useDispatch} from "react-redux";
 import { setNotesSize } from "../store/sequencerSlice";
 import * as Tone from "tone";
@@ -18,12 +18,64 @@ import './ButtonTimeLine.css'
 
 	const trackMemory = useSelector(state=>state.sequencer.trackMemory)
 	const instruments = useSelector(state=>state.sequencer.currentInstrument)
-	const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack) 
+	const currentNameSubTrack = useSelector(state=>state.sequencer.currentSubTrack.nameSubTrack) 
+	const currentNoteSize = useSelector(state=>state.sequencer.currentSubTrack.currentNoteSize) 
+	const sliderIntupt = useRef(null);
+	const [targerValue, setTargetValue] = useState(5)
 
 	let valueNotesSize  
-	const [noteDuration,setNoteDuration] = useState(500)
+	const [noteDuration,setNoteDuration] = useState(0.500)
 	const dispatch = useDispatch()
 
+	useEffect(()=>{
+		let oldSlideValue
+		if(trackMemory[currentNameSubTrack]){
+			 oldSlideValue = trackMemory[currentNameSubTrack].release
+			debugger
+		}else{
+			switch (currentNoteSize) {
+				case 0.062:{
+					oldSlideValue = 2
+					break
+				}
+				case 0.125:{
+					oldSlideValue = 3
+					break
+				}
+				case 0.250:{
+					oldSlideValue = 4
+					break
+				}
+				case 0.500:{
+					oldSlideValue = 5
+					break
+				}
+				case 1:{
+					oldSlideValue = 6
+					break
+				}			
+				case 2:{
+					oldSlideValue = 7
+					break
+				}			
+				case 9:{
+					oldSlideValue = 8
+					break
+				}			
+				default:
+					break;
+				}
+			}
+				setTargetValue(oldSlideValue)
+				let newCellsWidth = 92*currentNoteSize*2+'%'
+				document.getElementsByClassName('Timelineblocks')[0].style.width = newCellsWidth
+				let elements = document.getElementsByClassName('Timelineblocks__cells')
+				for(let i =0; i<elements.length; i++){
+					elements[i].style.width=72*currentNoteSize*2+'%'
+				}
+			
+			},[currentNameSubTrack])
+			
 	const playMusic = ()=>{
 		 changePlay()
 	}
@@ -61,6 +113,7 @@ import './ButtonTimeLine.css'
 	}
 
 	const changeDurationNotes = (oEvent)=>{
+		setTargetValue(oEvent.target.value)
 		let currentNoteDuration
 		switch (oEvent.target.value) {
 			case 2:{
@@ -157,7 +210,7 @@ import './ButtonTimeLine.css'
 
 			
 	}
-
+	
 
 	
 		return(
@@ -171,7 +224,7 @@ import './ButtonTimeLine.css'
 					<button onClick={playMusic}>play</button>
 					<button onClick={playAllMusic}>playAll</button>
 					<button onClick={stopMusicFunc}>stop</button>
-					<Slider defaultValue={5} max={8} min={2} scale={sliderScale} onChange={changeDurationNotes} aria-label="Default" valueLabelDisplay="auto" />
+					<Slider   max={8} value={targerValue} min={2} scale={sliderScale} id='SliderRealease' onChange={changeDurationNotes} aria-label="Default" valueLabelDisplay="auto" />
  					<button onClick={clearTimeline}>clear timeline</button>
 				</div>
 			</div>
