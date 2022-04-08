@@ -29,10 +29,7 @@ export default class Timeline extends Component{
 
     playMusic=()=>{ 
         
-        var dTimelineItems = document.getElementsByClassName('Timelineblocks__items')
-        const release = '8n' //тоже можно изменять
-        
-     
+        var dTimelineItems = document.getElementsByClassName('Timelineblocks__items')        
         const synth = this.props.synth
         const recorder = new Tone.Recorder();
         synth.connect(recorder)
@@ -42,7 +39,7 @@ export default class Timeline extends Component{
             
             for(let i=0; i<48; i++){
                 if(dTimelineItems[i].childNodes[0].classList.contains('active')){
-                    synth.triggerAttackRelease(dTimelineItems[i].dataset.note, release);
+                    synth.triggerAttackRelease(dTimelineItems[i].dataset.note, this.props.release);
                 }
             }
         }
@@ -76,12 +73,12 @@ export default class Timeline extends Component{
                     return
                 }
                 if(dTimelineItems[i].childNodes[step].classList.contains('active')){
-                   synth.triggerAttackRelease(dTimelineItems[i].dataset.note, release);
+                   synth.triggerAttackRelease(dTimelineItems[i].dataset.note, this.props.release);
                 }
              
             }
          
-        }, 1/this.props.valueBpm*60000);
+        }, 1/this.props.valueBpm*60000*this.props.release*2);
               //500
     }
 

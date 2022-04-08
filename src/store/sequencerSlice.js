@@ -6,6 +6,8 @@ const sequencerSlice = createSlice({
         bpm:120,
         trackMemory:{},
         currentInstrument:{},
+        currentSubTrack:{nameSubTrack:null},
+        currentNoteSize:0.5
     },
     reducers:{
         changeBpm(state,action){
@@ -14,13 +16,11 @@ const sequencerSlice = createSlice({
         changeTrackMemory(state,action){
             
             if(action.payload.add){
-               let nameSubtrack = action.payload.data.information
-        
-                 if(state.trackMemory[nameSubtrack]){
-                    state.trackMemory[nameSubtrack] = action.payload.data
-                 }else{
-                    state.trackMemory[nameSubtrack] = action.payload.data
-                 }
+                let nameSubtrack =  state.currentSubTrack.nameSubTrack
+                let objectToMemory = action.payload.data
+                    objectToMemory.release = state.currentNoteSize
+
+                   state.trackMemory[nameSubtrack] = objectToMemory
             
             }else{
                 /// удалить 
@@ -28,10 +28,16 @@ const sequencerSlice = createSlice({
         },
         setInstrument(state,action){
             state.currentInstrument[action.payload.track] = action.payload.instrument
+        },
+        setNotesSize(state,action){
+            state.currentNoteSize = action.payload.value
+        },
+        setCurrentSubTrack(state,action){
+            state.currentSubTrack.nameSubTrack = action.payload
         }
 
     }
 })
 
-export const {changeBpm,changeTrackMemory,setInstrument} = sequencerSlice.actions
+export const {changeBpm,changeTrackMemory,setInstrument,setNotesSize,setCurrentSubTrack} = sequencerSlice.actions
 export default sequencerSlice.reducer

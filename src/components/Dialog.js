@@ -18,10 +18,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
- const AlertDialogSlide =({openDialog,handleClose,currentSubTrack})=> {
+ const AlertDialogSlide =({openDialog,handleClose,
+  // currentSubTrack
+})=> {
   const [blobRecordURL, setBlobRecordURL] = useState(null)
   const trackMemory = useSelector(state=>state.sequencer.trackMemory)
   const instruments = useSelector(state=>state.sequencer.currentInstrument)
+  const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack.nameSubTrack)
   let currentInstrument 
   
   if(currentSubTrack){
@@ -152,6 +155,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
         <Sequencer
           setBlobRecordURL={getBlobURLFromSeq} 
           synth = {synth}
+          // release = {trackMemory[currentSubTrack].release ?? 0.5 }
+          // release = { 0.25 }
         />
         {/* <div id='timeUderTimeLine'>
 

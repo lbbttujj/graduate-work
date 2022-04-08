@@ -6,12 +6,16 @@ import PlayLine from "./PlayLine";
 import ButtonTimeLine from "./ButtonTimeLine";
 import './Sequencer.css'
 
- const Sequencer = ({setBlobRecordURL,synth})=>{
+ const Sequencer = ({setBlobRecordURL,synth,
+    // release
+})=>{
     const [currentNote,setCurrentNote] = useState('')
     const [play,setPlay] = useState(false)
     const [stop,setStop] = useState(false)
-    const [cellsCount,setCellsCount  ] = useState(4)
-    const bpm = useSelector(state=>state.sequencer.bpm)    
+    const [cellsCount,setCellsCount  ] = useState(16)
+    const bpm = useSelector(state=>state.sequencer.bpm)   
+    const release = useSelector(state=>state.sequencer.currentNoteSize) 
+    const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack) 
 
 
     const changeCountCells=(bMoreCells)=>{
@@ -21,7 +25,7 @@ import './Sequencer.css'
             if(cellsCount<40){
                 setCellsCount(cellsCount+4)
                 
-                if(cellsCount>=24){
+                if(cellsCount>=16){
                     //надо сделать точнее в относительных единицах
                 widthTimeLine.style.width=currentPercent+17+'%'
                 }
@@ -29,7 +33,7 @@ import './Sequencer.css'
         }else{
             if(cellsCount>4){
                 setCellsCount (cellsCount-4)
-                if(cellsCount>24){
+                if(cellsCount>16){
                     widthTimeLine.style.width=currentPercent-17+'%'
                 }
             }
@@ -80,6 +84,7 @@ import './Sequencer.css'
                      getBlobRecordURL={getBlobRecordURL}
                      forcedStop = {stopMusic}
                      synth = {synth}
+                     release= {release}
                      />
                 <PlayLine
                     play = {play}

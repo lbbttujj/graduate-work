@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from 'react-redux';
+import { setCurrentSubTrack } from "../store/sequencerSlice";
 import { setInstrument } from '../store/sequencerSlice';
 import {Bass, Guitar,Piano} from './Instruments';
-
 import './Track.css'
 
 
@@ -27,15 +27,16 @@ import './Track.css'
         }
     }
 
-    const addSubTrack = (oEvent)=>{
+    const selectSubTrack = (oEvent)=>{
+
         let subTrack = document.createElement('div');
         subTrack.className='subTrack'
         subTrack.addEventListener('contextmenu',(e)=>{
             e.preventDefault()
             alert('done')
             // выпадающее меню с возможностью удаления прогирывания
-            
         })
+
         let audio = document.createElement('audio')
         subTrack.appendChild(audio)
         let subTrackNumber
@@ -55,8 +56,9 @@ import './Track.css'
 
         subTrack.setAttribute("data-name", CurrentSubTrack)  
 
+        dispatch(setCurrentSubTrack(CurrentSubTrack))
         
-        getCurrentSubTrack(CurrentSubTrack)
+        // getCurrentSubTrack(CurrentSubTrack)
         changeViewSeqencer()
     }
 
@@ -64,7 +66,7 @@ import './Track.css'
         return(
             <>
             
-            <div onClick={addSubTrack} className="track">
+            <div onClick={selectSubTrack} className="track">
                 <button  className="select_instrument_Btn"  style={{left:'300px'}} onClick={selectInstrument}>guitar</button>
                 {/* <button className="select_instrument_Btn" style={{left:'250px'}} onClick={selectInstrument}>bass</button> */}
                 <button className="select_instrument_Btn" style={{left:'200px'}} onClick={selectInstrument}>piano</button>
