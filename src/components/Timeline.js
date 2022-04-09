@@ -15,15 +15,9 @@ export default class Timeline extends Component{
     }
 
     componentDidUpdate(){
-        
         if((this.props.play)){
             this.playMusic()
         }
-
-    }
-
-    componentDidMount(){
-     
     }
 
 

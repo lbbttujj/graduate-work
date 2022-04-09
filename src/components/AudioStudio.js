@@ -10,7 +10,6 @@ import { playAllTracks } from "./utils/playAllTracks";
 
  const AudioStudio = ()=>{
     const [openDialog,SetOpenDialog ] = useState(false)
-    // const [currentSubTrack, setCurrentSubTrack] = useState(null)
     const bpm = useSelector(state=>state.sequencer.bpm)
     const trackMemory = useSelector(state=>state.sequencer.trackMemory)
     const instruments = useSelector(state=>state.sequencer.currentInstrument)
@@ -28,13 +27,10 @@ import { playAllTracks } from "./utils/playAllTracks";
         handleClickOpen()
     }
 
-    // const getCurrentSubTrack = (oValue)=>{
-    //     setCurrentSubTrack(oValue)
-    // }
-
     
     const playAllTracksOffline = ()=>{
-        playAllTracks(Tone,trackMemory,instruments,Piano)
+        debugger
+        playAllTracks(Tone,trackMemory,instruments,Piano,bpm)
     }
   
     
@@ -49,12 +45,10 @@ import { playAllTracks } from "./utils/playAllTracks";
 
             <Track
                 changeViewSeqencer={changeViewSeqencer}
-                // getCurrentSubTrack = {getCurrentSubTrack}
                 nameTrack = {'Harmony'}
             />
             <Track
                 changeViewSeqencer={changeViewSeqencer}
-                // getCurrentSubTrack={getCurrentSubTrack}
                 nameTrack = {'Melody'}
             />
 
@@ -62,7 +56,6 @@ import { playAllTracks } from "./utils/playAllTracks";
                 openDialog = {openDialog}
                 handleClickOpen = {handleClickOpen}
                 handleClose = {handleClose}
-                // currentSubTrack = {currentSubTrack}
                 />
             </>
 

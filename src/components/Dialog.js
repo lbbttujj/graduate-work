@@ -2,6 +2,7 @@ import React, { useEffect,useState } from 'react';
 import * as Tone from "tone";
 import { useSelector, useDispatch } from 'react-redux';
 import { changeTrackMemory,setNotesSize } from '../store/sequencerSlice';
+import { clearTimeline } from './utils/clearTimeline';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -18,41 +19,41 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
- const AlertDialogSlide =({openDialog,handleClose,
-  // currentSubTrack
-})=> {
-  const [blobRecordURL, setBlobRecordURL] = useState(null)
-  const trackMemory = useSelector(state=>state.sequencer.trackMemory)
-  const instruments = useSelector(state=>state.sequencer.currentInstrument)
-  const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack.nameSubTrack)
-  let trackFromMemory = trackMemory[currentSubTrack]
-  let currentInstrument 
+ const AlertDialogSlide=({openDialog,handleClose})=> {
+  const [blobRecordURL, setBlobRecordURL] = useState(null)  // Ссылка на блоб аудио
+  const trackMemory = useSelector(state=>state.sequencer.trackMemory)  // Все данные о всех субтреках
+  const instruments = useSelector(state=>state.sequencer.currentInstrument) // Данные об инструментах в контексте трека
+  const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack.nameSubTrack)  //Выбранный в этот момент субтрек
+  let trackFromMemory = trackMemory[currentSubTrack]  // Информация о выбранном субреке из базы субтректов
+  const dispatch = useDispatch()
   
+  /*  выбранный инструмент. Если данных об интрументе нет в треке, то для трека устанвливается пианино */
+  let currentInstrument 
   if(currentSubTrack){
-    currentInstrument = instruments[currentSubTrack.split('/')[0]]
+    currentInstrument = instruments[currentSubTrack.split('/')[0]]   
     if(!currentInstrument){
       currentInstrument = Piano
     }
   }else{
     currentInstrument = Piano
   }
+
+  /* Создание сиинта на основе инструмента */
   const synth = new Tone.Sampler({
     urls: currentInstrument
   }).toDestination()
-	const dispatch = useDispatch()
 
+
+  /* Устновка продолжительности ноты в редакс в разрезе выбранного субтрека, если этот субтрек уже был создан ранее */
   if(trackFromMemory){
-    debugger
-  // dispatch(setNotesSize(trackFromMemory.release))
+    dispatch(setNotesSize({value:trackFromMemory.release}))
   }
 
 
 
-
+/* Заполнение нот которые используется в субтреке, который был создан ранее */
   useEffect(()=>{
     if(openDialog){
-      
-      
       if(trackFromMemory){
        let timeLineItems = document.getElementsByClassName('Timelineblocks__items')
        let trackMask = trackFromMemory.mask
@@ -69,44 +70,33 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   },[openDialog])
 
 
+/* Обработка установки ЮРЛ для блоба аудио. Передается пропсами в секвенсор */
     const getBlobURLFromSeq = (blob)=>{
       setBlobRecordURL(blob)
     }
 
 
-  const clearTimeline = ()=>{
-    var allItems  = document.getElementsByClassName('Timelineblocks__cells')
-    for(let i =0; i<allItems.length; i++){
-      if(allItems[i].classList.contains('active'))
-         {
-        allItems[i].classList.remove('active')
-         }
-    }
-  }
-
-
-
 
   const saveSubTrack = ()=>{
     handleClose()
-    const maskMassive = []
-    const aNotesInTrack = []
-
     let Items = document.getElementsByClassName('Timelineblocks')[0].childNodes
-
+    
+    
     /* Матрица всех нот. Похоже на матрицу смежности*/
+    const maskMassive = []
     for(let i=0; i<Items.length; i++){
-        maskMassive.push([])
-        for(let j=0; j<Items[i].childNodes.length; j++){
-            if(Items[i].childNodes[j].classList.contains('active')){
-                 maskMassive[i].push(Items[i].dataset.note)
-              }else{
-                 maskMassive[i].push(0)
-              }
-          }
+      maskMassive.push([])
+      for(let j=0; j<Items[i].childNodes.length; j++){
+        if(Items[i].childNodes[j].classList.contains('active')){
+          maskMassive[i].push(Items[i].dataset.note)
+        }else{
+          maskMassive[i].push(0)
         }
+      }
+    }
     
     /* Заполняется массив массивов нот в столбце */
+    const aNotesInTrack = []
         for(let i=0; i<maskMassive[0].length; i++){
           let aNotesInOneBeat =[]
           for(let j=0; j<maskMassive.length;j++){
@@ -119,7 +109,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
       
 
     /* Создание объекта который отправляется в редакс слой секвеносора */
-    
     if(currentSubTrack){
         const objectMemorise = {
           information:currentSubTrack,
@@ -160,8 +149,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
         <Sequencer
           setBlobRecordURL={getBlobURLFromSeq} 
           synth = {synth}
-          // release = {trackMemory[currentSubTrack].release ?? 0.5 }
-          // release = { 0.25 }
         />
         {/* <div id='timeUderTimeLine'>
 

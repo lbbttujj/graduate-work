@@ -24,10 +24,11 @@ import './ButtonTimeLine.css'
 	const [targerValue, setTargetValue] = useState(5)
 
 	let valueNotesSize  
-	const [noteDuration,setNoteDuration] = useState(0.500)
+	const [noteDuration,setNoteDuration] = useState(5)
 	const dispatch = useDispatch()
 
 	useEffect(()=>{
+		debugger
 		let oldSlideValue
 		if(trackMemory[currentNameSubTrack]){
 			 switch (trackMemory[currentNameSubTrack].release) {
@@ -109,8 +110,9 @@ import './ButtonTimeLine.css'
 					elements[i].style.width=72*currentNoteSize*2+'%'
 				}
 			}
+			debugger
 				setTargetValue(oldSlideValue)
-				dispatch(setNotesSize({value:oldSlideValue}))
+				dispatch(setNotesSize({value:currentNoteSize}))
 
 		
 			
