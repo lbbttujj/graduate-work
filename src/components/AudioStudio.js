@@ -29,7 +29,6 @@ import { playAllTracks } from "./utils/playAllTracks";
 
     
     const playAllTracksOffline = ()=>{
-        debugger
         playAllTracks(Tone,trackMemory,instruments,Piano,bpm)
     }
   

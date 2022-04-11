@@ -3,7 +3,7 @@ import { useSelector,useDispatch} from "react-redux";
 import { setNotesSize } from "../store/sequencerSlice";
 import * as Tone from "tone";
 import { Piano } from "./Instruments";
-import { playAllTracks } from "./utils/playAllTracks";
+import { playAllTracks } from "./utils/playAllTracksOld";
 import Slider from '@mui/material/Slider';
 
 
@@ -28,7 +28,7 @@ import './ButtonTimeLine.css'
 	const dispatch = useDispatch()
 
 	useEffect(()=>{
-		debugger
+		
 		let oldSlideValue
 		if(trackMemory[currentNameSubTrack]){
 			 switch (trackMemory[currentNameSubTrack].release) {
@@ -110,7 +110,7 @@ import './ButtonTimeLine.css'
 					elements[i].style.width=72*currentNoteSize*2+'%'
 				}
 			}
-			debugger
+			
 				setTargetValue(oldSlideValue)
 				dispatch(setNotesSize({value:currentNoteSize}))
 
