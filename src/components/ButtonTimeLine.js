@@ -1,10 +1,11 @@
 import React ,{useEffect,useState,useRef}from "react"
 import { useSelector,useDispatch} from "react-redux";
-import { setNotesSize } from "../store/sequencerSlice";
+import { setNotesSize,changeCountCells,changeCellsWidthRatio,changeCellsWidthDefault } from "../store/sequencerSlice";
 import * as Tone from "tone";
 import { Piano } from "./Instruments";
-import { playAllTracks } from "./utils/playAllTracksOld";
+import { playAllTracks } from "./utils/playAllTracks";
 import Slider from '@mui/material/Slider';
+import { clearTimeline } from "./utils/clearTimeline";
 
 
 
@@ -13,15 +14,17 @@ import './ButtonTimeLine.css'
  const ButtonTimeLine = ({
 	 changePlay,
 	 stopMusic,
-	 changeCountCells,
 	})=>{
 
 	const trackMemory = useSelector(state=>state.sequencer.trackMemory)
 	const instruments = useSelector(state=>state.sequencer.currentInstrument)
 	const currentNameSubTrack = useSelector(state=>state.sequencer.currentSubTrack.nameSubTrack) 
 	const currentNoteSize = useSelector(state=>state.sequencer.currentSubTrack.currentNoteSize) 
+	const cellsCount = useSelector(state=>state.sequencer.currentSubTrack.countCells) 
+
 	const sliderIntupt = useRef(null);
 	const [targerValue, setTargetValue] = useState(5)
+	const [currentCellsWidthRatio, setCurrentCellsWidthRatio] = useState(5)
 
 	let valueNotesSize  
 	const [noteDuration,setNoteDuration] = useState(5)
@@ -122,7 +125,6 @@ import './ButtonTimeLine.css'
 		 changePlay()
 	}
 	const stopMusicFunc = ()=>{
-		//  changePlay()
 		 stopMusic()
 	}
 	const playAllMusic = ()=>{
@@ -133,29 +135,30 @@ import './ButtonTimeLine.css'
 	}
 	
 
-	const clearTimeline = ()=>{
-		stopMusicFunc();
-		var allItems  = document.getElementsByClassName('Timelineblocks__cells')
-		for(let i =0; i<allItems.length; i++){
-			if(allItems[i].classList.contains('active'))
-			   {
-				allItems[i].classList.remove('active')
-			   }
-		}
-	}
 
 	const changeCountCellsFunc = (oEvent)=>{
+		
+		let widthTimeLine = document.getElementsByClassName('Timelineblocks')[0]
+			let currentPercent = Number(widthTimeLine.style.width.match(/\d+(?=%)/)[0])
 		if(oEvent.target.textContent==='+'){	
-			 changeCountCells(true)
-		}else{
-			 changeCountCells(false)
+			if(cellsCount<40){
+				dispatch(changeCountCells(cellsCount+4))
+				let widthCellsDefault = widthTimeLine.childNodes[0].childNodes[0].style.width
+				dispatch(changeCellsWidthDefault(widthCellsDefault))
 
-		}
+			}
+		}else{
+			if(cellsCount>4){
+				dispatch(changeCountCells(cellsCount-4))
+			}
+
+		} 
 	
 	}
 
 	const changeDurationNotes = (oEvent)=>{
 		setTargetValue(oEvent.target.value)
+		setCurrentCellsWidthRatio(5)
 		let currentNoteDuration
 		switch (oEvent.target.value) {
 			case 2:{
@@ -253,6 +256,34 @@ import './ButtonTimeLine.css'
 			
 	}
 	
+	const changeCellsWidth=(oEvent)=>{
+		let cellsWidthRatio = oEvent.target.value
+		if(cellsWidthRatio==currentCellsWidthRatio){
+			return
+		}else{
+			dispatch(changeCellsWidthRatio(cellsWidthRatio))
+			let items = document.getElementsByClassName('Timelineblocks')[0].childNodes
+			
+			let timeline = document.getElementsByClassName('Timelineblocks')[0]
+			if((cellsWidthRatio-currentCellsWidthRatio)>0){
+				timeline.style.width= +timeline.style.width.split('%')[0]*1.5+'%'
+			}else if((cellsWidthRatio-currentCellsWidthRatio)<0){
+				timeline.style.width= +timeline.style.width.split('%')[0]/1.5+'%'
+			}
+
+			for(let el of items){
+				for(let cells of el.childNodes){
+					if((cellsWidthRatio-currentCellsWidthRatio)>0){
+						cells.style.width = +cells.style.width.split('%')[0]*1.5+'%'
+					}else if((cellsWidthRatio-currentCellsWidthRatio)<0){
+						cells.style.width = +cells.style.width.split('%')[0]/1.5+'%'
+					}
+				}
+			}
+			setCurrentCellsWidthRatio(cellsWidthRatio)
+			
+		}
+	}
 
 	
 		return(
@@ -267,6 +298,7 @@ import './ButtonTimeLine.css'
 					<button onClick={playAllMusic}>playAll</button>
 					<button onClick={stopMusicFunc}>stop</button>
 					<Slider   max={8} value={targerValue} min={2} scale={sliderScale} id='SliderRealease' onChange={changeDurationNotes} aria-label="Default" valueLabelDisplay="auto" />
+					<Slider   max={10} value={currentCellsWidthRatio} min={1} id='SliderWidthCells' onChange={changeCellsWidth} aria-label="Default" valueLabelDisplay="auto" />
  					<button onClick={clearTimeline}>clear timeline</button>
 				</div>
 			</div>

@@ -12,34 +12,35 @@ import './Sequencer.css'
     const [currentNote,setCurrentNote] = useState('')
     const [play,setPlay] = useState(false)
     const [stop,setStop] = useState(false)
-    const [cellsCount,setCellsCount  ] = useState(16)
+    // const [cellsCount,setCellsCount  ] = useState(16)
     const bpm = useSelector(state=>state.sequencer.bpm)   
     const release = useSelector(state=>state.sequencer.currentSubTrack.currentNoteSize)
-    const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack) 
+    const cellsCount = useSelector(state=>state.sequencer.currentSubTrack.countCells) 
+    const cellsWidthDefault = useSelector(state=>state.sequencer.currentSubTrack.cellsWidthDefault) 
 
 
-    const changeCountCells=(bMoreCells)=>{
-        let widthTimeLine = document.getElementsByClassName('Timelineblocks')[0]
-        let currentPercent = Number(widthTimeLine.style.width.match(/\d+(?=%)/)[0])
-        if(bMoreCells){
-            if(cellsCount<40){
-                setCellsCount(cellsCount+4)
+    // const changeCountCells=(bMoreCells)=>{
+    //     let widthTimeLine = document.getElementsByClassName('Timelineblocks')[0]
+    //     let currentPercent = Number(widthTimeLine.style.width.match(/\d+(?=%)/)[0])
+    //     if(bMoreCells){
+    //         if(cellsCount<40){
+    //             setCellsCount(cellsCount+4)
                 
-                if(cellsCount>=16){
-                    //надо сделать точнее в относительных единицах
-                widthTimeLine.style.width=currentPercent+17+'%'
-                }
-            }
-        }else{
-            if(cellsCount>4){
-                setCellsCount (cellsCount-4)
-                if(cellsCount>16){
-                    widthTimeLine.style.width=currentPercent-17+'%'
-                }
-            }
+    //             if(cellsCount>=16){
+    //                 //надо сделать точнее в относительных единицах
+    //             widthTimeLine.style.width=currentPercent+17+'%'
+    //             }
+    //         }
+    //     }else{
+    //         if(cellsCount>4){
+    //             setCellsCount (cellsCount-4)
+    //             if(cellsCount>16){
+    //                 widthTimeLine.style.width=currentPercent-17+'%'
+    //             }
+    //         }
 
-        }
-    }  
+    //     }
+    // }  
 
 
     const changePlay=()=>{
@@ -85,19 +86,19 @@ import './Sequencer.css'
                      forcedStop = {stopMusic}
                      synth = {synth}
                      release= {release}
+                     cellsWidthDefault={cellsWidthDefault}
                      />
-                <PlayLine
+                {/* <PlayLine
                     play = {play}
                     stop = {stop}
                     bpm = {bpm}
                     cellsCount ={cellsCount}
-                    />
+                    /> */}
             </div>
             <div className="SettingButtons">    
                 <ButtonTimeLine
                     changePlay = {changePlay}
                     stopMusic={stopMusic}
-                    changeCountCells={changeCountCells}
                     />
             </div> 
             

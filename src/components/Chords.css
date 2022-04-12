@@ -1,0 +1,27 @@
+#ChordsList li{
+    text-decoration: none;
+    list-style: none;
+    margin: 5px;
+    display: inline-block;
+    width: 100px;
+    height: 40px;
+    padding-top: 10px;
+    text-align: center;
+    /* color:white */
+}
+#ChordsList li:hover{
+    background-color:darkorchid;
+}
+#ChordsList .selected{
+    background-color:darkmagenta;
+}
+#ChordsList{
+    display: flex;
+    flex-direction: row;
+    font-size: large;
+}
+#ChordsLine{
+    position: relative;
+    left:70px;
+    width:80%
+}

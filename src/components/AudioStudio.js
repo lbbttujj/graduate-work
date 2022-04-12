@@ -49,7 +49,11 @@ import { playAllTracks } from "./utils/playAllTracks";
             <Track
                 changeViewSeqencer={changeViewSeqencer}
                 nameTrack = {'Melody'}
+                /// как добавить новый трек?!. Обязательно должно быть окно с указанием названия
             />
+            <div><h2>+</h2></div>
+
+        
 
             <AlertDialogSlide
                 openDialog = {openDialog}

@@ -6,7 +6,7 @@ const sequencerSlice = createSlice({
         bpm:120,
         trackMemory:{},
         currentInstrument:{},
-        currentSubTrack:{nameSubTrack:null,currentNoteSize:0.5},
+        currentSubTrack:{nameSubTrack:null,currentNoteSize:0.5,countCells:16,cellsWidthRatio:5,cellsWidthDefault:null,currentChord:null},
     },
     reducers:{
         changeBpm(state,action){
@@ -35,10 +35,24 @@ const sequencerSlice = createSlice({
         },
         setCurrentSubTrack(state,action){
             state.currentSubTrack.nameSubTrack = action.payload
+        },
+        changeCountCells(state,action){
+            state.currentSubTrack.countCells = action.payload
+        },
+        changeCellsWidthRatio(state,action){
+            state.currentSubTrack.cellsWidthRatio=action.payload
+        },
+        changeCellsWidthDefault(state,action){
+            state.currentSubTrack.cellsWidthDefault=action.payload
+        },
+        changeCurrentChord(state,action){
+            state.currentSubTrack.currentChord=action.payload
         }
 
     }
 })
 
-export const {changeBpm,changeTrackMemory,setInstrument,setNotesSize,setCurrentSubTrack} = sequencerSlice.actions
+export const {changeBpm,changeTrackMemory,setInstrument,setNotesSize,setCurrentSubTrack,
+              changeCountCells,changeCellsWidthRatio,changeCellsWidthDefault,changeCurrentChord
+             } = sequencerSlice.actions
 export default sequencerSlice.reducer

@@ -79,7 +79,7 @@ export default class Timeline extends Component{
     render(){
 
         let cellsCount = this.props.countCells
-
+        let cellsWidthDefault = this.props.cellsWidthDefault
         function createTimline(data){
             const items =[]
             for(let i=0; i<48; i++){
@@ -95,6 +95,7 @@ export default class Timeline extends Component{
                data-note = {note}
                className="Timelineblocks__items">
                    {createCells(cellsCount)}
+                   {/* {createCells(16)} */}
                </div>
            )   
     }
@@ -108,13 +109,19 @@ export default class Timeline extends Component{
         function createCells(cells){
             const aCells =[]
             for(let i=0; i<cells; i++){
-                aCells.push(<div onClick={(el)=>{highlightCell(el)}} className="Timelineblocks__cells"/>)
+                
+                if(cellsWidthDefault){
+                    aCells.push(<div onClick={(el)=>{highlightCell(el)}} style={{width:cellsWidthDefault}} className="Timelineblocks__cells"/>)
+                }else{
+                    aCells.push(<div onClick={(el)=>{highlightCell(el)}} style={{width:'72%'}} className="Timelineblocks__cells"/>)
+
+                }
             }
            return(aCells)   
     }
         return(
             <> 
-            <div className="Timelineblocks"  style={{width: '92%'}}>
+            <div className="Timelineblocks" >
                 {createTimline(this.state.data)}
             </div>
             </>

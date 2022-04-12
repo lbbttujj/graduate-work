@@ -66,11 +66,11 @@ import './Track.css'
     
         return(
             <>
-            
-            <div onClick={selectSubTrack} className="track">
-                <button  className="select_instrument_Btn"  style={{left:'300px'}} onClick={selectInstrument}>guitar</button>
-                <button className="select_instrument_Btn" style={{left:'250px'}} onClick={selectInstrument}>bass</button>
-                <button className="select_instrument_Btn" style={{left:'200px'}} onClick={selectInstrument}>piano</button>
+            <div id={nameTrack} onClick={selectSubTrack} className="track">
+            <div className="label_for_track" for={nameTrack}>{nameTrack}</div>
+                <button  className="select_instrument_Btn"  style={{left:'-300px'}} onClick={selectInstrument}>guitar</button>
+                <button className="select_instrument_Btn" style={{left:'-250px'}} onClick={selectInstrument}>bass</button>
+                <button className="select_instrument_Btn" style={{left:'-200px'}} onClick={selectInstrument}>piano</button>
             </div>
            
             </>

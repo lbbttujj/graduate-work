@@ -60,10 +60,15 @@ for(let tracks in oTracks){
         }, delay);
     }
         
-    }
+
 
     /*Проигрыш отдельного субтрека с указанной длительностью*/ //не получается сделать bpm
    function playSubtrack(aNotes,synth,release,i,bpm){
+   const t = setInterval(() => {
+    synth.triggerAttackRelease(aNotes[i],release)
+    i++
+    clearInterval(t)
+    }, 0);
        const timer = setInterval( () => {
             synth.triggerAttackRelease(aNotes[i],release)
             i++
@@ -72,5 +77,5 @@ for(let tracks in oTracks){
             }
         }, 1/120*60000*release*2);
     
- 
+    }
 }

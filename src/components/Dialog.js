@@ -11,6 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Sequencer from './Sequencer';
 import { Piano } from './Instruments';
+import Chords from './Chords';
 import './Dialog.css'
 
 
@@ -143,13 +144,18 @@ const Transition = React.forwardRef(function Transition(props, ref) {
       keepMounted
       onClose={handleClose}
       scroll='body'
+      color ='black'
     >
-      <DialogTitle>{"Трек ..."}</DialogTitle>
+      <DialogTitle>{`Трек ...`}</DialogTitle>
       <DialogContent dividers={false}>
         <Sequencer
           setBlobRecordURL={getBlobURLFromSeq} 
           synth = {synth}
-        />
+        >
+        </Sequencer>
+        <Chords/>
+
+        
         {/* <div id='timeUderTimeLine'>
 
         </div> */}
