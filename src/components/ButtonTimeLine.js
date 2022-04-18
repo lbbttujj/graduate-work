@@ -1,6 +1,6 @@
 import React ,{useEffect,useState,useRef}from "react"
 import { useSelector,useDispatch} from "react-redux";
-import { setNotesSize,changeCountCells,changeCellsWidthRatio,changeCellsWidthDefault } from "../store/sequencerSlice";
+import { setNotesSize,changeCountCells,changeCellsWidthRatio,changeCellsWidthDefault,changeChordUsing } from "../store/sequencerSlice";
 import * as Tone from "tone";
 import { Piano } from "./Instruments";
 import { playAllTracks } from "./utils/playAllTracks";
@@ -21,6 +21,7 @@ import './ButtonTimeLine.css'
 	const currentNameSubTrack = useSelector(state=>state.sequencer.currentSubTrack.nameSubTrack) 
 	const currentNoteSize = useSelector(state=>state.sequencer.currentSubTrack.currentNoteSize) 
 	const cellsCount = useSelector(state=>state.sequencer.currentSubTrack.countCells) 
+	const isChordsUsed = useSelector(state=>state.sequencer.currentSubTrack.isChordsUsed)
 
 	const sliderIntupt = useRef(null);
 	const [targerValue, setTargetValue] = useState(5)
@@ -132,6 +133,14 @@ import './ButtonTimeLine.css'
 		setTimeout(() => {
 			playMusic()
 		}, 500);
+	}
+
+	const addChords = (oEvent)=>{
+		if(oEvent.target.checked){
+			dispatch(changeChordUsing(true))
+		}else{
+			dispatch(changeChordUsing(false))
+		}
 	}
 	
 
@@ -297,6 +306,8 @@ import './ButtonTimeLine.css'
 					<button onClick={playMusic}>play</button>
 					<button onClick={playAllMusic}>playAll</button>
 					<button onClick={stopMusicFunc}>stop</button>
+					<label for='addChordCheckBox'>Use Chord</label>
+					<input id='addChordCheckBox' checked={isChordsUsed} type='checkbox' onClick={addChords}/>
 					<Slider   max={8} value={targerValue} min={2} scale={sliderScale} id='SliderRealease' onChange={changeDurationNotes} aria-label="Default" valueLabelDisplay="auto" />
 					<Slider   max={10} value={currentCellsWidthRatio} min={1} id='SliderWidthCells' onChange={changeCellsWidth} aria-label="Default" valueLabelDisplay="auto" />
  					<button onClick={clearTimeline}>clear timeline</button>

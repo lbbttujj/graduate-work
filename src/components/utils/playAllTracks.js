@@ -22,7 +22,7 @@ for(let tracks in oTracks){
     let synth
     if(currentInstrument){
             synth = (new Tone.Sampler({
-                urls: currentInstrument
+                urls: currentInstrument.data
               }).toDestination())
           }else{
             synth = (new Tone.Sampler({

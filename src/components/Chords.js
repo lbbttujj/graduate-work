@@ -1,13 +1,15 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { changeCurrentChord } from "../store/sequencerSlice";
+// import { changeCurrentChord } from "../store/sequencerSlice";
 import   ChordsData from '../data/chords.json'
-
 import './Chords.css'
 
 const Chords = ()=>{
 
     const dispatch = useDispatch()
+ 
+   
 
 
     const changeChord =(oEvent)=>{
@@ -17,19 +19,26 @@ const Chords = ()=>{
              el.classList.remove('selected')
              }
          }
-         let currentChord
+         let SelectedChord
          for(let el of ChordsData){
-             if(el.chord==oEvent.target.textContent)
-             currentChord =el
+             if(el.chord==oEvent.target.textContent){
+                SelectedChord =el
+             }
+          
             }
-
-        oEvent.target.classList.add('selected')
-        dispatch(changeCurrentChord(currentChord))
+            if(!SelectedChord){
+                dispatch(changeCurrentChord(null))
+             }else{
+              
+                 dispatch(changeCurrentChord(SelectedChord))
+                }
+            oEvent.target.classList.add('selected')
     }
     return(
         <>
         <div id='ChordsLine'>
             <ul id='ChordsList' onClick={changeChord}>
+                <li>Пользов.</li>
                 <li>Major</li>
                 <li>Minor</li>
                 <li>sus2</li>

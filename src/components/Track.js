@@ -2,17 +2,17 @@ import React from "react";
 import { useDispatch } from 'react-redux';
 import { setCurrentSubTrack } from "../store/sequencerSlice";
 import { setInstrument } from '../store/sequencerSlice';
-import {Bass, Guitar,Piano} from './Instruments';
+import {Bass, Guitar,Piano,Drums} from './Instruments';
+
 import './Track.css'
 
 
- const Track = ({changeViewSeqencer,getCurrentSubTrack,nameTrack})=> {
+ const Track = ({changeViewSeqencer,idTrack,nameTrack})=> {
 
     const dispatch = useDispatch()
     
 
     const selectInstrument = (oEvent)=>{
-        console.log(nameTrack)
         oEvent.stopPropagation()
         switch (oEvent.target.textContent) {
             case 'guitar':
@@ -23,6 +23,10 @@ import './Track.css'
             break
             case 'piano':
             dispatch(setInstrument({track:nameTrack,instrument:Piano})) 
+            break
+            case 'drums':
+            dispatch(setInstrument({track:nameTrack,instrument:Drums})) 
+            break
             default:
                 break;
         }
@@ -44,7 +48,7 @@ import './Track.css'
 
         if(oEvent.target.className =='track'){
             oEvent.target.append(subTrack)
-            subTrackNumber =  oEvent.target.childNodes.length-1
+            subTrackNumber =  oEvent.target.childNodes.length-1 //отделить кнопки от трека !!!!!! бесят именна субтреков
         }else{
             const arrr = []
                 for(let el of oEvent.target.parentElement.childNodes){
@@ -57,9 +61,9 @@ import './Track.css'
 
         subTrack.setAttribute("data-name", CurrentSubTrack)  
 
+        
         dispatch(setCurrentSubTrack(CurrentSubTrack))
         
-        // getCurrentSubTrack(CurrentSubTrack)
         changeViewSeqencer()
     }
 
@@ -71,6 +75,7 @@ import './Track.css'
                 <button  className="select_instrument_Btn"  style={{left:'-300px'}} onClick={selectInstrument}>guitar</button>
                 <button className="select_instrument_Btn" style={{left:'-250px'}} onClick={selectInstrument}>bass</button>
                 <button className="select_instrument_Btn" style={{left:'-200px'}} onClick={selectInstrument}>piano</button>
+                <button className="select_instrument_Btn" style={{left:'-350px'}} onClick={selectInstrument}>drums</button>
             </div>
            
             </>

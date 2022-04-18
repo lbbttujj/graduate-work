@@ -1,0 +1,13 @@
+.KeyBoard{
+    position: absolute;
+}
+.keyNoteTextDrums{
+    position: relative;
+    right: 60px;
+    color: black;
+    font-size: 13px;
+    display: block;
+}
+/* .keyNote:hover~.keyNoteTextDrums {
+    display: block;
+} */

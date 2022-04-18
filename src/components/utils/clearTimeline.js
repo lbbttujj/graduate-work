@@ -5,6 +5,9 @@ export const clearTimeline = ()=>{
       if(allItems[i].classList.contains('active'))
          {
         allItems[i].classList.remove('active')
-         }
+        allItems[i].style.opacity=1
+      }
+      allItems[i].style.opacity=0.5
+
     }
   }

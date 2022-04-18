@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import * as Tone from "tone";
 import { useSelector, useDispatch } from 'react-redux';
-import { changeTrackMemory,setNotesSize } from '../store/sequencerSlice';
+import { changeTrackMemory,setNotesSize,selectedInstrument,changeCountCells } from '../store/sequencerSlice';
 import { clearTimeline } from './utils/clearTimeline';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -20,49 +20,66 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
- const AlertDialogSlide=({openDialog,handleClose})=> {
+ const AlertDialogSlide=({openDialog,handleClose,chordPanel})=> {
   const [blobRecordURL, setBlobRecordURL] = useState(null)  // Ссылка на блоб аудио
   const trackMemory = useSelector(state=>state.sequencer.trackMemory)  // Все данные о всех субтреках
   const instruments = useSelector(state=>state.sequencer.currentInstrument) // Данные об инструментах в контексте трека
   const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack.nameSubTrack)  //Выбранный в этот момент субтрек
+  const currentSubTrackChordsUsed = useSelector(state=>state.sequencer.currentSubTrack.isChordsUsed)  //Выбранный в этот момент субтрек
+  // const currentSubTrackCountCells = useSelector(state=>state.sequencer.currentSubTrack.countCells)  //Выбранный в этот момент субтрек
+  // const [countCells, setCountCells] = useState(16)
   let trackFromMemory = trackMemory[currentSubTrack]  // Информация о выбранном субреке из базы субтректов
   const dispatch = useDispatch()
   
+  
+  
+
   /*  выбранный инструмент. Если данных об интрументе нет в треке, то для трека устанвливается пианино */
   let currentInstrument 
   if(currentSubTrack){
-    currentInstrument = instruments[currentSubTrack.split('/')[0]]   
+    currentInstrument = instruments[currentSubTrack.split('/')[0]]  
+     
     if(!currentInstrument){
       currentInstrument = Piano
     }
   }else{
     currentInstrument = Piano
   }
+  
+  dispatch(selectedInstrument(currentInstrument))
+
 
   /* Создание сиинта на основе инструмента */
   const synth = new Tone.Sampler({
-    urls: currentInstrument
+    urls: currentInstrument.data
   }).toDestination()
 
 
-  /* Устновка продолжительности ноты в редакс в разрезе выбранного субтрека, если этот субтрек уже был создан ранее */
+  /* Устновка продолжительности ноты в редакс в разрезе выбранного субтрека, если этот субтрек уже был создан ранее 
+   Устновка количества нот в субтреке*/
   if(trackFromMemory){
-    dispatch(setNotesSize({value:trackFromMemory.release}))
-  }
+    dispatch(setNotesSize({value:trackFromMemory.release}))//////////////изменить
+    dispatch(changeCountCells(trackFromMemory.countCells))
 
+  }
 
 
 /* Заполнение нот которые используется в субтреке, который был создан ранее */
   useEffect(()=>{
     if(openDialog){
       if(trackFromMemory){
+     
        let timeLineItems = document.getElementsByClassName('Timelineblocks__items')
        let trackMask = trackFromMemory.mask
-
+       
        for(let i=0; i<trackMask.length; i++){
             for( let j=0; j<trackMask[0].length; j++){
               if(trackMask[i][j]!=0){
-                  timeLineItems[i].childNodes[j].classList.add('active')
+                  
+                  timeLineItems[i]?.childNodes[j].classList.add('active')
+                  
+                  if(timeLineItems[i].childNodes[j])
+                  timeLineItems[i].childNodes[j].style.opacity=1
                 }
             }
          }
@@ -79,6 +96,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
   const saveSubTrack = ()=>{
+    
     handleClose()
     let Items = document.getElementsByClassName('Timelineblocks')[0].childNodes
     
@@ -151,11 +169,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
         <Sequencer
           setBlobRecordURL={getBlobURLFromSeq} 
           synth = {synth}
+          // cellsCount= {countCells}
         >
         </Sequencer>
-        <Chords/>
-
-        
+        {currentSubTrackChordsUsed &&<Chords/>}
         {/* <div id='timeUderTimeLine'>
 
         </div> */}

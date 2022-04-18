@@ -6,7 +6,9 @@ const sequencerSlice = createSlice({
         bpm:120,
         trackMemory:{},
         currentInstrument:{},
-        currentSubTrack:{nameSubTrack:null,currentNoteSize:0.5,countCells:16,cellsWidthRatio:5,cellsWidthDefault:null,currentChord:null},
+        currentSubTrack:{nameSubTrack:null,selectedInstrument:null, currentNoteSize:0.5,countCells:16,
+            cellsWidthRatio:5,cellsWidthDefault:null,currentChord:null,isChordsUsed:false
+        },
     },
     reducers:{
         changeBpm(state,action){
@@ -18,10 +20,13 @@ const sequencerSlice = createSlice({
                 let nameSubtrack =  state.currentSubTrack.nameSubTrack
                 let objectToMemory = action.payload.data
                     objectToMemory.release = state.currentSubTrack.currentNoteSize
+                    objectToMemory.countCells = state.currentSubTrack.countCells
                    state.trackMemory[nameSubtrack] = objectToMemory
 
                    state.currentSubTrack.nameSubTrack=null
                    state.currentSubTrack.currentNoteSize=0.5
+                   state.currentSubTrack.isChordsUsed=false
+                   state.currentSubTrack.countCells=16
             
             }else{
                 /// удалить 
@@ -34,6 +39,7 @@ const sequencerSlice = createSlice({
             state.currentSubTrack.currentNoteSize = action.payload.value
         },
         setCurrentSubTrack(state,action){
+            
             state.currentSubTrack.nameSubTrack = action.payload
         },
         changeCountCells(state,action){
@@ -47,12 +53,21 @@ const sequencerSlice = createSlice({
         },
         changeCurrentChord(state,action){
             state.currentSubTrack.currentChord=action.payload
+        },
+        changeChordUsing(state,action){
+            state.currentSubTrack.isChordsUsed=action.payload
+        },
+        selectedInstrument(state,action){
+            
+            state.currentSubTrack.selectedInstrument=action.payload
+
         }
 
     }
 })
 
 export const {changeBpm,changeTrackMemory,setInstrument,setNotesSize,setCurrentSubTrack,
-              changeCountCells,changeCellsWidthRatio,changeCellsWidthDefault,changeCurrentChord
+              changeCountCells,changeCellsWidthRatio,changeCellsWidthDefault,changeCurrentChord,
+              changeChordUsing,selectedInstrument
              } = sequencerSlice.actions
 export default sequencerSlice.reducer

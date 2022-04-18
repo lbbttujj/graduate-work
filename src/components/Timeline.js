@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import dataKey from '../data/keys.json'
 import * as Tone from 'tone'
+// import { onMouseOver } from "./utils/onMouseOverChords";
 import './Timeline.css'
 
 export default class Timeline extends Component{
@@ -23,6 +24,10 @@ export default class Timeline extends Component{
 
     playMusic=()=>{ 
         
+        let countRows = 48
+        if(this.props.selectedInstrument.noteType=='drums'){
+            countRows = Object.keys(this.props.selectedInstrument.data).length
+        }
         var dTimelineItems = document.getElementsByClassName('Timelineblocks__items')        
         const synth = this.props.synth
         const recorder = new Tone.Recorder();
@@ -31,7 +36,7 @@ export default class Timeline extends Component{
 
         if(this.state.stepMemory==0){
             
-            for(let i=0; i<48; i++){
+            for(let i=0; i<countRows; i++){
                 if(dTimelineItems[i].childNodes[0].classList.contains('active')){
                     synth.triggerAttackRelease(dTimelineItems[i].dataset.note, this.props.release);
                 }
@@ -41,7 +46,7 @@ export default class Timeline extends Component{
         let step = this.state.stepMemory
         let stepInterval = setInterval( async () => {
          step++
-            for(let i=0; i<48; i++){
+            for(let i=0; i<countRows; i++){
 
                 if(!this.props.play){
                     this.setState({
@@ -53,7 +58,7 @@ export default class Timeline extends Component{
                     }
                     return
                 }
-
+                
                 if(step == this.props.countCells){
                     this.props.forcedStop()
                     this.setState({
@@ -78,12 +83,31 @@ export default class Timeline extends Component{
 
     render(){
 
+        const onMouseOver =  this.props.onMouseOver
+        const onMouseOut =  this.props.onMouseOut
+        const noteInChord = this.props.noteInChord
+        const selectedInstrument = this.props.selectedInstrument
+        let countRows = 48
+        if(selectedInstrument.noteType=='drums'){
+            
+            countRows = Object.keys(selectedInstrument.data).length
+            
+        }
         let cellsCount = this.props.countCells
         let cellsWidthDefault = this.props.cellsWidthDefault
+
+
         function createTimline(data){
             const items =[]
-            for(let i=0; i<48; i++){
-                items.push(createItems(data[i].note))
+            if(selectedInstrument.noteType=='drums'){
+                
+                for(let el in data){
+                    items.push(createItems(el))
+                }
+            }else{
+                for(let i=0; i<countRows; i++){    //кол-во клеток строк
+                    items.push(createItems(data[i].note))
+                }
             }
             return items
         }
@@ -95,34 +119,47 @@ export default class Timeline extends Component{
                data-note = {note}
                className="Timelineblocks__items">
                    {createCells(cellsCount)}
-                   {/* {createCells(16)} */}
                </div>
            )   
     }
 
     function highlightCell(el){
+        if(noteInChord){
+            for(let el of noteInChord){
+                el.classList.contains('active') ? 
+                el.classList.remove('active') :
+                el.classList.add('active')
+            }
+        }
         el.target.classList.contains('active') ? 
         el.target.classList.remove('active') :
         el.target.classList.add('active')
+        
     }
 
         function createCells(cells){
             const aCells =[]
             for(let i=0; i<cells; i++){
-                
                 if(cellsWidthDefault){
-                    aCells.push(<div onClick={(el)=>{highlightCell(el)}} style={{width:cellsWidthDefault}} className="Timelineblocks__cells"/>)
+                    aCells.push(<div onClick={(el)=>{highlightCell(el)}} onMouseOver={onMouseOver}  onMouseOut={onMouseOut} style={{width:cellsWidthDefault}} className="Timelineblocks__cells"/>)
                 }else{
-                    aCells.push(<div onClick={(el)=>{highlightCell(el)}} style={{width:'72%'}} className="Timelineblocks__cells"/>)
+                    aCells.push(<div onClick={(el)=>{highlightCell(el)}} onMouseOver={onMouseOver} onMouseOut={onMouseOut} style={{width:'72%'}} className="Timelineblocks__cells"/>)
 
                 }
+                  if(selectedInstrument.noteType=='drums'){
+                    aCells[aCells.length-1].props.style.height='75px'
+                  }
             }
            return(aCells)   
     }
         return(
             <> 
             <div className="Timelineblocks" >
-                {createTimline(this.state.data)}
+                {selectedInstrument.noteType!='drums' ?
+                createTimline(this.state.data):
+                createTimline(selectedInstrument.data)
+
+                }
             </div>
             </>
         )
