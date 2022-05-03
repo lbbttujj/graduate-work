@@ -13,13 +13,16 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import Slider from '@mui/material/Slider';
 import DialogTitle from '@mui/material/DialogTitle';
+import BurgerMenu from './BurgerMenu'
 import './AudioStudio.css'
 
 
  const AudioStudio = ()=>{
     const [openDialog,SetOpenDialog ] = useState(false)
     const [openDialogAddTrack,setOpenDialogAddTrack ] = useState(false)
+    const [bpmLocal,setBpmLocal ] = useState(60)
     const bpm = useSelector(state=>state.sequencer.bpm)
     const trackMemory = useSelector(state=>state.sequencer.trackMemory)
     const instruments = useSelector(state=>state.sequencer.currentInstrument)
@@ -65,15 +68,20 @@ import './AudioStudio.css'
     const changeValueNameTrack = (oEvent)=>{
         setValueNameTrack(oEvent.target.value)
     }
+
+    const bpmChange = (oEvent)=>{
+        // dispatch(changeBpm(oEvent.target.value))
+        // setBpmLocal(oEvent.target.value)
+    }
   
     
         return(
             <>
-            <div style={{height:'100px'}} className="HeadButtons">
-                {/* <button onClick={playAllTracks}>play</button>     */}
-                <button onClick={playAllTracksOffline}>play2</button>    
-                <span>slider</span>
-                <input id='bpm' type="number" min="60" max='300' onChange={(value)=>dispatch(changeBpm(value))} value={bpm} /> 
+            <div id="HeadButtons">
+                <label id='labelSliderBpm'>Темп: {bpm} bpm</label>
+				<Slider  max={300} value={bpm} min={60} id='sliderBpm' onChange={(value)=>dispatch(changeBpm(value))}  aria-label="Default"  />
+                <button id='mainPlayButton' onClick={playAllTracksOffline}>play2</button>   
+                <button id='mainStopButton'>stop</button>   
             </div>
 
             <div id='Tracks' ref={TracksContainer}>
@@ -91,6 +99,8 @@ import './AudioStudio.css'
            <Button variant="contained" style={{position:'fixed', right:'130px'}} onClick={addTrack}>
         +
       </Button>
+
+      <BurgerMenu/>
 
         
 

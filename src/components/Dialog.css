@@ -4,3 +4,10 @@
     height: 30px;
     background-color:black
 }
+.MuiPaper-root{
+    background-color:rgb(149, 149, 149) !important
+}
+
+.MuiPaper-root::-webkit-scrollbar {
+    width: 0;
+  }

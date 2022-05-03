@@ -6,6 +6,8 @@ import { Piano } from "./Instruments";
 import { playAllTracks } from "./utils/playAllTracks";
 import Slider from '@mui/material/Slider';
 import { clearTimeline } from "./utils/clearTimeline";
+import trashCan from '../data/img/trashCan.png'
+import plus from '../data/img/plus.png'
 
 
 
@@ -26,6 +28,7 @@ import './ButtonTimeLine.css'
 	const sliderIntupt = useRef(null);
 	const [targerValue, setTargetValue] = useState(5)
 	const [currentCellsWidthRatio, setCurrentCellsWidthRatio] = useState(5)
+	// const [labelCurrentCellsWidthRatio, setLabelCurrentCellsWidthRatio] = useState('normal')
 
 	let valueNotesSize  
 	const [noteDuration,setNoteDuration] = useState(5)
@@ -270,6 +273,12 @@ import './ButtonTimeLine.css'
 		if(cellsWidthRatio==currentCellsWidthRatio){
 			return
 		}else{
+			// if(cellsWidthRatio==10){
+			// 	cellsWidthRatio='max'
+			// }
+			// if(cellsWidthRatio==1){
+			// 	cellsWidthRatio='min'
+			// }
 			dispatch(changeCellsWidthRatio(cellsWidthRatio))
 			let items = document.getElementsByClassName('Timelineblocks')[0].childNodes
 			
@@ -297,21 +306,30 @@ import './ButtonTimeLine.css'
 	
 		return(
 			<>
-			<div className="cellsCount">
-            <button  onClick={changeCountCellsFunc}>+</button>    
-            <button  onClick={changeCountCellsFunc}>-</button>    
+			<div id="cellsCount" className="seqBtns">
+            <button className="cellsCount" data-type='+' onClick={changeCountCellsFunc}>+</button>    
+            <button className="cellsCount" data-type='-' onClick={changeCountCellsFunc}>-</button>    
             </div>
-			<div className='TopButtons'>
-				<div className='playButton'>
-					<button onClick={playMusic}>play</button>
+		
+			<div id='playButtons' className="seqBtns">
+					<button onClick={playMusic}>⏵</button>
 					<button onClick={playAllMusic}>playAll</button>
-					<button onClick={stopMusicFunc}>stop</button>
-					<label for='addChordCheckBox'>Use Chord</label>
-					<input id='addChordCheckBox' checked={isChordsUsed} type='checkbox' onClick={addChords}/>
-					<Slider   max={8} value={targerValue} min={2} scale={sliderScale} id='SliderRealease' onChange={changeDurationNotes} aria-label="Default" valueLabelDisplay="auto" />
-					<Slider   max={10} value={currentCellsWidthRatio} min={1} id='SliderWidthCells' onChange={changeCellsWidth} aria-label="Default" valueLabelDisplay="auto" />
- 					<button onClick={clearTimeline}>clear timeline</button>
-				</div>
+					<button onClick={stopMusicFunc}>■</button>
+			</div>
+
+			<div id="settingsButtons">
+				<label for='addChordCheckBox'>Use Chord</label>
+				<input id='addChordCheckBox' checked={isChordsUsed} type='checkbox' onClick={addChords}/>
+			</div>
+				
+				<Slider   max={8} value={targerValue} min={2} scale={sliderScale} id='SliderRealease' onChange={changeDurationNotes} aria-label="Default" valueLabelDisplay="auto" />
+				
+				<label id='labelSliderWidthCells' >Ширина клетки: <span style={{fontSize:'23px', marginLeft:'6px', fontWeight: 'bold'}}>{currentCellsWidthRatio}</span> </label>
+				<Slider  max={10} value={currentCellsWidthRatio} min={1} id='SliderWidthCells' onChange={changeCellsWidth} aria-label="Default" />
+			
+
+			<div id="utilsButton" className="seqBtns">
+ 					<button id="trashCanBtn" onClick={clearTimeline}><img height='30px' src={trashCan}></img></button>
 			</div>
 			</>
 		)

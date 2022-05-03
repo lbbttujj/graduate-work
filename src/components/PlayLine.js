@@ -8,36 +8,37 @@ export default class PlayLine extends Component {
             timePassed: 0,
             stateUpdate:true,
             beforeStop: 0,
-            cellsClientWidth:0
+            cellsClientWidthState:0
         }
         this.moveLine = this.moveLine.bind(this)
+        
     }
 
     componentDidMount(){
-        let cellsClientWidth = document.getElementsByClassName('Timelineblocks__cells')[0].clientWidth
-
-        this.setState({
-            cellsClientWidth:cellsClientWidth+2
-        })
+     
     }
 
 
     componentDidUpdate() {
         if ((this.props.play && this.state.stateUpdate)) {
-            this.moveLine()
+            let cellsClientWidth = document.getElementsByClassName('Timelineblocks__items')[0].childNodes[0].clientWidth
+            this.moveLine(cellsClientWidth)
+            debugger
+
         }
     }
 
-    moveLine = () => {
-        let endScreenPX = this.props.cellsCount*this.state.cellsClientWidth
-        this.setState({stateUpdate:false})
+    moveLine = (cellsClientWidth) => {
+        let endScreenPX = this.props.cellsCount*cellsClientWidth
+        debugger
+        this.setState({stateUpdate:false,cellsClientWidthState:cellsClientWidth})
 
         let start = Date.now()
         let timer = setInterval(function () {
         
                  if(+document.getElementsByClassName('line')[0].style.left.split('').slice(0,7).join('') >= 100+endScreenPX){
                  
-                    debugger
+                    
                 clearInterval(timer)
                 
                 this.setState({
@@ -48,13 +49,11 @@ export default class PlayLine extends Component {
                 return
             }
 
-
-
             if (!this.props.play) {
                 
                 clearInterval(timer)
                 let beforeStop = Number(document.getElementsByClassName('line')[0].style.left.split('').slice(0, -2).join('')) - 100 
-                beforeStop = Math.ceil(beforeStop / this.state.cellsClientWidth)*this.state.cellsClientWidth;
+                beforeStop = Math.ceil(beforeStop / cellsClientWidth)*cellsClientWidth;
                 
                 this.setState({
                     beforeStop:beforeStop,
@@ -82,7 +81,7 @@ export default class PlayLine extends Component {
             <>
             <div style = {
                 {
-                    left: 100 + this.state.beforeStop + this.state.timePassed/60000*this.state.cellsClientWidth*this.props.bpm + 'px'
+                    left: 100 + this.state.beforeStop + this.state.timePassed/60000*this.state.cellsClientWidthState*this.props.bpm / (this.props.release*2) + 'px'
                 }
             }
             className = "line" >

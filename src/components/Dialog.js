@@ -166,6 +166,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     >
       <DialogTitle>{`Трек ...`}</DialogTitle>
       <DialogContent dividers={false}>
+        <div id='closeBtnSeq' className='closeButton' onClick={handleClose} ></div>
         <Sequencer
           setBlobRecordURL={getBlobURLFromSeq} 
           synth = {synth}
@@ -178,7 +179,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
         </div> */}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Закрыть</Button>
         <Button onClick={saveSubTrack}>Записать</Button>
       </DialogActions>
     </Dialog>

@@ -139,14 +139,16 @@ import './Sequencer.css'
                      noteInChord={noteInChord}
                      selectedInstrument = {selectedInstrument}
                      />
-                {/* <PlayLine
+                <PlayLine
                     play = {play}
                     stop = {stop}
+                    release= {release}
                     bpm = {bpm}
+                    cellsWidthDefault={cellsWidthDefault}
                     cellsCount ={cellsCount}
-                    /> */}
+                    />
             </div>
-            <div className="SettingButtons">    
+            <div className="sequencerButtons">    
                 <ButtonTimeLine
                     changePlay = {changePlay}
                     stopMusic={stopMusic}

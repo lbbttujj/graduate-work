@@ -1,0 +1,47 @@
+.cellsCount{
+    padding: 23px;
+    margin-right: 1rem;
+}
+#cellsCount{
+    margin-right: 2rem;
+    font-size: 20px;
+ 
+}
+.seqBtns>button{
+    background-color:rgb(149, 149, 149);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+#playButtons>button{
+    
+    font-size: 19px;
+   
+}
+
+#trashCanBtn{
+    position: relative;
+    left: 70px;
+    top: 18px;
+}
+#SliderRealease{
+    position: relative;
+    width: 400px;
+}
+#SliderWidthCells{
+    position: relative;
+    top: 486px;
+    right: 642px;
+    width: 649px;
+}
+#labelSliderWidthCells{
+    position: relative;
+    top: 486px;
+    right: 664px;
+    font-size: 19px;
+    width: 200px;
+    height: 0;
+}
+#settingsButtons{
+    
+}

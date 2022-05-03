@@ -1,10 +1,11 @@
 .sequencer{
 height: 25em;
 }
-.SettingButtons{
+.sequencerButtons{
     position: absolute;
-    top:10px;
-    right:40%
+    top: 10px;
+    display: flex;
+    left: 12%;
 }
 
 .TimelineButtons{
@@ -14,10 +15,10 @@ height: 25em;
 }
 .mainStageSequencer{
     position: absolute;
-    top:60px;
-    width: 89%;
+    top: 60px;
+    width: 90%;
     overflow-y: scroll;
-
+    margin-top: 6px;
     height: 400px;
 
 }
@@ -27,6 +28,21 @@ height: 25em;
   }
 .mainStageSequencer::-webkit-scrollbar-thumb {
     background-color: #223c50;
+}
+.closeButton{
+   cursor: pointer; 
+}
+.closeButton::before, .closeButton::after {content: ""; position: absolute; width: 24px; height: 4px; background: gray;}
+.closeButton::before {transform: rotate(45deg);}
+.closeButton::after {transform: rotate(-45deg);}
+.closeButton:hover{
+    background:red;
+}
+
+#closeBtnSeq{
+    position: absolute;
+    right: 49px;
+    top: 33px;
 }
 /* @media (max-width: 1599.95px){ */
 

@@ -3,3 +3,29 @@
     top: 361px;
     left: 778px;
 }
+#HeadButtons{
+    height: 58px;
+    margin-bottom: 40px;
+    background-color: gray;
+}
+#sliderBpm{
+    width: 500px;
+    position: relative;
+    top: 19px;
+    left: 20px;
+}
+#labelSliderBpm{
+    position: relative;
+    top: 4px;
+}
+#mainPlayButton{
+    position: relative;
+    left: 105px;
+    top: 6px;
+    margin-right: 10px;
+}
+#mainStopButton{
+    position: relative;
+    left: 105px;
+    top: 6px;
+}
