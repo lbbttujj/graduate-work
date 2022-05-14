@@ -313,16 +313,16 @@ import './ButtonTimeLine.css'
 		
 			<div id='playButtons' className="seqBtns">
 					<button onClick={playMusic}>⏵</button>
-					<button onClick={playAllMusic}>playAll</button>
 					<button onClick={stopMusicFunc}>■</button>
+					<button onClick={playAllMusic}><span style={{fontSize:'15px'}}>all</span>⏵</button>
 			</div>
 
 			<div id="settingsButtons">
-				<label for='addChordCheckBox'>Use Chord</label>
-				<input id='addChordCheckBox' checked={isChordsUsed} type='checkbox' onClick={addChords}/>
+				<input id='addChordCheckBox' checked={isChordsUsed} class="custom-checkbox" type='checkbox' onClick={addChords}/>
+				<label for='addChordCheckBox'>Аккорды</label>
 			</div>
-				
-				<Slider   max={8} value={targerValue} min={2} scale={sliderScale} id='SliderRealease' onChange={changeDurationNotes} aria-label="Default" valueLabelDisplay="auto" />
+			<label id='labelSliderRelease' >Дллина ноты: <span style={{fontSize:'23px', marginLeft:'6px', fontWeight: 'bold'}}>{targerValue}</span> </label>
+				<Slider   max={8} value={targerValue} min={2} scale={sliderScale} id='SliderRealease' onChange={changeDurationNotes} aria-label="Default" />
 				
 				<label id='labelSliderWidthCells' >Ширина клетки: <span style={{fontSize:'23px', marginLeft:'6px', fontWeight: 'bold'}}>{currentCellsWidthRatio}</span> </label>
 				<Slider  max={10} value={currentCellsWidthRatio} min={1} id='SliderWidthCells' onChange={changeCellsWidth} aria-label="Default" />

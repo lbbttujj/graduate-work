@@ -8,12 +8,12 @@ const BurgerMenu = ()=>{
         <>
         <div id='burgerMenu'>
          <Menu right>
-        <p>Войти</p> 
+        <p>Вход в аккаунт</p> 
         
-        <a id="home" className="menu-item" href="/">Home</a>
-        <a id="about" className="menu-item" href="/about">About</a>
-        <a id="contact" className="menu-item" href="/contact">Contact</a>
-        <a className="menu-item--small" href="">Settings</a>
+        <a id="home" className="menu-item" href="/">Сохранить запись</a>
+        <a id="about" className="menu-item" href="/about">Экспортировать запись</a>
+        <a id="contact" className="menu-item" href="/contact">Просмотр записей</a>
+        <a className="menu-item--small" href="">Дополнительные настройки</a>
       </Menu>
         </div>
         </>

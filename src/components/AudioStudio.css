@@ -7,6 +7,7 @@
     height: 58px;
     margin-bottom: 40px;
     background-color: gray;
+    padding-left: 30px;
 }
 #sliderBpm{
     width: 500px;
@@ -23,9 +24,22 @@
     left: 105px;
     top: 6px;
     margin-right: 10px;
+    font-size: 31px;
+    /* line-height: -1px; */
+    background-color: white;
+    color: gray;
+    border: none;
+    cursor: pointer;
 }
 #mainStopButton{
     position: relative;
-    left: 105px;
+    left: 117px;
     top: 6px;
+    width: 40px;
+    font-size: 36px;
+    /* line-height: -1px; */
+    background-color: white;
+    color: gray;
+    border: none;
+    cursor: pointer;
 }

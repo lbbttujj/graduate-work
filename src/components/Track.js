@@ -3,7 +3,13 @@ import { useDispatch } from 'react-redux';
 import { setCurrentSubTrack } from "../store/sequencerSlice";
 import { setInstrument } from '../store/sequencerSlice';
 import {Bass, Guitar,Piano,Drums} from './Instruments';
-
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import  guitar1 from '../data/img/guitar1.png'
+import  bass1 from '../data/img/bass1.png'
+import  piano1 from '../data/img/piano1.png'
+import  drums1 from '../data/img/drums1.png'
 import './Track.css'
 
 
@@ -65,19 +71,37 @@ import './Track.css'
         dispatch(setCurrentSubTrack(CurrentSubTrack))
         
         changeViewSeqencer()
-    }
 
+    }
+    
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+      };
     
         return(
             <>
             <div id={nameTrack} onClick={selectSubTrack} className="track">
             <div className="label_for_track" for={nameTrack}>{nameTrack}</div>
-                <button  className="select_instrument_Btn"  style={{left:'-300px'}} onClick={selectInstrument}>guitar</button>
+                {/* <button  className="select_instrument_Btn"  style={{left:'-300px'}} onClick={selectInstrument}>guitar</button>
                 <button className="select_instrument_Btn" style={{left:'-250px'}} onClick={selectInstrument}>bass</button>
                 <button className="select_instrument_Btn" style={{left:'-200px'}} onClick={selectInstrument}>piano</button>
-                <button className="select_instrument_Btn" style={{left:'-350px'}} onClick={selectInstrument}>drums</button>
+                <button className="select_instrument_Btn" style={{left:'-350px'}} onClick={selectInstrument}>drums</button> */}
+
+
             </div>
-           
+            <div>
+        <Slider {...settings}>
+            <div><img width='140px' src={guitar1}></img></div>
+            <div><img width='140px' src={bass1}></img></div>
+            <div><img width='140px' src={piano1}></img></div>
+            <div><img width='140px' src={drums1}></img></div>
+       
+        </Slider>
+      </div>
             </>
         )
     }

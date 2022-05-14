@@ -164,7 +164,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
       scroll='body'
       color ='black'
     >
-      <DialogTitle>{`Трек ...`}</DialogTitle>
+      <DialogTitle>{`Трек ${currentSubTrack}`}</DialogTitle>
       <DialogContent dividers={false}>
         <div id='closeBtnSeq' className='closeButton' onClick={handleClose} ></div>
         <Sequencer

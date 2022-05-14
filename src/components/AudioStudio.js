@@ -16,6 +16,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import Slider from '@mui/material/Slider';
 import DialogTitle from '@mui/material/DialogTitle';
 import BurgerMenu from './BurgerMenu'
+import { Carousel } from '@trendyol-js/react-carousel';
 import './AudioStudio.css'
 
 
@@ -80,8 +81,8 @@ import './AudioStudio.css'
             <div id="HeadButtons">
                 <label id='labelSliderBpm'>Темп: {bpm} bpm</label>
 				<Slider  max={300} value={bpm} min={60} id='sliderBpm' onChange={(value)=>dispatch(changeBpm(value))}  aria-label="Default"  />
-                <button id='mainPlayButton' onClick={playAllTracksOffline}>play2</button>   
-                <button id='mainStopButton'>stop</button>   
+                <button id='mainPlayButton' onClick={playAllTracksOffline}>⏵</button>   
+                <button id='mainStopButton'>■</button>   
             </div>
 
             <div id='Tracks' ref={TracksContainer}>
@@ -130,6 +131,7 @@ import './AudioStudio.css'
           <Button onClick={submitAddTrack}>Добавить</Button>
         </DialogActions>
       </Dialog>
+
             </>
 
         )

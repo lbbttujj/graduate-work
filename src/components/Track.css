@@ -40,3 +40,48 @@
     margin-bottom: 50px;
 }
 
+.slick-prev {
+    left: 110px;
+    top: 115px;
+}
+.slick-next {
+    left: 341px;
+    top: 115px;
+}
+.slick-dots {
+    position: absolute;
+    left: 141px;
+    bottom: -46px;
+    display: block;
+    width: 200px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+}
+
+
+
+element.style {
+    width: 5304px;
+    opacity: 1;
+    position: relative;
+    transform: translate3d(-1224px, 0px, 0px);
+    left: 222px;
+}
+.slick-slider {
+    position: relative;
+    margin-bottom: 147px;
+    overflow: hidden;
+}
+
+.slick-track {
+    position: relative;
+    left: 222px !important;
+    position: relative;
+    top: 0;
+    left: 190px !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
