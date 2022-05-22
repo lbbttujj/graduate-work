@@ -1,4 +1,4 @@
-import React, {useState,useRef} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import * as Tone from "tone";
 import { useSelector, useDispatch } from "react-redux";
 import { changeBpm } from "../store/sequencerSlice";
@@ -16,8 +16,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import Slider from '@mui/material/Slider';
 import DialogTitle from '@mui/material/DialogTitle';
 import BurgerMenu from './BurgerMenu'
-import { Carousel } from '@trendyol-js/react-carousel';
-import './AudioStudio.css'
+// import { Carousel } from '@trendyol-js/react-carousel';
+import API from './utils/API'
+import './AudioStudio.css';
 
 
  const AudioStudio = ()=>{
@@ -32,6 +33,32 @@ import './AudioStudio.css'
     const TracksContainer = useRef(null);
 
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        // fetch('http://localhost:8000/')
+        //     .then(res=>res.json())
+        //     .then(
+        //         (result)=>{
+        //             debugger
+        //         },
+        //         (error)=>{
+
+        //         }
+        //     )
+        const fetchFile = async ()=>{
+            try{
+                const response = await API.get('/')
+                // debugger
+            }catch (error){
+                if(error.response){
+                    // debugger
+                }else{
+                    // debugger
+                }
+            }
+        }
+        fetchFile()
+    },[])
 
     const handleClickOpen = ()=>{
         SetOpenDialog(true)
@@ -97,7 +124,7 @@ import './AudioStudio.css'
                 })}
         
             </div>
-           <Button variant="contained" style={{position:'fixed', right:'130px'}} onClick={addTrack}>
+           <Button variant="contained" style={{position:'fixed', right:'120px',bottom:'40px'}} onClick={addTrack}>
         +
       </Button>
 

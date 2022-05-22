@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setCurrentSubTrack } from "../store/sequencerSlice";
 import { setInstrument } from '../store/sequencerSlice';
@@ -18,9 +18,36 @@ import './Track.css'
     const dispatch = useDispatch()
     
 
-    const selectInstrument = (oEvent)=>{
-        oEvent.stopPropagation()
-        switch (oEvent.target.textContent) {
+    const InstrumentsFromServerMock = [
+        {
+            imgLink:piano1,
+            imgWidth:'140px',
+            instrumentName:'piano',
+            id:'piano1'
+        },
+        {
+            imgLink:guitar1,
+            imgWidth:'140px',
+            instrumentName:'guitar',
+            id:'guitar1'
+        },
+        {
+            imgLink:bass1,
+            imgWidth:'140px',
+            instrumentName:'bass',
+            id:'bass1'
+        },
+        {
+            imgLink:drums1,
+            imgWidth:'140px',
+            instrumentName:'drums',
+            id:'drums1'
+        }
+    ]
+
+    const selectInstrument = (instrumentName)=>{
+        
+        switch (instrumentName) {
             case 'guitar':
             dispatch(setInstrument({track:nameTrack,instrument:Guitar})) 
             break
@@ -81,27 +108,30 @@ import './Track.css'
         slidesToShow: 1,
         slidesToScroll: 1
       };
+
+      const afterChangeSlide = (oEvent)=> {
+          
+        selectInstrument(InstrumentsFromServerMock[oEvent].instrumentName)
+        
+      }
+    
     
         return(
             <>
             <div id={nameTrack} onClick={selectSubTrack} className="track">
-            <div className="label_for_track" for={nameTrack}>{nameTrack}</div>
-                {/* <button  className="select_instrument_Btn"  style={{left:'-300px'}} onClick={selectInstrument}>guitar</button>
-                <button className="select_instrument_Btn" style={{left:'-250px'}} onClick={selectInstrument}>bass</button>
-                <button className="select_instrument_Btn" style={{left:'-200px'}} onClick={selectInstrument}>piano</button>
-                <button className="select_instrument_Btn" style={{left:'-350px'}} onClick={selectInstrument}>drums</button> */}
-
-
+            <div className="label_for_track" for={nameTrack}>{nameTrack}</div>     
             </div>
-            <div>
-        <Slider {...settings}>
-            <div><img width='140px' src={guitar1}></img></div>
-            <div><img width='140px' src={bass1}></img></div>
-            <div><img width='140px' src={piano1}></img></div>
-            <div><img width='140px' src={drums1}></img></div>
+          
+        <Slider {...settings}
+        afterChange={afterChangeSlide}
+        >
+           {InstrumentsFromServerMock.map((el)=>{
+               return <div data-name={el.instrumentName}><img width={el.imgWidth} alt={el.id} src={el.imgLink}></img></div>
+           })}
+        
        
         </Slider>
-      </div>
+    
             </>
         )
     }

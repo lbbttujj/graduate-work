@@ -11,3 +11,8 @@
 .MuiPaper-root::-webkit-scrollbar {
     width: 0;
   }
+
+  #closeBtnSeq{
+      cursor: pointer;
+      z-index: 10;
+  }

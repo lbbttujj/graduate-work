@@ -1,0 +1,33 @@
+/* Position and sizing of burger button */
+#audioSettings {
+   position: absolute;
+   right: 41px;
+   top: 12.4%;
+   height: 74.5%;
+   transition-duration: 0.4s;
+   border-radius: 17px;
+   background-color: #959595;
+  }
+
+  #settingsViget{
+   cursor: pointer;
+   position: absolute;
+   right: 25px;
+   top: 17px;
+  }
+
+  .p-knob-text{
+     font-size:25px;
+     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  }
+  
+
+  #settingsCards{
+   flex-direction: column;
+   flex-wrap: wrap;
+   justify-content: center;
+   height: 70%;
+   display: none;
+   padding-left: 4rem;
+   align-items: baseline;
+  }

@@ -23,14 +23,14 @@ export default class PlayLine extends Component {
         if ((this.props.play && this.state.stateUpdate)) {
             let cellsClientWidth = document.getElementsByClassName('Timelineblocks__items')[0].childNodes[0].clientWidth
             this.moveLine(cellsClientWidth)
-            debugger
+            
 
         }
     }
 
     moveLine = (cellsClientWidth) => {
         let endScreenPX = this.props.cellsCount*cellsClientWidth
-        debugger
+        
         this.setState({stateUpdate:false,cellsClientWidthState:cellsClientWidth})
 
         let start = Date.now()

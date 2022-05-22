@@ -37,7 +37,6 @@ data:{
   noteType:'piano'
 }
 export const Bass ={
-
 data:{
     'E1':basssE1,
     'A1':basssA1,

@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import * as Tone from "tone";
 import { useSelector, useDispatch } from 'react-redux';
-import { changeTrackMemory,setNotesSize,selectedInstrument,changeCountCells } from '../store/sequencerSlice';
+import { changeTrackMemory,setNotesSize,selectedInstrument,changeCountCells,changeGainRedux,changeFreverbRedux,changeChorusRedux,changeDistortionRedux } from '../store/sequencerSlice';
 import { clearTimeline } from './utils/clearTimeline';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -26,6 +26,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   const instruments = useSelector(state=>state.sequencer.currentInstrument) // Данные об инструментах в контексте трека
   const currentSubTrack = useSelector(state=>state.sequencer.currentSubTrack.nameSubTrack)  //Выбранный в этот момент субтрек
   const currentSubTrackChordsUsed = useSelector(state=>state.sequencer.currentSubTrack.isChordsUsed)  //Выбранный в этот момент субтрек
+  const currentGain = useSelector(state=>state.sequencer.currentSubTrack.gain)/5
+  const currentDistortion = useSelector(state=>state.sequencer.currentSubTrack.distortion)/3
+  const currentChorus = useSelector(state=>state.sequencer.currentSubTrack.chorus)/5
+  const currentFreverb = useSelector(state=>state.sequencer.currentSubTrack.freverb)
   // const currentSubTrackCountCells = useSelector(state=>state.sequencer.currentSubTrack.countCells)  //Выбранный в этот момент субтрек
   // const [countCells, setCountCells] = useState(16)
   let trackFromMemory = trackMemory[currentSubTrack]  // Информация о выбранном субреке из базы субтректов
@@ -54,6 +58,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     urls: currentInstrument.data
   }).toDestination()
 
+  
+  const Distortion = new Tone.Distortion(currentDistortion).toDestination();
+  const Gain = new Tone.Gain(currentGain).toDestination();
+  const chorus = new Tone.Chorus(currentChorus, 2.5, 0.5).toDestination().start()
+  // const crusher = new Tone.BitCrusher(0).toDestination();
+  // var freeverb = new Tone.Freeverb().toDestination().start();
+ 
+
+  synth.chain(Distortion)
+  synth.chain(Gain)
+  synth.chain(chorus)
+  // synth.chain(crusher)
+  // synth.chain(freeverb)
+
 
   /* Устновка продолжительности ноты в редакс в разрезе выбранного субтрека, если этот субтрек уже был создан ранее 
    Устновка количества нот в субтреке*/
@@ -68,7 +86,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   useEffect(()=>{
     if(openDialog){
       if(trackFromMemory){
-     
+        
+          dispatch(changeGainRedux(trackFromMemory.gain))
+          dispatch(changeDistortionRedux(trackFromMemory.distortion))
+          dispatch(changeChorusRedux(trackFromMemory.chorus))
+          dispatch(changeFreverbRedux(trackFromMemory.freverb))
+        
        let timeLineItems = document.getElementsByClassName('Timelineblocks__items')
        let trackMask = trackFromMemory.mask
        
@@ -151,6 +174,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     
     /* функции возвращающие диалог к дефолтному виду */
     clearTimeline()
+    dispatch(changeGainRedux(0))
+    dispatch(changeDistortionRedux(0))
+    dispatch(changeChorusRedux(0))
+    dispatch(changeFreverbRedux(0))
   }
 
     return (
@@ -166,17 +193,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     >
       <DialogTitle>{`Трек ${currentSubTrack}`}</DialogTitle>
       <DialogContent dividers={false}>
+      
+          
         <div id='closeBtnSeq' className='closeButton' onClick={handleClose} ></div>
+        
         <Sequencer
           setBlobRecordURL={getBlobURLFromSeq} 
           synth = {synth}
           // cellsCount= {countCells}
-        >
+          >
         </Sequencer>
         {currentSubTrackChordsUsed &&<Chords/>}
-        {/* <div id='timeUderTimeLine'>
-
-        </div> */}
+        {/* <div id='timeUderTimeLine'></div> */}
+  
       </DialogContent>
       <DialogActions>
         <Button onClick={saveSubTrack}>Записать</Button>

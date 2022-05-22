@@ -7,7 +7,8 @@ const sequencerSlice = createSlice({
         trackMemory:{},
         currentInstrument:{},
         currentSubTrack:{nameSubTrack:null,selectedInstrument:null, currentNoteSize:0.5,countCells:16,
-            cellsWidthRatio:5,cellsWidthDefault:null,currentChord:null,isChordsUsed:false
+            cellsWidthRatio:5,cellsWidthDefault:null,currentChord:null,isChordsUsed:false,
+            gain:0,distortion:0,chorus:0, freverb:0
         },
     },
     reducers:{
@@ -21,6 +22,10 @@ const sequencerSlice = createSlice({
                 let objectToMemory = action.payload.data
                     objectToMemory.release = state.currentSubTrack.currentNoteSize
                     objectToMemory.countCells = state.currentSubTrack.countCells
+                    objectToMemory.gain = state.currentSubTrack.gain
+                    objectToMemory.distortion = state.currentSubTrack.distortion
+                    objectToMemory.chorus = state.currentSubTrack.chorus
+                    objectToMemory.freverb = state.currentSubTrack.freverb
                    state.trackMemory[nameSubtrack] = objectToMemory
 
                    state.currentSubTrack.nameSubTrack=null
@@ -61,13 +66,25 @@ const sequencerSlice = createSlice({
             
             state.currentSubTrack.selectedInstrument=action.payload
 
-        }
+        },
+        changeGainRedux(state,action){
+            state.currentSubTrack.gain=action.payload
+        },
+        changeDistortionRedux(state,action){
+            state.currentSubTrack.distortion=action.payload
+        },
+        changeChorusRedux(state,action){
+            state.currentSubTrack.chorus=action.payload
+        },
+        changeFreverbRedux(state,action){
+            state.currentSubTrack.freverb=action.payload
+        },
 
     }
 })
 
 export const {changeBpm,changeTrackMemory,setInstrument,setNotesSize,setCurrentSubTrack,
               changeCountCells,changeCellsWidthRatio,changeCellsWidthDefault,changeCurrentChord,
-              changeChordUsing,selectedInstrument
+              changeChordUsing,selectedInstrument,changeGainRedux,changeDistortionRedux,changeChorusRedux,changeFreverbRedux
              } = sequencerSlice.actions
 export default sequencerSlice.reducer

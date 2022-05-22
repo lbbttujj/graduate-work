@@ -53,17 +53,29 @@ for(let tracks in oTracks){
 
 /*Последовательный проигрывание субтреков в рамках одного трека*/
     function testtimeOut(subTrack,delay,synth){
-        debugger
+        let audioSettings={}
+        audioSettings.gain=subTrack.gain
+        audioSettings.distortion=subTrack.distortion
+        audioSettings.chorus=subTrack.chorus
         setTimeout(() => {
             let i=0
-            playSubtrack(subTrack.notes,synth,subTrack.release,i,120)
+            playSubtrack(subTrack.notes,synth,subTrack.release,audioSettings,i,120)
         }, delay);
     }
         
 
 
     /*Проигрыш отдельного субтрека с указанной длительностью*/ //не получается сделать bpm
-   function playSubtrack(aNotes,synth,release,i,bpm){
+   function playSubtrack(aNotes,synth,release,audioSettings,i,bpm){
+    const Distortion = new Tone.Distortion(audioSettings.distortion).toDestination();
+    const Gain = new Tone.Gain(audioSettings.gain).toDestination();
+    const chorus = new Tone.Chorus(audioSettings.chorus, 2.5, 0.5).toDestination().start()
+    // const crusher = new Tone.BitCrusher(0).toDestination();
+    // var freeverb = new Tone.Freeverb().toDestination().start();
+  
+    synth.chain(Distortion)
+    synth.chain(Gain)
+    synth.chain(chorus)
    const t = setInterval(() => {
     synth.triggerAttackRelease(aNotes[i],release)
     i++

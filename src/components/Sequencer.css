@@ -20,7 +20,8 @@ height: 25em;
     overflow-y: scroll;
     margin-top: 6px;
     height: 400px;
-
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out;
 }
 .mainStageSequencer::-webkit-scrollbar {
     width: 7px;

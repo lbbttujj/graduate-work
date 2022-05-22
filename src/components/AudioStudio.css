@@ -25,9 +25,11 @@
     top: 6px;
     margin-right: 10px;
     font-size: 31px;
+    border-radius: 10px;
     /* line-height: -1px; */
-    background-color: white;
-    color: gray;
+
+    background-color:gray;
+    color:white;
     border: none;
     cursor: pointer;
 }
@@ -35,11 +37,22 @@
     position: relative;
     left: 117px;
     top: 6px;
+    border-radius: 10px;
     width: 40px;
     font-size: 36px;
     /* line-height: -1px; */
-    background-color: white;
-    color: gray;
+    
+    background-color:gray;
+    color:white;
     border: none;
     cursor: pointer;
+}
+#mainPlayButton:hover{
+    background-color: white;
+    color: gray;
+
+}
+#mainStopButton:hover{
+    background-color: white;
+    color: gray;
 }

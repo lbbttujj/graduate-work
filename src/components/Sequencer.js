@@ -5,6 +5,8 @@ import Timeline from "./Timeline";
 import DrumPad from "./DrumPad";
 import PlayLine from "./PlayLine";
 import ButtonTimeLine from "./ButtonTimeLine";
+import DialogSettingsMenu from './DialogSettingsMenu';
+
 import './Sequencer.css'
 
  const Sequencer = ({setBlobRecordURL,synth,
@@ -113,6 +115,7 @@ import './Sequencer.css'
         <>
             <div className="sequencer">
 
+            <div id='mainStageContent' style={{'display':'flex'}}>
             <div className="mainStageSequencer">
 
                 {selectedInstrument.noteType=='drums'?
@@ -147,6 +150,8 @@ import './Sequencer.css'
                     cellsWidthDefault={cellsWidthDefault}
                     cellsCount ={cellsCount}
                     />
+            </div>
+            <DialogSettingsMenu/>
             </div>
             <div className="sequencerButtons">    
                 <ButtonTimeLine

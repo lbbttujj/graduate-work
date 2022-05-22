@@ -4,6 +4,7 @@
     height: 150px; /*280px*/
     background-color: white;
     margin: 2em;
+    border-radius: 28px;
     margin-right: 20rem;
     display: flex;
     position: relative;
@@ -23,9 +24,10 @@
 
 }
 .subTrack{
-    margin: 3% 5px;
-    width: 10%;
-    height: 70%;
+    margin: 2% 10px;
+    width: 15%;
+    height: 80%;
+    border-radius:20px;
     background-color:purple
 }
 .select_instrument_Btn{
