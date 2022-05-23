@@ -16,7 +16,6 @@ const sequencerSlice = createSlice({
             state.bpm = action.payload.target.value
         },
         changeTrackMemory(state,action){
-            
             if(action.payload.add){
                 let nameSubtrack =  state.currentSubTrack.nameSubTrack
                 let objectToMemory = action.payload.data
@@ -34,7 +33,16 @@ const sequencerSlice = createSlice({
                    state.currentSubTrack.countCells=16
             
             }else{
-                /// удалить 
+                if(action.payload.track){
+                    for(let el in state.trackMemory){
+                        if(el.split('/')[0]==action.payload.track){
+                            delete state.trackMemory[el]
+                        }
+                    }
+                }else{
+                    delete state.trackMemory[action.payload.subTrack]
+                }
+               
             }
         },
         setInstrument(state,action){

@@ -3,7 +3,6 @@ export const playAllTracks = (Tone,trackMemory,instruments,Piano,bpm)=>{
 const oTracks ={}  //Объект треков
 let bpm_ = bpm
 
-
 /*Заполняется объект массивами субтреков по дорожкам*/
 for(let subtracks in trackMemory){
     let name = subtracks.split('/')[0]
@@ -67,6 +66,7 @@ for(let tracks in oTracks){
 
     /*Проигрыш отдельного субтрека с указанной длительностью*/ //не получается сделать bpm
    function playSubtrack(aNotes,synth,release,audioSettings,i,bpm){
+    
     const Distortion = new Tone.Distortion(audioSettings.distortion).toDestination();
     const Gain = new Tone.Gain(audioSettings.gain).toDestination();
     const chorus = new Tone.Chorus(audioSettings.chorus, 2.5, 0.5).toDestination().start()
@@ -87,7 +87,7 @@ for(let tracks in oTracks){
             if(i>=aNotes.length){
                 clearInterval(timer)
             }
-        }, 1/120*60000*release*2);
+        }, 1/bpm_*60000*release*2);
     
     }
 }

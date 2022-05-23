@@ -7,7 +7,6 @@ import AlertDialogSlide from "./Dialog";
 import { Piano } from "./Instruments";
 import { playAllTracks } from "./utils/playAllTracks";
 import Button from '@mui/material/Button';
-import DialogAddTrack from "./DialogAddTrack";
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -139,8 +138,10 @@ import './AudioStudio.css';
                 />
 
            
-        <Dialog open={openDialogAddTrack} onClose={handleCloseAddTrack}>
-        <DialogContent>
+        <Dialog 
+        
+        open={openDialogAddTrack} onClose={handleCloseAddTrack}>
+        <DialogContent sx={{backgroundColor:'white'}}>
           <DialogContentText>
             Введите имя нового трека
           </DialogContentText>
@@ -153,8 +154,8 @@ import './AudioStudio.css';
             variant="standard"
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Закрыть</Button>
+        <DialogActions sx={{backgroundColor:'white'}}>
+          <Button onClick={handleCloseAddTrack}>Закрыть</Button>
           <Button onClick={submitAddTrack}>Добавить</Button>
         </DialogActions>
       </Dialog>

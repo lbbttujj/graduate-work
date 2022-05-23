@@ -116,7 +116,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
       setBlobRecordURL(blob)
     }
 
-
+    const closeWithoutSave = ()=>{
+      clearTimeline()
+      dispatch(changeGainRedux(0))
+      dispatch(changeDistortionRedux(0))
+      dispatch(changeChorusRedux(0))
+      dispatch(changeFreverbRedux(0))
+      handleClose()
+        
+    }
 
   const saveSubTrack = ()=>{
     
@@ -148,6 +156,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
           }
           aNotesInTrack.push(aNotesInOneBeat)
         }
+
+  
       
 
     /* Создание объекта который отправляется в редакс слой секвеносора */
@@ -187,7 +197,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
       open={openDialog}
       TransitionComponent={Transition}
       keepMounted
-      onClose={handleClose}
+      onClose={closeWithoutSave}
       scroll='body'
       color ='black'
     >
@@ -195,7 +205,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
       <DialogContent dividers={false}>
       
           
-        <div id='closeBtnSeq' className='closeButton' onClick={handleClose} ></div>
+        <div id='closeBtnSeq' className='closeButton' onClick={closeWithoutSave} ></div>
         
         <Sequencer
           setBlobRecordURL={getBlobURLFromSeq} 
