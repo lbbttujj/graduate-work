@@ -18,6 +18,7 @@ import BurgerMenu from './BurgerMenu'
 // import { Carousel } from '@trendyol-js/react-carousel';
 import API from './utils/API'
 import './AudioStudio.css';
+import axios from "axios";
 
 
  const AudioStudio = ()=>{
@@ -33,31 +34,7 @@ import './AudioStudio.css';
 
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-        // fetch('http://localhost:8000/')
-        //     .then(res=>res.json())
-        //     .then(
-        //         (result)=>{
-        //             debugger
-        //         },
-        //         (error)=>{
 
-        //         }
-        //     )
-        const fetchFile = async ()=>{
-            try{
-                const response = await API.get('/')
-                // debugger
-            }catch (error){
-                if(error.response){
-                    // debugger
-                }else{
-                    // debugger
-                }
-            }
-        }
-        fetchFile()
-    },[])
 
     const handleClickOpen = ()=>{
         SetOpenDialog(true)

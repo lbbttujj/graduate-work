@@ -1,21 +1,16 @@
-import React,{Component} from 'react';
+import React,{useEffect} from 'react';
 import AudioStudio from '../src/components/AudioStudio'
 
 import './App.css';
-// import Cheeeck from './components/__checkToneJs';
 
-export default class App extends Component{
-  constructor(){
-    super()
+ const App =()=>{
 
-  }
-  render(){
-    
     return(
       <>
-      {/* <Cheeeck></Cheeeck> */}
       <AudioStudio/>
       </>
     )
-  }
+  
 }
+
+export default App
