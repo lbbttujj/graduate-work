@@ -2,6 +2,8 @@ export const playAllTracks = (Tone,trackMemory,instruments,Piano,bpm)=>{
 
 const oTracks ={}  //Объект треков
 let bpm_ = bpm
+let recorder = new Tone.Recorder();
+
 
 /*Заполняется объект массивами субтреков по дорожкам*/
 for(let subtracks in trackMemory){
@@ -30,12 +32,16 @@ for(let tracks in oTracks){
           }
 
     oTracks[tracks].push(synth)
+
+    
+        synth.connect(recorder)
+        recorder.start()
 }
 
 /* Распаралеливание дорожек. Дорожки играются одновременно в интервале*/
 for(let tracks in oTracks){
 
-    const timer = setInterval( () => { 
+    const timer = setInterval( async () => { 
         let currentTrack = oTracks[tracks]
         let synth = currentTrack[currentTrack.length-1]
         let prevDelay = 0
@@ -46,6 +52,7 @@ for(let tracks in oTracks){
         }
 
        clearInterval(timer)
+      
    },0);
 
 }
@@ -60,11 +67,17 @@ for(let tracks in oTracks){
             let i=0
             playSubtrack(subTrack.notes,synth,subTrack.release,audioSettings,i,120)
         }, delay);
+        setTimeout( async() => {
+            const recording = await recorder.stop()
+            const url = URL.createObjectURL(recording);
+            sessionStorage.setItem('urlBlobTrack',url)
+            debugger
+        }, 6000); /// как то нужно динамически менять пока 10 секунд ждать на всякий чтобы все записалось
     }
         
 
 
-    /*Проигрыш отдельного субтрека с указанной длительностью*/ //не получается сделать bpm
+    /*Проигрыш отдельного субтрека с указанной длительностью*/
    function playSubtrack(aNotes,synth,release,audioSettings,i,bpm){
     
     const Distortion = new Tone.Distortion(audioSettings.distortion).toDestination();
@@ -81,11 +94,12 @@ for(let tracks in oTracks){
     i++
     clearInterval(t)
     }, 0);
-       const timer = setInterval( () => {
+       const timer = setInterval(  () => {
             synth.triggerAttackRelease(aNotes[i],release)
             i++
             if(i>=aNotes.length){
                 clearInterval(timer)
+                
             }
         }, 1/bpm_*60000*release*2);
     

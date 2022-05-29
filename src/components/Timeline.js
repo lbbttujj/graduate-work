@@ -68,6 +68,7 @@ export default class Timeline extends Component{
                     clearInterval(stepInterval)
                     const recording = await recorder.stop()
                     const url = URL.createObjectURL(recording);
+                    debugger
                     this.props.getBlobRecordURL(url)
                     return
                 }

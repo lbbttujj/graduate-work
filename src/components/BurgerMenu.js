@@ -78,6 +78,8 @@ const exit = ()=>{
     });
   }
 
+ 
+
   const registrating = async ()=>{
     const data = {"username":loginValue,"password":passwordValue}
     await axios.post("http://localhost:8000/registration",data)
@@ -98,6 +100,18 @@ const exit = ()=>{
       })
   }
 
+  const exportTrack = ()=>{
+      const url = sessionStorage.getItem('urlBlobTrack')
+      const a = document.createElement('a')
+      //сделать запрос на бэк или не надо
+
+      debugger
+      a.href=url
+      a.target='target="_blank"'
+      a.download='yourTrack.weba'
+      a.click()
+  } 
+
     return (
         <>
         <div id='burgerMenu'>
@@ -112,7 +126,7 @@ const exit = ()=>{
             </>
           }
         
-        <a id="about" className="menu-item" href="/">Экспортировать запись</a>
+            <a id="about" onClick={exportTrack} className="menu-item" href="/">Экспортировать запись</a>
        
           {
             isAuthorise 
