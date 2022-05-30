@@ -45,6 +45,11 @@ const sequencerSlice = createSlice({
                
             }
         },
+
+        rewriteTrackMemomory(state,action){
+            state.trackMemory = action.payload
+        },
+
         setInstrument(state,action){
             state.currentInstrument[action.payload.track] = action.payload.instrument
         },
@@ -92,7 +97,7 @@ const sequencerSlice = createSlice({
 })
 
 export const {changeBpm,changeTrackMemory,setInstrument,setNotesSize,setCurrentSubTrack,
-              changeCountCells,changeCellsWidthRatio,changeCellsWidthDefault,changeCurrentChord,
+              changeCountCells,changeCellsWidthRatio,changeCellsWidthDefault,changeCurrentChord,rewriteTrackMemomory,
               changeChordUsing,selectedInstrument,changeGainRedux,changeDistortionRedux,changeChorusRedux,changeFreverbRedux
              } = sequencerSlice.actions
 export default sequencerSlice.reducer

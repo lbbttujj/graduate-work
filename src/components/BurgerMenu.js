@@ -4,6 +4,8 @@ import axios from "axios";
 import Authrosiation from './utils/Authrosiation'
 import AuthorisationMenu from './AuthorisationMenu'
 import RegistrateMenu from './RegistrateMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { rewriteTrackMemomory } from '../store/sequencerSlice';
 import './BurgerMenu.css'
 
 const BurgerMenu = ()=>{
@@ -14,6 +16,11 @@ const BurgerMenu = ()=>{
   const [username,setUsername] = useState('')
   const [passwordValue,setPasswordValue] = useState('')
   const [isAuthorise,setAuthorise] = useState(false)
+  const [nameSavedTracks, setNameSavedTracks] = useState('')
+  const trackMemory = useSelector(state=>state.sequencer.trackMemory)  // Все данные о всех субтреках
+
+  const dispatch = useDispatch()
+
 
   useEffect(()=>{
     const token = sessionStorage.getItem('token')
@@ -29,14 +36,26 @@ const BurgerMenu = ()=>{
         .catch((error)=>{
           alert(error)
         })
+
+
+      axios.get('http://localhost:8000/getTracks',{
+        headers:{
+          authorisation: 'Bearer ' + token //the token is a variable which holds the token
+        }
+      })
+      .then((serverResponse)=>{
+        console.log(serverResponse)
+        setNameSavedTracks(serverResponse.data)
+        
+      })
+      .catch((error)=>{
+        console.log(error)
+      })
     }
   },[])
 
 const openAuthoMenu = ()=>{
-  
     setAuthoMenuActive(true)
-  
-
 }
 const openRegistrateMenu = ()=>{
   setRegistrateMenuActive(true)
@@ -65,9 +84,8 @@ const exit = ()=>{
       setPasswordValue('')
       setLoginValue('')
       setAuthorise(true)
-      //session storage
-      sessionStorage.setItem('token',ServerResponse.data.token)
-      
+
+      sessionStorage.setItem('token',ServerResponse.data.token)   
     })
     .catch(function (error) {
         alert('ошибка')
@@ -100,17 +118,55 @@ const exit = ()=>{
       })
   }
 
-  const exportTrack = ()=>{
+
+  const exportTrack = async ()=>{
+
       const url = sessionStorage.getItem('urlBlobTrack')
       const a = document.createElement('a')
-      //сделать запрос на бэк или не надо
-
+      const name = prompt('Введите название трека ')
       debugger
       a.href=url
       a.target='target="_blank"'
-      a.download='yourTrack.weba'
+      a.download=`${name}.weba`
       a.click()
   } 
+
+  const saveCurrentTrack = async ()=>{
+   const trackMemoryToBD = JSON.stringify(trackMemory)
+   const nameSave = prompt('Введите название записи')
+    const data = {
+        "name":nameSave,
+        "content":trackMemoryToBD,
+        "username":username
+    }
+    await axios.post("http://localhost:8000/saveTracks",data)
+          .then((serverResponse)=>{
+            console.log(serverResponse)
+          })
+          .catch((error)=>{
+              console.log(error)
+          })
+
+
+  }
+
+  const chooseSavedTrack = async (oEvent)=>{
+    const nametrack = oEvent.target.textContent
+
+    await axios.get("http://localhost:8000/currentTrack",{
+      headers:{
+        nametrack:nametrack
+      }
+    })
+    .then((serverResponse)=>{
+      const trackMemory = JSON.parse(serverResponse.data)
+      dispatch(rewriteTrackMemomory(trackMemory))
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
 
     return (
         <>
@@ -120,21 +176,26 @@ const exit = ()=>{
             isAuthorise &&
             <>
               <h3>{username}</h3>
-              <a id="home" className="menu-item" href="/">Сохранить запись</a>
-              <a id="contact" className="menu-item" href="/">Просмотр записей</a>
-              <a className="menu-item--small" href="/">Дополнительные настройки</a>
+              <p id="home" className="menu-item" onClick={saveCurrentTrack} >Сохранить запись</p>
+              <p id="contact" className="menu-item" >Просмотр записей</p>
+             {
+               nameSavedTracks &&
+               nameSavedTracks.map((el)=>{
+                return <p onClick={chooseSavedTrack} className='nameSavedTrack'>{el}</p>
+               })
+             }
             </>
           }
         
-            <a id="about" onClick={exportTrack} className="menu-item" href="/">Экспортировать запись</a>
+            <p id="about" onClick={exportTrack} className="menu-item">Экспортировать запись</p>
        
           {
             isAuthorise 
-            ?<p style={{'cursor':'pointer','fontSize':'20px'}} onClick={exit} >Выход</p>
+            ?<p style={{'fontSize':'20px'}} className="menu-item" onClick={exit} >Выход</p>
             
             :<>
-            <p style={{'cursor':'pointer','fontSize':'20px'}} onClick={openAuthoMenu} >Вход в аккаунт</p> 
-            <p style={{'cursor':'pointer','fontSize':'20px'}} onClick={openRegistrateMenu} >Регистрация</p>
+            <p style={{'fontSize':'20px'}} className="menu-item" onClick={openAuthoMenu} >Вход в аккаунт</p> 
+            <p style={{'fontSize':'20px'}} className="menu-item" onClick={openRegistrateMenu} >Регистрация</p>
             </>
           }
       </Menu>
