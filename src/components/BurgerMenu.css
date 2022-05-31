@@ -89,3 +89,9 @@
     top: 0px;
     background: rgba(0, 0, 0, 0.3);
   }
+  .deleteImgFormSavedList{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    cursor: pointer;
+  }

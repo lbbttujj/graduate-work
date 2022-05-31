@@ -6,6 +6,16 @@ import AuthorisationMenu from './AuthorisationMenu'
 import RegistrateMenu from './RegistrateMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { rewriteTrackMemomory } from '../store/sequencerSlice';
+import { rewriteTraksFromSave } from './utils/rewriteTraksFromSave';
+import ListSubheader from '@mui/material/ListSubheader';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import deleteTrackImg from '../data/img/deleteTrack.png' 
+// import ExpandLess from '@mui/icons-material/ExpandLess';
+// import ExpandMore from '@mui/icons-material/ExpandMore';
 import './BurgerMenu.css'
 
 const BurgerMenu = ()=>{
@@ -18,9 +28,13 @@ const BurgerMenu = ()=>{
   const [isAuthorise,setAuthorise] = useState(false)
   const [nameSavedTracks, setNameSavedTracks] = useState('')
   const trackMemory = useSelector(state=>state.sequencer.trackMemory)  // Все данные о всех субтреках
+  const [open, setOpen] = React.useState(true);
 
   const dispatch = useDispatch()
 
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   useEffect(()=>{
     const token = sessionStorage.getItem('token')
@@ -161,10 +175,15 @@ const exit = ()=>{
     .then((serverResponse)=>{
       const trackMemory = JSON.parse(serverResponse.data)
       dispatch(rewriteTrackMemomory(trackMemory))
+      rewriteTraksFromSave(trackMemory)
     })
     .catch((error)=>{
       console.log(error)
     })
+  }
+
+  const deleteCurrentSavedTrack = (oEvent)=>{
+    debugger
   }
 
 
@@ -177,13 +196,37 @@ const exit = ()=>{
             <>
               <h3>{username}</h3>
               <p id="home" className="menu-item" onClick={saveCurrentTrack} >Сохранить запись</p>
-              <p id="contact" className="menu-item" >Просмотр записей</p>
-             {
+              {/* <p id="contact" className="menu-item" >Просмотр записей</p> */}
+             {/* {
                nameSavedTracks &&
                nameSavedTracks.map((el)=>{
                 return <p onClick={chooseSavedTrack} className='nameSavedTrack'>{el}</p>
                })
+             } */}
+             <List
+      sx={{ width: '100%', maxWidth: 360, bgcolor: '#373a47' }}
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+    >
+      <ListItemButton onClick={handleClick}>
+       
+        <ListItemText primary="Просмотр записей" />
+        {/* {open ? <ExpandLess /> : <ExpandMore />} */}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {
+               nameSavedTracks &&
+               nameSavedTracks.map((el)=>{
+                return <div style={{'position':'relative'}} >
+                   <p onClick={chooseSavedTrack} className='nameSavedTrack'>{el}</p>
+                    <img onClick={deleteCurrentSavedTrack} className='deleteImgFormSavedList' alt=''height={'20px'}  width={'20px'}  src={deleteTrackImg}></img>
+                    </div>
+               })
              }
+        </List>
+      </Collapse>
+    </List>
             </>
           }
         

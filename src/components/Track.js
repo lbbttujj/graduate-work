@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setCurrentSubTrack,changeTrackMemory } from "../store/sequencerSlice";
 import { setInstrument } from '../store/sequencerSlice';
@@ -24,6 +24,20 @@ import './Track.css'
     
     const [contextMenu, setContextMenu] = useState(null);
     const [nameSelectedSubTrack, setNameSelectedSubTrack] = useState(null);
+
+    useEffect((el)=>{
+        // document.getElementsByClassName('subTrack');
+        // for (let i=0; i<document.getElementsByClassName('subTrack').length; i++){
+        //     let subTrack = document.getElementsByClassName('subTrack')[i]
+        //     subTrack.addEventListener('contextmenu',(e)=>{
+        //         setNameSelectedSubTrack(e.target.dataset.name)
+        //         e.preventDefault()
+        //         handleContextMenu(e)
+        //         // выпадающее меню с возможностью удаления прогирывания
+        //     })
+        // }
+        // Поставить флаг на когда все загрузится из save
+    },[])
 
     const InstrumentsFromServerMock = [
         {
